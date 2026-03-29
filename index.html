@@ -3,19 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Chess adventures</title>
+  <title>Chess Adventures — Настольное приключение</title>
   <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Cinzel:wght@400;700;900&family=Cinzel+Decorative:wght@400;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --ink: #2a1a0e;
       --ink-light: #4a3520;
-      --red: #8b1a1a;
       --gold: #b8860b;
       --gold-light: #daa520;
-      --hearts: #8b1a1a;
-      --clubs: #1a4a1a;
-      --diamonds: #8b5a00;
-      --spades: #1a1a4a;
+      --royal: #2a1a3a;
+      --royal-mid: #4a2a6a;
+      --royal-light: #6a3a9a;
+      --royal-pale: #8a5abc;
+      --royal-glow: #b080e0;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -23,35 +23,36 @@
 
     body {
       font-family: 'IM Fell English', Georgia, serif;
-      background: #1a0e05;
+      background: #0e0818;
       color: var(--ink);
       line-height: 1.6;
     }
 
-    /* ========== BACKGROUND ========== */
+    /* === BACKGROUND === */
     body::before {
       content: '';
       position: fixed;
       inset: 0;
       background:
-        radial-gradient(ellipse at 20% 20%, rgba(139,90,0,0.15) 0%, transparent 60%),
-        radial-gradient(ellipse at 80% 80%, rgba(139,26,26,0.12) 0%, transparent 60%),
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E");
+        radial-gradient(ellipse at 20% 15%, rgba(74,42,106,0.22) 0%, transparent 55%),
+        radial-gradient(ellipse at 80% 85%, rgba(42,26,58,0.2) 0%, transparent 55%),
+        radial-gradient(ellipse at 50% 50%, rgba(138,90,188,0.06) 0%, transparent 40%),
+        radial-gradient(ellipse at 50% 0%, rgba(184,134,11,0.08) 0%, transparent 40%),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.07'/%3E%3C/svg%3E");
       pointer-events: none;
       z-index: 0;
     }
 
-    /* ========== NAV ========== */
+    /* === NAV === */
     nav {
       position: sticky;
       top: 0;
       z-index: 100;
-      background: linear-gradient(to bottom, #0e0804 0%, #160e04 100%);
-      border-bottom: 1px solid #5a3e14;
-      box-shadow: 0 4px 24px rgba(0,0,0,0.7), inset 0 -1px 0 rgba(218,165,32,0.15);
+      background: linear-gradient(to bottom, #08040e 0%, #0e0818 100%);
+      border-bottom: 1px solid #3a1a5a;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.7), inset 0 -1px 0 rgba(138,90,188,0.12);
     }
 
-    /* Desktop links */
     .nav-desktop {
       max-width: 900px;
       margin: 0 auto;
@@ -61,7 +62,6 @@
       gap: 4px;
       padding: 0 20px;
     }
-
     .nav-sep { color: var(--gold); opacity: 0.35; font-size: 1em; user-select: none; }
 
     .nav-desktop a {
@@ -69,7 +69,7 @@
       font-size: 0.75em;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: #b8946a;
+      color: #a890c0;
       text-decoration: none;
       padding: 15px 11px;
       position: relative;
@@ -82,15 +82,14 @@
       bottom: 9px; left: 50%;
       transform: translateX(-50%) scaleX(0);
       width: 70%; height: 1px;
-      background: var(--gold-light);
+      background: var(--royal-glow);
       transition: transform 0.25s;
     }
-    .nav-desktop a:hover { color: var(--gold-light); }
+    .nav-desktop a:hover { color: var(--royal-glow); }
     .nav-desktop a:hover::after { transform: translateX(-50%) scaleX(1); }
-    .nav-desktop a.active { color: #f0d080; }
-    .nav-desktop a.active::after { transform: translateX(-50%) scaleX(1); background: #f0d080; }
+    .nav-desktop a.active { color: #d0b8f0; }
+    .nav-desktop a.active::after { transform: translateX(-50%) scaleX(1); background: #d0b8f0; }
 
-    /* Mobile header row */
     .nav-mobile-row {
       display: none;
       height: 50px;
@@ -101,13 +100,13 @@
     .nav-mobile-label {
       font-family: 'Cinzel', serif;
       font-size: 0.8em;
-      color: #c8a870;
+      color: #a890c0;
       letter-spacing: 0.09em;
       text-transform: uppercase;
     }
     .hamburger {
       background: none;
-      border: 1px solid rgba(200,168,112,0.3);
+      border: 1px solid rgba(168,144,192,0.3);
       border-radius: 4px;
       padding: 8px 10px;
       cursor: pointer;
@@ -116,22 +115,21 @@
       gap: 4px;
       transition: border-color 0.2s;
     }
-    .hamburger:hover { border-color: rgba(200,168,112,0.65); }
+    .hamburger:hover { border-color: rgba(168,144,192,0.65); }
     .hamburger span {
       display: block; width: 20px; height: 2px;
-      background: #c8a870; border-radius: 2px;
+      background: #a890c0; border-radius: 2px;
       transition: transform 0.25s, opacity 0.2s;
     }
     .hamburger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
     .hamburger.open span:nth-child(2) { opacity: 0; }
     .hamburger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
 
-    /* Dropdown */
     .nav-dropdown {
       display: none;
       flex-direction: column;
-      background: #0e0804;
-      border-top: 1px solid rgba(90,62,20,0.4);
+      background: #08040e;
+      border-top: 1px solid rgba(58,26,90,0.4);
       overflow: hidden;
       max-height: 0;
       transition: max-height 0.35s ease;
@@ -142,17 +140,17 @@
       font-size: 0.8em;
       letter-spacing: 0.09em;
       text-transform: uppercase;
-      color: #b8946a;
+      color: #a890c0;
       text-decoration: none;
       padding: 13px 20px;
-      border-bottom: 1px solid rgba(90,62,20,0.25);
+      border-bottom: 1px solid rgba(58,26,90,0.25);
       display: flex;
       align-items: center;
       gap: 10px;
       transition: background 0.2s, color 0.2s;
     }
-    .nav-dropdown a:hover { background: rgba(218,165,32,0.07); color: var(--gold-light); }
-    .nav-dropdown a.active { color: #f0d080; }
+    .nav-dropdown a:hover { background: rgba(138,90,188,0.07); color: var(--royal-glow); }
+    .nav-dropdown a.active { color: #d0b8f0; }
     .nav-icon { font-size: 1.1em; min-width: 22px; }
 
     @media (max-width: 680px) {
@@ -161,7 +159,7 @@
       .nav-dropdown   { display: flex; }
     }
 
-    /* ========== PAGE ========== */
+    /* === PAGE === */
     .page {
       position: relative;
       z-index: 1;
@@ -170,26 +168,26 @@
       padding: 28px 12px 80px;
     }
 
-    /* ========== SCROLL ========== */
+    /* === SCROLL === */
     .scroll {
-      background: linear-gradient(to bottom, #e8d9b0 0%, #f2e8cc 8%, #f5ecd4 50%, #f2e8cc 92%, #e0d09a 100%);
+      background: linear-gradient(to bottom, #d8cce0 0%, #e4d8ec 8%, #e8dcf0 50%, #e4d8ec 92%, #d0c0d8 100%);
       border-radius: 8px 8px 12px 12px;
       padding: 50px 40px 60px;
       box-shadow:
-        0 0 0 2px #a0885a,
-        0 0 0 5px #7a6030,
-        0 0 0 7px #a0885a,
-        0 20px 60px rgba(0,0,0,0.7),
-        inset 0 0 40px rgba(160,120,60,0.25);
+        0 0 0 2px #7a5a9a,
+        0 0 0 5px #4a2a6a,
+        0 0 0 7px #7a5a9a,
+        0 20px 60px rgba(0,0,0,0.75),
+        inset 0 0 40px rgba(100,60,140,0.15);
       position: relative;
     }
     .scroll::before, .scroll::after {
       content: '';
       display: block;
       height: 22px;
-      background: linear-gradient(to bottom, #c8a84a, #8b6914, #c8a84a, #8b6914, #c8a84a);
+      background: linear-gradient(to bottom, #8a5abc, #4a2a6a, #8a5abc, #4a2a6a, #8a5abc);
       border-radius: 4px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.5), inset 0 1px 2px rgba(255,220,100,0.4);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5), inset 0 1px 2px rgba(200,160,240,0.25);
       position: absolute;
       left: -4px; right: -4px;
     }
@@ -206,55 +204,92 @@
     .roller-bottom { bottom: -6px; }
     .roller-top .knob, .roller-bottom .knob {
       width: 22px; height: 22px; border-radius: 50%;
-      background: radial-gradient(circle at 35% 35%, #e8c860, #8b6914);
+      background: radial-gradient(circle at 35% 35%, #c8a0e8, #4a2a6a);
       box-shadow: 0 2px 8px rgba(0,0,0,0.5);
     }
 
-    /* ========== TITLE ========== */
+    /* === TITLE === */
     .title-block { text-align: center; margin-bottom: 28px; }
     .ornament {
-      color: var(--gold); font-size: 1.6em;
-      letter-spacing: 0.15em; opacity: 0.85; user-select: none;
+      color: var(--royal-mid);
+      font-size: 1.6em;
+      letter-spacing: 0.15em; opacity: 0.8; user-select: none;
     }
     h1 {
       font-family: 'Cinzel Decorative', serif;
-      font-size: clamp(1.2rem, 4.5vw, 2.2rem);
-      color: var(--red);
-      text-shadow: 1px 1px 0 #c8a84a, 2px 2px 4px rgba(0,0,0,0.3);
+      font-size: clamp(1.4rem, 5.5vw, 2.6rem);
+      color: #3a1a5a;
+      text-shadow: 1px 1px 0 #c0a8d8, 2px 2px 4px rgba(0,0,0,0.2);
       letter-spacing: 0.06em;
       margin: 8px 0; line-height: 1.2;
     }
     .subtitle {
       font-family: 'IM Fell English', serif;
-      font-style: italic; color: var(--gold);
-      font-size: 1.05em; margin-top: 4px;
+      font-style: italic;
+      color: var(--royal-mid);
+      font-size: 1.1em; margin-top: 6px;
     }
 
-    /* ========== LORE BANNER ========== */
+    /* === LORE BANNER === */
     .lore-banner {
       margin: 0 0 32px;
-      padding: 14px 22px;
-      background: rgba(139,26,26,0.05);
-      border: 1px solid rgba(139,105,30,0.3);
+      padding: 18px 22px;
+      background: rgba(74,42,106,0.06);
+      border: 1px solid rgba(106,58,154,0.3);
       border-radius: 5px;
       text-align: center;
       font-family: 'IM Fell English', serif;
       font-style: italic;
       color: var(--ink-light);
-      font-size: 1em;
-      line-height: 1.65;
+      font-size: 1.02em;
+      line-height: 1.7;
     }
     .lore-banner::before, .lore-banner::after {
       content: ' ❦ ';
-      color: var(--gold); opacity: 0.65;
+      color: var(--royal-light); opacity: 0.65;
     }
 
-    /* ========== SECTION HEADERS ========== */
+    /* === PLACEHOLDER BANNER === */
+    .placeholder-banner {
+      margin: 0 0 32px;
+      padding: 16px 22px;
+      background: repeating-linear-gradient(
+        45deg,
+        rgba(74,42,106,0.05),
+        rgba(74,42,106,0.05) 10px,
+        rgba(74,42,106,0.02) 10px,
+        rgba(74,42,106,0.02) 20px
+      );
+      border: 1px dashed rgba(106,58,154,0.45);
+      border-radius: 5px;
+      text-align: center;
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      color: var(--ink-light);
+      font-size: 0.95em;
+      line-height: 1.65;
+    }
+    .placeholder-banner .stamp {
+      display: inline-block;
+      font-family: 'Cinzel', serif;
+      font-style: normal;
+      font-size: 0.75em;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--royal-mid);
+      border: 1px solid rgba(106,58,154,0.4);
+      padding: 2px 10px;
+      border-radius: 3px;
+      margin-bottom: 8px;
+      opacity: 0.8;
+    }
+
+    /* === SECTION HEADERS === */
     .section { margin: 36px 0 20px; }
     h2 {
       font-family: 'Cinzel', serif;
       font-size: clamp(1rem, 3.5vw, 1.4rem);
-      color: var(--red);
+      color: #3a1a5a;
       text-align: center;
       letter-spacing: 0.12em;
       text-transform: uppercase;
@@ -263,104 +298,150 @@
       margin-bottom: 18px;
     }
     h2::before, h2::after {
-      content: '⸻'; color: var(--gold);
-      opacity: 0.7; margin: 0 12px; font-size: 0.85em;
+      content: '⸻';
+      color: var(--royal-mid);
+      opacity: 0.6; margin: 0 12px; font-size: 0.85em;
     }
 
-    /* ========== STAT CARDS ========== */
-    .stat-grid {
+    /* === NAV CARDS (page links) === */
+    .nav-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
       gap: 16px;
     }
-    .stat-card {
-      background: linear-gradient(135deg, rgba(255,255,255,0.18) 0%, rgba(160,120,60,0.12) 100%);
-      border: 1px solid rgba(139,105,30,0.45);
+
+    .nav-card {
+      background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(100,60,140,0.1) 100%);
+      border: 1px solid rgba(106,58,154,0.4);
       border-radius: 6px;
-      padding: 20px 18px;
+      padding: 22px 18px;
       position: relative;
-      box-shadow: inset 0 1px 0 rgba(255,235,150,0.3), 0 4px 15px rgba(0,0,0,0.12);
-      transition: box-shadow 0.2s;
+      box-shadow: inset 0 1px 0 rgba(200,168,240,0.25), 0 4px 15px rgba(0,0,0,0.1);
+      transition: box-shadow 0.25s, transform 0.2s;
+      text-decoration: none;
+      display: block;
+      cursor: pointer;
     }
-    .stat-card:hover {
-      box-shadow: inset 0 1px 0 rgba(255,235,150,0.4), 0 6px 20px rgba(139,90,0,0.2);
+    .nav-card:hover {
+      box-shadow: inset 0 1px 0 rgba(200,168,240,0.4), 0 8px 28px rgba(74,42,106,0.25);
+      transform: translateY(-2px);
     }
-    .stat-card::before, .stat-card::after {
+    .nav-card::before, .nav-card::after {
       content: '✦'; position: absolute;
-      color: var(--gold-light); opacity: 0.5; font-size: 0.65em;
+      color: var(--royal-pale); opacity: 0.45; font-size: 0.65em;
     }
-    .stat-card::before { top: 5px; left: 7px; }
-    .stat-card::after  { bottom: 5px; right: 7px; }
+    .nav-card::before { top: 5px; left: 7px; }
+    .nav-card::after  { bottom: 5px; right: 7px; }
 
-    .card-suit { font-size: 2.2em; line-height: 1; margin-bottom: 6px; display: block; }
-    .suit-hearts   { color: var(--hearts); }
-    .suit-clubs    { color: var(--clubs); }
-    .suit-diamonds { color: var(--diamonds); }
-    .suit-spades   { color: var(--spades); }
-
-    .card-label {
+    .nav-card-icon {
+      font-size: 2.4em; line-height: 1;
+      margin-bottom: 8px; display: block;
+    }
+    .nav-card-name {
       font-family: 'Cinzel', serif;
       font-size: 1.08em; font-weight: 700;
       color: var(--ink); letter-spacing: 0.05em;
+      display: block; margin-bottom: 4px;
     }
-    .card-suit-name {
-      font-family: 'IM Fell English', serif;
-      font-style: italic; color: var(--ink-light);
-      font-size: 0.9em; margin-bottom: 10px; display: block;
+    .nav-card-desc {
+      color: var(--ink-light); font-size: 0.9em;
+      line-height: 1.5;
+      border-top: 1px dashed rgba(106,58,154,0.3);
+      padding-top: 8px; margin-top: 6px;
     }
-    .card-desc {
-      color: var(--ink-light); font-size: 0.95em; line-height: 1.55;
-      border-top: 1px dashed rgba(139,105,30,0.3);
-      padding-top: 10px; margin-top: 6px;
-    }
-    .card-desc em { color: var(--red); font-style: normal; font-weight: bold; }
 
-    /* ========== ACQ LIST ========== */
-    .acq-list { margin-top: 14px; display: flex; flex-direction: column; gap: 10px; }
-    .acq-item {
-      display: flex; justify-content: space-between;
-      align-items: center; padding: 14px 18px;
-      background: linear-gradient(90deg, rgba(139,105,30,0.08) 0%, transparent 100%);
-      border-left: 3px solid var(--gold);
-      border-radius: 0 4px 4px 0; gap: 12px;
+    /* color accents per card */
+    .nav-card.c-green  { border-left: 4px solid #2d5a27; }
+    .nav-card.c-blue   { border-left: 4px solid #2a5a8a; }
+    .nav-card.c-gold   { border-left: 4px solid #b8860b; }
+    .nav-card.c-red    { border-left: 4px solid #8b2020; }
+
+    /* === WHAT IS === */
+    .what-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 14px;
+    }
+    .what-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 16px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(100,60,140,0.06) 100%);
+      border: 1px solid rgba(106,58,154,0.25);
+      border-radius: 5px;
+    }
+    .what-icon { font-size: 1.8em; min-width: 36px; text-align: center; line-height: 1; }
+    .what-text {
+      font-size: 0.93em; color: var(--ink-light); line-height: 1.5;
+    }
+    .what-text strong {
+      font-family: 'Cinzel', serif;
+      color: var(--ink);
+      font-size: 0.95em;
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    /* === PROP ROWS === */
+    .prop-list { display: flex; flex-direction: column; gap: 10px; margin-top: 14px; }
+
+    .prop-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 14px 18px;
+      background: linear-gradient(90deg, rgba(74,42,106,0.08) 0%, transparent 100%);
+      border-left: 3px solid var(--royal-mid);
+      border-radius: 0 4px 4px 0;
       transition: background 0.2s;
     }
-    .acq-item:hover { background: linear-gradient(90deg, rgba(139,105,30,0.15) 0%, transparent 100%); }
-    .acq-source {
-      font-family: 'IM Fell English', serif;
-      font-size: 1em; color: var(--ink);
-      display: flex; align-items: center; gap: 10px;
-    }
-    .acq-icon { font-size: 1.3em; min-width: 26px; text-align: center; }
-    .acq-reward {
+    .prop-item:hover { background: linear-gradient(90deg, rgba(74,42,106,0.14) 0%, transparent 100%); }
+
+    .prop-icon { font-size: 1.5em; min-width: 30px; text-align: center; margin-top: 1px; }
+
+    .prop-text { flex: 1; }
+    .prop-title {
       font-family: 'Cinzel', serif;
-      font-size: 0.85em; font-weight: 700;
-      color: var(--red);
-      background: rgba(139,26,26,0.08);
-      border: 1px solid rgba(139,26,26,0.25);
-      padding: 4px 12px; border-radius: 3px;
-      white-space: nowrap; letter-spacing: 0.04em;
+      font-size: 0.92em; font-weight: 700;
+      color: var(--ink); letter-spacing: 0.04em;
+      display: flex; align-items: center; gap: 6px;
     }
-    .acq-reward.unknown {
-      color: var(--gold);
-      border-color: rgba(184,134,11,0.3);
-      background: rgba(184,134,11,0.08);
-      font-style: italic;
+    .prop-desc {
+      font-family: 'IM Fell English', serif;
+      font-size: 0.93em; color: var(--ink-light);
+      margin-top: 2px; line-height: 1.5;
+    }
+    .prop-desc.ph { font-style: italic; opacity: 0.5; }
+
+    .ph-tag {
+      display: inline-block;
+      font-family: 'Cinzel', serif;
+      font-size: 0.65em;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--royal-mid);
+      border: 1px solid rgba(106,58,154,0.35);
+      padding: 1px 7px;
+      border-radius: 2px;
+      margin-left: 6px;
+      vertical-align: middle;
+      opacity: 0.7;
     }
 
-    /* ========== DIVIDER ========== */
+    /* === DIVIDER === */
     .divider {
-      text-align: center; color: var(--gold);
-      opacity: 0.6; font-size: 1.1em;
+      text-align: center; color: var(--royal-mid);
+      opacity: 0.55; font-size: 1.1em;
       margin: 36px 0 0; letter-spacing: 0.4em;
       user-select: none;
     }
 
-    /* ========== MOBILE ========== */
+    /* === MOBILE === */
     @media (max-width: 600px) {
       .scroll { padding: 40px 20px 50px; }
-      .stat-grid { grid-template-columns: 1fr; gap: 12px; }
-      .acq-item { flex-wrap: wrap; gap: 8px; }
+      .nav-grid { grid-template-columns: 1fr; gap: 12px; }
+      .what-grid { grid-template-columns: 1fr; }
       .page { padding: 20px 10px 80px; }
     }
   </style>
@@ -369,7 +450,6 @@
 
 <!-- NAV -->
 <nav>
-  <!-- Desktop -->
   <div class="nav-desktop">
     <a href="index.html" class="active">⚔ Главная</a>
     <span class="nav-sep">·</span>
@@ -382,7 +462,6 @@
     <a href="battles.html">⚔ Битвы</a>
   </div>
 
-  <!-- Mobile -->
   <div class="nav-mobile-row">
     <span class="nav-mobile-label">⚔ Главная</span>
     <button class="hamburger" id="hamburger" aria-label="Меню" aria-expanded="false">
@@ -397,6 +476,207 @@
     <a href="battles.html"><span class="nav-icon">⚔</span> Битвы</a>
   </div>
 </nav>
+
+<!-- CONTENT -->
+<div class="page">
+  <div class="scroll">
+    <div class="roller-top"><div class="knob"></div><div class="knob"></div></div>
+    <div class="roller-bottom"><div class="knob"></div><div class="knob"></div></div>
+
+    <div class="title-block">
+      <div class="ornament">👑 ✦ 👑</div>
+      <h1>Chess Adventures</h1>
+      <div class="subtitle">Настольное приключение на шахматном поле</div>
+    </div>
+
+    <div class="lore-banner">
+      Бросай кости, тяни карты, сражайся и покоряй земли — прямо на шахматной доске
+    </div>
+
+    <div class="placeholder-banner">
+      <div class="stamp">✦ В разработке ✦</div><br>
+      Правила игры ещё формируются. Свитки дополняются по мере того, как мудрецы записывают законы мира.
+    </div>
+
+    <!-- WHAT IS THIS -->
+    <div class="section">
+      <h2>Что это за игра</h2>
+      <div class="what-grid">
+
+        <div class="what-item">
+          <span class="what-icon">♟️</span>
+          <div class="what-text">
+            <strong>Шахматная доска</strong>
+            Поле 8×8 клеток — ваша карта мира с разными ландшафтами
+          </div>
+        </div>
+
+        <div class="what-item">
+          <span class="what-icon">🎲</span>
+          <div class="what-text">
+            <strong>Кубики</strong>
+            Два кубика d6 определяют, как далеко вы пройдёте за ход
+          </div>
+        </div>
+
+        <div class="what-item">
+          <span class="what-icon">🃏</span>
+          <div class="what-text">
+            <strong>Карты 52</strong>
+            Колода из 52 карт — ваши характеристики, HP, атака и тайные силы
+          </div>
+        </div>
+
+        <div class="what-item">
+          <span class="what-icon">⚔️</span>
+          <div class="what-text">
+            <strong>Сражения</strong>
+            Встречайте монстров и других игроков на пути к победе
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CHAPTERS / SECTIONS -->
+    <div class="section">
+      <h2>Свитки правил</h2>
+      <div class="nav-grid">
+
+        <a href="landscape.html" class="nav-card c-green">
+          <span class="nav-card-icon">🏔</span>
+          <span class="nav-card-name">Ландшафт</span>
+          <div class="nav-card-desc">
+            Типы местности, ресурсы на клетках, опасности и ловушки шахматного мира.
+          </div>
+        </a>
+
+        <a href="movement.html" class="nav-card c-blue">
+          <span class="nav-card-icon">🌀</span>
+          <span class="nav-card-name">Движение</span>
+          <div class="nav-card-desc">
+            Бросок костей, виды передвижения, влияние местности на путь героя.
+          </div>
+        </a>
+
+        <a href="characteristics.html" class="nav-card c-gold">
+          <span class="nav-card-icon">🃏</span>
+          <span class="nav-card-name">Характеристики</span>
+          <div class="nav-card-desc">
+            Четыре масти — четыре силы. HP, атака и тайны бубей и виней.
+          </div>
+        </a>
+
+        <a href="battles.html" class="nav-card c-red">
+          <span class="nav-card-icon">⚔️</span>
+          <span class="nav-card-name">Битвы</span>
+          <div class="nav-card-desc">
+            Правила сражений, бестиарий, награды за победу и цена поражения.
+          </div>
+        </a>
+
+      </div>
+    </div>
+
+    <!-- HOW TO START -->
+    <div class="section">
+      <h2>Что нужно для игры</h2>
+      <div class="prop-list">
+
+        <div class="prop-item">
+          <div class="prop-icon">♟️</div>
+          <div class="prop-text">
+            <div class="prop-title">Шахматная доска</div>
+            <div class="prop-desc">Стандартная доска 8×8 — станет картой вашего мира.</div>
+          </div>
+        </div>
+
+        <div class="prop-item">
+          <div class="prop-icon">🎲</div>
+          <div class="prop-text">
+            <div class="prop-title">Два кубика d6</div>
+            <div class="prop-desc">Обычные шестигранные кости для определения движения.</div>
+          </div>
+        </div>
+
+        <div class="prop-item">
+          <div class="prop-icon">🃏</div>
+          <div class="prop-text">
+            <div class="prop-title">Колода из 52 карт</div>
+            <div class="prop-desc">Стандартная игральная колода — источник характеристик героев.</div>
+          </div>
+        </div>
+
+        <div class="prop-item">
+          <div class="prop-icon">📝</div>
+          <div class="prop-text">
+            <div class="prop-title">Листок героя</div>
+            <div class="prop-desc">Бумага и перо для записи характеристик, карт и инвентаря.</div>
+          </div>
+        </div>
+
+        <div class="prop-item">
+          <div class="prop-icon">👥</div>
+          <div class="prop-text">
+            <div class="prop-title">2–4 игрока</div>
+            <div class="prop-desc ph">Точное число участников ещё уточняется…</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ROADMAP -->
+    <div class="section">
+      <h2>Что впереди</h2>
+      <div class="prop-list">
+
+        <div class="prop-item">
+          <div class="prop-icon">📜</div>
+          <div class="prop-text">
+            <div class="prop-title">Полные правила движения <span class="ph-tag">скоро</span></div>
+            <div class="prop-desc ph">Модификаторы местности, верховая езда, водные пути…</div>
+          </div>
+        </div>
+
+        <div class="prop-item">
+          <div class="prop-icon">♦️</div>
+          <div class="prop-text">
+            <div class="prop-title">Раскрытие мастей ♦ и ♠ <span class="ph-tag">скоро</span></div>
+            <div class="prop-desc ph">Две тайные масти обретут свои значения…</div>
+          </div>
+        </div>
+
+        <div class="prop-item">
+          <div class="prop-icon">⚔️</div>
+          <div class="prop-text">
+            <div class="prop-title">Полная боевая система <span class="ph-tag">скоро</span></div>
+            <div class="prop-desc ph">Инициатива, урон, ответный удар, бегство…</div>
+          </div>
+        </div>
+
+        <div class="prop-item">
+          <div class="prop-icon">🐉</div>
+          <div class="prop-text">
+            <div class="prop-title">Бестиарий <span class="ph-tag">скоро</span></div>
+            <div class="prop-desc ph">Монстры, боссы, их характеристики и награды…</div>
+          </div>
+        </div>
+
+        <div class="prop-item">
+          <div class="prop-icon">🏰</div>
+          <div class="prop-text">
+            <div class="prop-title">Постройки и укрепления <span class="ph-tag">скоро</span></div>
+            <div class="prop-desc ph">Строительство, осады, экономика…</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="divider">✦ · ✦ · ✦</div>
+  </div>
+</div>
 
 <script>
   const btn = document.getElementById('hamburger');
