@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Помощник для игры</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #1a1a2e;
+            color: #eee;
+            min-height: 100vh;
+            padding: 16px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            color: #e94560;
+        }
+
+        /* === Табы === */
+        .tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            overflow-x: auto;
+        }
+
+        .tab-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            background: #16213e;
+            color: #aaa;
+            font-size: 14px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .tab-btn.active {
+            background: #e94560;
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* === Карточки === */
+        .card {
+            background: #16213e;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+
+        .card h3 {
+            color: #e94560;
+            margin-bottom: 8px;
+        }
+
+        /* === Кнопки === */
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            background: #e94560;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 4px;
+        }
+
+        .btn:active {
+            transform: scale(0.95);
+        }
+
+        /* === Счётчик очков === */
+        .score-board {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+        }
+
+        .player-score {
+            background: #16213e;
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .player-score .score {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #e94560;
+            margin: 8px 0;
+        }
+
+        .score-controls {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .score-btn {
+            width: 40px;
+            height: 40px;
+            border: none;
+            border-radius: 50%;
+            background: #0f3460;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        /* === Таймер === */
+        .timer {
+            text-align: center;
+            font-size: 3em;
+            font-weight: bold;
+            margin: 20px 0;
+            color: #e94560;
+        }
+
+        .timer-controls {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        /* === Бросок кубика === */
+        .dice {
+            text-align: center;
+            font-size: 5em;
+            margin: 20px 0;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .dice:active {
+            animation: shake 0.3s;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-15deg); }
+            75% { transform: rotate(15deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>🎲 Помощник для игры</h1>
+
+    <!-- Табы навигации -->
+    <div class="tabs">
+        <button class="tab-btn active" onclick="showTab('scores')">📊 Очки</button>
+        <button class="tab-btn" onclick="showTab('dice')">🎲 Кубик</button>
+        <button class="tab-btn" onclick="showTab('timer')">⏱ Таймер</button>
+        <button class="tab-btn" onclick="showTab('rules')">📖 Правила</button>
+    </div>
+
+    <!-- === Таб: Очки === -->
+    <div id="scores" class="tab-content active">
+        <div class="score-board" id="scoreBoard">
+            <!-- Игроки добавляются через JS -->
+        </div>
+        <br>
+        <button class="btn" onclick="addPlayer()">+ Игрок</button>
+        <button class="btn" onclick="resetScores()" style="background:#0f3460">Сброс</button>
+    </div>
+
+    <!-- === Таб: Кубик === -->
+    <div id="dice" class="tab-content">
+        <div class="dice" id="diceDisplay" onclick="rollDice()">🎲</div>
+        <div style="text-align:center">
+            <p>Нажми на кубик чтобы бросить</p>
+            <br>
+            <label>Кол-во кубиков: </label>
+            <select id="diceCount">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+            </select>
+            <label> Граней: </label>
+            <select id="diceSides">
+                <option>6</option>
+                <option>8</option>
+                <option>10</option>
+                <option>12</option>
+                <option>20</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- === Таб: Таймер === -->
+    <div id="timer" class="tab-content">
+        <div class="timer" id="timerDisplay">01:00</div>
+        <div class="timer-controls">
+            <button class="btn" onclick="startTimer()">▶ Старт</button>
+            <button class="btn" onclick="pauseTimer()" style="background:#0f3460">⏸ Пауза</button>
+            <button class="btn" onclick="resetTimer()" style="background:#0f3460">↺ Сброс</button>
+        </div>
+        <br>
+        <div style="text-align:center">
+            <label>Установить (сек): </label>
+            <input type="number" id="timerInput" value="60" 
+                   style="width:80px; padding:8px; border-radius:8px; border:none; 
+                          background:#16213e; color:white; text-align:center"
+                   onchange="setTimer(this.value)">
+        </div>
+    </div>
+
+    <!-- === Таб: Правила === -->
+    <div id="rules" class="tab-content">
+        <div class="card">
+            <h3>📖 Краткие правила</h3>
+            <p>Здесь напиши краткие правила своей игры...</p>
+        </div>
+        <div class="card">
+            <h3>🃏 Карты / Предметы</h3>
+            <p>Описание карт, предметов, способностей...</p>
+        </div>
+    </div>
+
+    <script>
+        // ========== ТАБЫ ==========
+        function showTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // ========== ОЧКИ ==========
+        let players = JSON.parse(localStorage.getItem('players') || '[]');
+
+        function renderScores() {
+            const board = document.getElementById('scoreBoard');
+            board.innerHTML = players.map((p, i) => `
+                <div class="player-score">
+                    <div>${p.name}</div>
+                    <div class="score">${p.score}</div>
+                    <div class="score-controls">
+                        <button class="score-btn" onclick="changeScore(${i}, -1)">−</button>
+                        <button class="score-btn" onclick="changeScore(${i}, 1)">+</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function addPlayer() {
+            const name = prompt('Имя игрока:');
+            if (name) {
+                players.push({ name, score: 0 });
+                savePlayers();
+                renderScores();
+            }
+        }
+
+        function changeScore(index, delta) {
+            players[index].score += delta;
+            savePlayers();
+            renderScores();
+        }
+
+        function resetScores() {
+            if (confirm('Сбросить все очки?')) {
+                players.forEach(p => p.score = 0);
+                savePlayers();
+                renderScores();
+            }
+        }
+
+        function savePlayers() {
+            localStorage.setItem('players', JSON.stringify(players));
+        }
+
+        renderScores();
+
+        // ========== КУБИК ==========
+        const diceFaces = ['⚀','⚁','⚂','⚃','⚄','⚅'];
+
+        function rollDice() {
+            const count = parseInt(document.getElementById('diceCount').value);
+            const sides = parseInt(document.getElementById('diceSides').value);
+            const display = document.getElementById('diceDisplay');
+
+            let results = [];
+            for (let i = 0; i < count; i++) {
+                results.push(Math.floor(Math.random() * sides) + 1);
+            }
+
+            if (sides === 6 && count === 1) {
+                display.textContent = diceFaces[results[0] - 1];
+            } else {
+                display.textContent = results.join(' + ') + ' = ' + results.reduce((a,b) => a+b);
+            }
+        }
+
+        // ========== ТАЙМЕР ==========
+        let timerSeconds = 60;
+        let timerRemaining = 60;
+        let timerInterval = null;
+
+        function updateTimerDisplay() {
+            const m = Math.floor(timerRemaining / 60);
+            const s = timerRemaining % 60;
+            document.getElementById('timerDisplay').textContent = 
+                `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+        }
+
+        function startTimer() {
+            if (timerInterval) return;
+            timerInterval = setInterval(() => {
+                timerRemaining--;
+                updateTimerDisplay();
+                if (timerRemaining <= 0) {
+                    clearInterval(timerInterval);
+                    timerInterval = null;
+                    document.getElementById('timerDisplay').style.color = '#ff0000';
+                    alert('⏰ Время вышло!');
+                }
+            }, 1000);
+        }
+
+        function pauseTimer() {
+            clearInterval(timerInterval);
+            timerInterval = null;
+        }
+
+        function resetTimer() {
+            pauseTimer();
+            timerRemaining = timerSeconds;
+            document.getElementById('timerDisplay').style.color = '#e94560';
+            updateTimerDisplay();
+        }
+
+        function setTimer(sec) {
+            timerSeconds = parseInt(sec);
+            timerRemaining = timerSeconds;
+            updateTimerDisplay();
+        }
+    </script>
+
+</body>
+</html>
