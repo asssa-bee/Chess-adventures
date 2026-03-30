@@ -27,20 +27,6 @@
       line-height: 1.6;
     }
 
-    /* === BACKGROUND === */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background:
-        radial-gradient(ellipse at 15% 30%, rgba(30,80,20,0.2) 0%, transparent 55%),
-        radial-gradient(ellipse at 85% 70%, rgba(20,60,10,0.18) 0%, transparent 55%),
-        radial-gradient(ellipse at 50% 0%, rgba(139,90,0,0.1) 0%, transparent 50%),
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.07'/%3E%3C/svg%3E");
-      pointer-events: none;
-      z-index: 0;
-    }
-
     /* === NAV === */
     nav {
       position: sticky;
@@ -157,57 +143,125 @@
       .nav-dropdown   { display: flex; }
     }
 
-    /* === PAGE === */
+    /* === PAGE — full width, no max-width === */
     .page {
       position: relative;
       z-index: 1;
-      max-width: 820px;
-      margin: 0 auto;
-      padding: 28px 12px 80px;
+      margin: 0;
+      padding: 0;
     }
 
-    /* === SCROLL === */
+    /* === SCROLL — full background === */
     .scroll {
       background: linear-gradient(to bottom, #dde8c8 0%, #eaf0d8 8%, #eef3dc 50%, #eaf0d8 92%, #d4e0b8 100%);
-      border-radius: 8px 8px 12px 12px;
-      padding: 50px 40px 60px;
+      min-height: 100vh;
+      padding: 60px 40px 80px;
       box-shadow:
-        0 0 0 2px #7a9a4a,
-        0 0 0 5px #4a6a20,
-        0 0 0 7px #7a9a4a,
-        0 20px 60px rgba(0,0,0,0.75),
-        inset 0 0 40px rgba(80,120,40,0.18);
+        inset 0 0 60px rgba(80,120,40,0.18),
+        inset 0 0 120px rgba(80,120,40,0.08);
       position: relative;
+      /* top and bottom scroll bars */
+      border-top: 7px solid transparent;
+      border-bottom: 7px solid transparent;
     }
-    .scroll::before, .scroll::after {
+
+    /* Roller bars — full-width ornamental strips */
+    .scroll::before,
+    .scroll::after {
       content: '';
       display: block;
-      height: 22px;
-      background: linear-gradient(to bottom, #8ab840, #4a7a14, #8ab840, #4a7a14, #8ab840);
-      border-radius: 4px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.5), inset 0 1px 2px rgba(180,255,80,0.25);
+      height: 26px;
+      background:
+        linear-gradient(to bottom,
+          #8ab840 0%, #4a7a14 20%, #6a9a30 40%,
+          #4a7a14 60%, #8ab840 80%, #4a7a14 100%);
       position: absolute;
-      left: -4px; right: -4px;
+      left: 0;
+      right: 0;
+      z-index: 10;
+      box-shadow:
+        0 4px 16px rgba(0,0,0,0.5),
+        inset 0 1px 2px rgba(180,255,80,0.3),
+        inset 0 -1px 2px rgba(0,0,0,0.3);
     }
-    .scroll::before { top: -6px; }
-    .scroll::after  { bottom: -6px; }
+    .scroll::before {
+      top: -7px;
+      border-radius: 0;
+    }
+    .scroll::after {
+      bottom: -7px;
+      border-radius: 0;
+    }
 
+    /* Roller knobs on corners */
     .roller-top, .roller-bottom {
-      position: absolute; left: -12px; right: -12px;
-      height: 22px; display: flex;
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 26px;
+      display: flex;
       justify-content: space-between;
-      pointer-events: none; z-index: 10;
+      padding: 0 8px;
+      align-items: center;
+      pointer-events: none;
+      z-index: 11;
     }
-    .roller-top { top: -6px; }
-    .roller-bottom { bottom: -6px; }
-    .roller-top .knob, .roller-bottom .knob {
-      width: 22px; height: 22px; border-radius: 50%;
+    .roller-top { top: -7px; }
+    .roller-bottom { bottom: -7px; }
+    .roller-top .knob,
+    .roller-bottom .knob {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
       background: radial-gradient(circle at 35% 35%, #c8e860, #4a7a14);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.5), inset 0 1px 2px rgba(255,255,200,0.4);
+    }
+
+    /* Inner content constraint for readability */
+    .scroll-inner {
+      max-width: 820px;
+      margin: 0 auto;
+    }
+
+    /* Parchment texture overlay */
+    .scroll-texture {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      background:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E"),
+        radial-gradient(ellipse at 20% 20%, rgba(139,120,60,0.06) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 80%, rgba(100,80,30,0.05) 0%, transparent 60%);
+    }
+
+    /* Edge shadows to simulate scroll curl */
+    .scroll-edge-left,
+    .scroll-edge-right {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 60px;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .scroll-edge-left {
+      left: 0;
+      background: linear-gradient(to right,
+        rgba(100,80,40,0.15) 0%,
+        rgba(100,80,40,0.05) 40%,
+        transparent 100%);
+    }
+    .scroll-edge-right {
+      right: 0;
+      background: linear-gradient(to left,
+        rgba(100,80,40,0.15) 0%,
+        rgba(100,80,40,0.05) 40%,
+        transparent 100%);
     }
 
     /* === TITLE === */
-    .title-block { text-align: center; margin-bottom: 28px; }
+    .title-block { text-align: center; margin-bottom: 28px; position: relative; z-index: 2; }
     .ornament {
       color: var(--green);
       font-size: 1.6em;
@@ -247,24 +301,12 @@
       color: var(--ink-light);
       font-size: 0.95em;
       line-height: 1.65;
-    }
-    .placeholder-banner .stamp {
-      display: inline-block;
-      font-family: 'Cinzel', serif;
-      font-style: normal;
-      font-size: 0.75em;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: #4a7a42;
-      border: 1px solid rgba(74,122,66,0.4);
-      padding: 2px 10px;
-      border-radius: 3px;
-      margin-bottom: 8px;
-      opacity: 0.8;
+      position: relative;
+      z-index: 2;
     }
 
     /* === SECTION HEADERS === */
-    .section { margin: 36px 0 20px; }
+    .section { margin: 36px 0 20px; position: relative; z-index: 2; }
     h2 {
       font-family: 'Cinzel', serif;
       font-size: clamp(1rem, 3.5vw, 1.4rem);
@@ -325,28 +367,7 @@
       padding-top: 10px; margin-top: 8px;
     }
 
-    /* placeholder fade inside card */
-    .terrain-card.ph .terrain-name { opacity: 0.5; }
-    .terrain-card.ph .terrain-body {
-      opacity: 0.45;
-      font-style: italic;
-    }
-    .ph-tag {
-      display: inline-block;
-      font-family: 'Cinzel', serif;
-      font-size: 0.65em;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: #4a7a42;
-      border: 1px solid rgba(74,122,66,0.35);
-      padding: 1px 7px;
-      border-radius: 2px;
-      margin-left: 6px;
-      vertical-align: middle;
-      opacity: 0.7;
-    }
-
-    /* === PROPERTY ROWS (effects, resources, hazards) === */
+    /* === PROPERTY ROWS === */
     .prop-list { display: flex; flex-direction: column; gap: 10px; margin-top: 14px; }
 
     .prop-item {
@@ -375,7 +396,6 @@
       font-size: 0.93em; color: var(--ink-light);
       margin-top: 2px; line-height: 1.5;
     }
-    .prop-desc.ph { font-style: italic; opacity: 0.5; }
 
     /* === DIVIDER === */
     .divider {
@@ -383,13 +403,13 @@
       opacity: 0.55; font-size: 1.1em;
       margin: 36px 0 0; letter-spacing: 0.4em;
       user-select: none;
+      position: relative; z-index: 2;
     }
 
     /* === MOBILE === */
     @media (max-width: 600px) {
-      .scroll { padding: 40px 20px 50px; }
+      .scroll { padding: 50px 16px 70px; }
       .terrain-grid { grid-template-columns: 1fr; gap: 12px; }
-      .page { padding: 20px 10px 80px; }
     }
   </style>
 </head>
@@ -433,173 +453,184 @@
 <!-- CONTENT -->
 <div class="page">
   <div class="scroll">
+    <!-- Texture overlay -->
+    <div class="scroll-texture"></div>
+    <!-- Edge shadows -->
+    <div class="scroll-edge-left"></div>
+    <div class="scroll-edge-right"></div>
+    <!-- Roller bars -->
     <div class="roller-top"><div class="knob"></div><div class="knob"></div></div>
     <div class="roller-bottom"><div class="knob"></div><div class="knob"></div></div>
 
-    <div class="title-block">
-      <div class="ornament">🌿 ✦ 🌿</div>
-      <h1>Ландшафт</h1>
-      <div class="subtitle">Земли, коими странствуют герои</div>
-    </div>
+    <!-- Inner content container for readability -->
+    <div class="scroll-inner">
 
-    <br>
-      Сей свиток ещё не дописан — земли не нанесены на карту, законы ещё не изречены.<br>
-      Содержимое будет явлено позднее.
-    </div>
-
-    <!-- TERRAIN TYPES -->
-    <div class="section">
-      <h2>Типы местности</h2>
-      <div class="terrain-grid">
-
-        <div class="terrain-card">
-          <span class="terrain-icon">🪨</span>
-          <span class="terrain-name">Камни (Скалы)</span>
-          <div class="terrain-body">
-            Непроходимый участок карты. Зайти на клетку со скалой невозможно — путь прокладывается в обход.
-          </div>
-        </div>
-
-        <div class="terrain-card">
-          <span class="terrain-icon">🌊</span>
-          <span class="terrain-name">Река</span>
-          <div class="terrain-body">
-            Каждая речная клетка стоит <strong>2 очка хода</strong>. Проход через 2 речные клетки обходится в 4 очка.
-          </div>
-        </div>
-
-        <div class="terrain-card">
-          <span class="terrain-icon">🌲</span>
-          <span class="terrain-name">Деревья</span>
-          <div class="terrain-body">
-            Можно срубить, пожертвовав меньшим из двух кубиков — персонаж пропускает ход. Срубленное дерево можно посадить на своей территории.
-          </div>
-        </div>
-
-        <div class="terrain-card">
-          <span class="terrain-icon">🏕️</span>
-          <span class="terrain-name">Стартовые клетки</span>
-          <div class="terrain-body">
-            4 стартовые клетки — изначально перманентные. Персонажи начинают на них игру и возвращаются сюда после гибели.
-          </div>
-        </div>
-
+      <div class="title-block">
+        <div class="ornament">🌿 ✦ 🌿</div>
+        <h1>Ландшафт</h1>
+        <div class="subtitle">Земли, коими странствуют герои</div>
       </div>
-    </div>
 
-    <!-- MOVEMENT<!-- MOVEMENT EFFECTS -->
-    <div class="section">
-      <h2>Эффекты на передвижение</h2>
-      <div class="prop-list">
-
-        <div class="prop-item">
-          <div class="prop-icon">🌲</div>
-          <div class="prop-text">
-            <div class="prop-title">Деревья</div>
-            <div class="prop-desc">Срубание дерева стоит кубик меньшего значения — персонаж, срубающий дерево, пропускает этот ход.</div>
-          </div>
-        </div>
-
-        <div class="prop-item">
-          <div class="prop-icon">⛰️</div>
-          <div class="prop-text">
-            <div class="prop-title">Река</div>
-            <div class="prop-desc">Каждая клетка реки стоит 2 очка хода вместо 1. Нельзя войти, если очков хода не хватает.</div>
-          </div>
-        </div>
-
-        <div class="prop-item">
-          <div class="prop-icon">🌾</div>
-          <div class="prop-text">
-            <div class="prop-title">Камни</div>
-            <div class="prop-desc">Непроходимы — путь строго в обход.</div>
-          </div>
-        </div>
-
+      <div class="placeholder-banner">
+        Сей свиток ещё не дописан — земли не нанесены на карту, законы ещё не изречены.<br>
+        Содержимое будет явлено позднее.
       </div>
-    </div>
 
-    <!-- SECRETS -->
-    <div class="section">
-      <h2>Секреты на клетках</h2>
-      <div class="prop-list">
+      <!-- TERRAIN TYPES -->
+      <div class="section">
+        <h2>Типы местности</h2>
+        <div class="terrain-grid">
 
-        <div class="prop-item">
-          <div class="prop-icon">⬆️</div>
-          <div class="prop-text">
-            <div class="prop-title">Бафф</div>
-            <div class="prop-desc">Увеличение одной из характеристик персонажа.</div>
+          <div class="terrain-card">
+            <span class="terrain-icon">🪨</span>
+            <span class="terrain-name">Камни (Скалы)</span>
+            <div class="terrain-body">
+              Непроходимый участок карты. Зайти на клетку со скалой невозможно — путь прокладывается в обход.
+            </div>
           </div>
-        </div>
 
-        <div class="prop-item">
-          <div class="prop-icon">⬇️</div>
-          <div class="prop-text">
-            <div class="prop-title">Дебафф</div>
-            <div class="prop-desc">Уменьшение одной из характеристик персонажа.</div>
+          <div class="terrain-card">
+            <span class="terrain-icon">🌊</span>
+            <span class="terrain-name">Река</span>
+            <div class="terrain-body">
+              Каждая речная клетка стоит <strong>2 очка хода</strong>. Проход через 2 речные клетки обходится в 4 очка.
+            </div>
           </div>
-        </div>
 
-        <div class="prop-item">
-          <div class="prop-icon">↕️</div>
-          <div class="prop-text">
-            <div class="prop-title">Бафф + Дебафф</div>
-            <div class="prop-desc">Одна характеристика растёт, другая падает одновременно.</div>
+          <div class="terrain-card">
+            <span class="terrain-icon">🌲</span>
+            <span class="terrain-name">Деревья</span>
+            <div class="terrain-body">
+              Можно срубить, пожертвовав меньшим из двух кубиков — персонаж пропускает ход. Срубленное дерево можно посадить на своей территории.
+            </div>
           </div>
-        </div>
 
-        <div class="prop-item">
-          <div class="prop-icon">🌀</div>
-          <div class="prop-text">
-            <div class="prop-title">Телепорт</div>
-            <div class="prop-desc">Перемещение персонажа на любую клетку карты.</div>
+          <div class="terrain-card">
+            <span class="terrain-icon">🏕️</span>
+            <span class="terrain-name">Стартовые клетки</span>
+            <div class="terrain-body">
+              4 стартовые клетки — изначально перманентные. Персонажи начинают на них игру и возвращаются сюда после гибели.
+            </div>
           </div>
-        </div>
 
-        <div class="prop-item">
-          <div class="prop-icon">❤️</div>
-          <div class="prop-text">
-            <div class="prop-title">Лечение</div>
-            <div class="prop-desc">Персонаж восстанавливает потерянные очки здоровья.</div>
-          </div>
-        </div>
-
-        <div class="prop-item">
-          <div class="prop-icon">☠️</div>
-          <div class="prop-text">
-            <div class="prop-title">Яд</div>
-            <div class="prop-desc">Персонаж немедленно получает урон.</div>
-          </div>
-        </div>
-
-        <div class="prop-item">
-          <div class="prop-icon">🔥</div>
-          <div class="prop-text">
-            <div class="prop-title">Лагерь</div>
-            <div class="prop-desc">Ставится костёр. В радиусе 3 клеток территория приватизируется перманентно. Может лечить союзных персонажей.</div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- JOKER NOTE -->
-    <div class="section">
-      <h2>Особое правило</h2>
-      <div class="prop-list">
-        <div class="prop-item">
-          <div class="prop-icon">🃏</div>
-          <div class="prop-text">
-            <div class="prop-title">Джокер при получении карты</div>
-            <div class="prop-desc">Если при вскрытии секрета выпадает джокер — игрок немедленно получает ещё одну карту.</div>
-          </div>
         </div>
       </div>
-    </div>
 
-    <div class="divider"><div class="divider">✦ · ✦ · ✦</div>
-  </div>
-</div>
+      <!-- MOVEMENT EFFECTS -->
+      <div class="section">
+        <h2>Эффекты на передвижение</h2>
+        <div class="prop-list">
+
+          <div class="prop-item">
+            <div class="prop-icon">🌲</div>
+            <div class="prop-text">
+              <div class="prop-title">Деревья</div>
+              <div class="prop-desc">Срубание дерева стоит кубик меньшего значения — персонаж, срубающий дерево, пропускает этот ход.</div>
+            </div>
+          </div>
+
+          <div class="prop-item">
+            <div class="prop-icon">⛰️</div>
+            <div class="prop-text">
+              <div class="prop-title">Река</div>
+              <div class="prop-desc">Каждая клетка реки стоит 2 очка хода вместо 1. Нельзя войти, если очков хода не хватает.</div>
+            </div>
+          </div>
+
+          <div class="prop-item">
+            <div class="prop-icon">🌾</div>
+            <div class="prop-text">
+              <div class="prop-title">Камни</div>
+              <div class="prop-desc">Непроходимы — путь строго в обход.</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- SECRETS -->
+      <div class="section">
+        <h2>Секреты на клетках</h2>
+        <div class="prop-list">
+
+          <div class="prop-item">
+            <div class="prop-icon">⬆️</div>
+            <div class="prop-text">
+              <div class="prop-title">Бафф</div>
+              <div class="prop-desc">Увеличение одной из характеристик персонажа.</div>
+            </div>
+          </div>
+
+          <div class="prop-item">
+            <div class="prop-icon">⬇️</div>
+            <div class="prop-text">
+              <div class="prop-title">Дебафф</div>
+              <div class="prop-desc">Уменьшение одной из характеристик персонажа.</div>
+            </div>
+          </div>
+
+          <div class="prop-item">
+            <div class="prop-icon">↕️</div>
+            <div class="prop-text">
+              <div class="prop-title">Бафф + Дебафф</div>
+              <div class="prop-desc">Одна характеристика растёт, другая падает одновременно.</div>
+            </div>
+          </div>
+
+          <div class="prop-item">
+            <div class="prop-icon">🌀</div>
+            <div class="prop-text">
+              <div class="prop-title">Телепорт</div>
+              <div class="prop-desc">Перемещение персонажа на любую клетку карты.</div>
+            </div>
+          </div>
+
+          <div class="prop-item">
+            <div class="prop-icon">❤️</div>
+            <div class="prop-text">
+              <div class="prop-title">Лечение</div>
+              <div class="prop-desc">Персонаж восстанавливает потерянные очки здоровья.</div>
+            </div>
+          </div>
+
+          <div class="prop-item">
+            <div class="prop-icon">☠️</div>
+            <div class="prop-text">
+              <div class="prop-title">Яд</div>
+              <div class="prop-desc">Персонаж немедленно получает урон.</div>
+            </div>
+          </div>
+
+          <div class="prop-item">
+            <div class="prop-icon">🔥</div>
+            <div class="prop-text">
+              <div class="prop-title">Лагерь</div>
+              <div class="prop-desc">Ставится костёр. В радиусе 3 клеток территория приватизируется перманентно. Может лечить союзных персонажей.</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- JOKER NOTE -->
+      <div class="section">
+        <h2>Особое правило</h2>
+        <div class="prop-list">
+          <div class="prop-item">
+            <div class="prop-icon">🃏</div>
+            <div class="prop-text">
+              <div class="prop-title">Джокер при получении карты</div>
+              <div class="prop-desc">Если при вскрытии секрета выпадает джокер — игрок немедленно получает ещё одну карту.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider">✦ · ✦ · ✦</div>
+
+    </div><!-- /.scroll-inner -->
+  </div><!-- /.scroll -->
+</div><!-- /.page -->
 
 <script>
   const btn = document.getElementById('hamburger');
