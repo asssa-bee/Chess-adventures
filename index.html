@@ -352,9 +352,11 @@
 
     /* color accents per card */
     .nav-card.c-green  { border-left: 4px solid #2d5a27; }
+    .nav-card.c-teal   { border-left: 4px solid #2a6a6a; }
     .nav-card.c-blue   { border-left: 4px solid #2a5a8a; }
     .nav-card.c-gold   { border-left: 4px solid #b8860b; }
     .nav-card.c-red    { border-left: 4px solid #8b2020; }
+    .nav-card.c-purple { border-left: 4px solid #6a1a5a; }
 
     /* === WHAT IS === */
     .what-grid {
@@ -496,12 +498,7 @@
     </div>
 
     <div class="lore-banner">
-      Бросай кости, тяни карты, сражайся и покоряй земли — прямо на шахматной доске
-    </div>
-
-    <div class="placeholder-banner">
-      <div class="stamp">✦ В разработке ✦</div><br>
-      Правила игры ещё формируются. Свитки дополняются по мере того, как мудрецы записывают законы мира.
+      Бросай кости, тяни карты, сражайся и захватывай территории на шахматном поле 24×24
     </div>
 
     <!-- WHAT IS THIS -->
@@ -512,32 +509,32 @@
         <div class="what-item">
           <span class="what-icon">♟️</span>
           <div class="what-text">
-            <strong>Шахматная доска</strong>
-            Поле 8×8 клеток — ваша карта мира с разными ландшафтами
+            <strong>Карта 24×24</strong>
+            Большое игровое поле с ландшафтами: камни, река, деревья, стартовые клетки
           </div>
         </div>
 
         <div class="what-item">
           <span class="what-icon">🎲</span>
           <div class="what-text">
-            <strong>Кубики</strong>
-            Два кубика d6 определяют, как далеко вы пройдёте за ход
+            <strong>Кубики D6</strong>
+            Два кубика за ход — каждый кубик это один персонаж
           </div>
         </div>
 
         <div class="what-item">
           <span class="what-icon">🃏</span>
           <div class="what-text">
-            <strong>Карты 52</strong>
-            Колода из 52 карт — ваши характеристики, HP, атака и тайные силы
+            <strong>Колода 52 карты</strong>
+            Черви — HP, буби — очки захвата, крести — атака, вини — защита, джокеры — особые эффекты
           </div>
         </div>
 
         <div class="what-item">
           <span class="what-icon">⚔️</span>
           <div class="what-text">
-            <strong>Сражения</strong>
-            Встречайте монстров и других игроков на пути к победе
+            <strong>Битвы</strong>
+            Инициатива по расстоянию, колесо битвы D4, захват территории после победы
           </div>
         </div>
 
@@ -553,7 +550,7 @@
           <span class="nav-card-icon">🏔</span>
           <span class="nav-card-name">Ландшафт</span>
           <div class="nav-card-desc">
-            Типы местности, ресурсы на клетках, опасности и секреты шахматного мира.
+            Стартовые клетки, камни (скалы), река, деревья. Секреты: баффы, телепорт, лечение, яд, лагерь.
           </div>
         </a>
 
@@ -561,7 +558,7 @@
           <span class="nav-card-icon">🏴</span>
           <span class="nav-card-name">Захват</span>
           <div class="nav-card-desc">
-            Как захватывать и удерживать территорию, перманентный захват и условия победы.
+            Обычный и перманентный захват. Захваченная и перманентно захваченная клетка. Условия победы.
           </div>
         </a>
 
@@ -569,7 +566,7 @@
           <span class="nav-card-icon">🌀</span>
           <span class="nav-card-name">Движение</span>
           <div class="nav-card-desc">
-            Бросок костей, виды передвижения, влияние местности на путь героя.
+            Бросок 2D6 за ход. Один кубик = один персонаж. Движение по горизонтали и вертикали.
           </div>
         </a>
 
@@ -577,7 +574,7 @@
           <span class="nav-card-icon">🃏</span>
           <span class="nav-card-name">Характеристики</span>
           <div class="nav-card-desc">
-            Четыре масти — четыре силы. HP, атака, защита и очки захвата.
+            Колода 52: черви — HP, буби — очки захвата, крести — атака, вини — защита. Джокеры.
           </div>
         </a>
 
@@ -585,7 +582,7 @@
           <span class="nav-card-icon">⚔️</span>
           <span class="nav-card-name">Битвы</span>
           <div class="nav-card-desc">
-            Правила сражений, колесо битвы, награды за победу и цена поражения.
+            Инициатива по расстоянию, бросок D6 для очереди, D4 — колесо битвы с 5 исходами.
           </div>
         </a>
 
@@ -593,7 +590,7 @@
           <span class="nav-card-icon">⚡</span>
           <span class="nav-card-name">Бедствия</span>
           <div class="nav-card-desc">
-            Каждые 40 ходов на 20 ходов наступает бедствие. Пожар, буря, заморозки и багровая ночь.
+            Карта делится на четверти. Каждые 40 ходов на 20 ходов — бедствие: багровая ночь, заморозки, пожар, песчаная буря (опционально).
           </div>
         </a>
 
@@ -608,24 +605,24 @@
         <div class="prop-item">
           <div class="prop-icon">♟️</div>
           <div class="prop-text">
-            <div class="prop-title">Шахматная доска</div>
-            <div class="prop-desc">Стандартная доска 8×8 — станет картой вашего мира.</div>
+            <div class="prop-title">Игровое поле 24×24</div>
+            <div class="prop-desc">Большая сетка для размещения ландшафтов и перемещения персонажей.</div>
           </div>
         </div>
 
         <div class="prop-item">
           <div class="prop-icon">🎲</div>
           <div class="prop-text">
-            <div class="prop-title">Два кубика d6</div>
-            <div class="prop-desc">Обычные шестигранные кости для определения движения.</div>
+            <div class="prop-title">Кубики D6 и D4</div>
+            <div class="prop-desc">D6 для хода и инициативы, D4 для колеса битвы.</div>
           </div>
         </div>
 
         <div class="prop-item">
           <div class="prop-icon">🃏</div>
           <div class="prop-text">
-            <div class="prop-title">Колода из 52 карт</div>
-            <div class="prop-desc">Стандартная игральная колода — источник характеристик героев.</div>
+            <div class="prop-title">Колода 52 карты + джокеры</div>
+            <div class="prop-desc">Стандартная колода плюс красный и чёрный джокеры.</div>
           </div>
         </div>
 
@@ -633,7 +630,7 @@
           <div class="prop-icon">📝</div>
           <div class="prop-text">
             <div class="prop-title">Листок героя</div>
-            <div class="prop-desc">Бумага и перо для записи характеристик, карт и инвентаря.</div>
+            <div class="prop-desc">Для записи характеристик: HP, атака, защита, очки захвата.</div>
           </div>
         </div>
 
@@ -641,55 +638,71 @@
           <div class="prop-icon">👥</div>
           <div class="prop-text">
             <div class="prop-title">2–4 игрока</div>
-            <div class="prop-desc ph">Точное число участников ещё уточняется…</div>
+            <div class="prop-desc">Играйте против друг друга — кто первым захватит согласованное количество территории.</div>
           </div>
         </div>
 
       </div>
     </div>
 
-    <!-- ROADMAP -->
+    <!-- GAME MECHANICS -->
     <div class="section">
-      <h2>Что впереди</h2>
+      <h2>Основные механики</h2>
       <div class="prop-list">
 
         <div class="prop-item">
-          <div class="prop-icon">📜</div>
+          <div class="prop-icon">🏔️</div>
           <div class="prop-text">
-            <div class="prop-title">Полные правила движения <span class="ph-tag">скоро</span></div>
-            <div class="prop-desc ph">Модификаторы местности, верховая езда, водные пути…</div>
+            <div class="prop-title">Ландшафт</div>
+            <div class="prop-desc">Стартовые клетки, камни (непроходимые), река (2 очка хода за клетку), деревья (можно срубить или посадить для приватизации).</div>
           </div>
         </div>
 
         <div class="prop-item">
-          <div class="prop-icon">♦️</div>
+          <div class="prop-icon">🏴</div>
           <div class="prop-text">
-            <div class="prop-title">Бестиарий <span class="ph-tag">скоро</span></div>
-            <div class="prop-desc ph">Монстры, их характеристики и награды за победу…</div>
+            <div class="prop-title">Захват территории</div>
+            <div class="prop-desc">Обычный захват — светлый жетон, можно перехватить. Перманентный — тёмный, защищён от врагов. Победа при захвате согласованного количества территории.</div>
+          </div>
+        </div>
+
+        <div class="prop-item">
+          <div class="prop-icon">🌀</div>
+          <div class="prop-text">
+            <div class="prop-title">Движение</div>
+            <div class="prop-desc">Каждый ход бросается 2D6. Один кубик = ход одним персонажем. Движение только по горизонтали и вертикали.</div>
+          </div>
+        </div>
+
+        <div class="prop-item">
+          <div class="prop-icon">🃏</div>
+          <div class="prop-text">
+            <div class="prop-title">Характеристики</div>
+            <div class="prop-desc">Черви — HP (сердечки), буби — очки захвата, крести — атака, вини — защита. Красный джокер воскрешает, чёрный убивает врага.</div>
           </div>
         </div>
 
         <div class="prop-item">
           <div class="prop-icon">⚔️</div>
           <div class="prop-text">
-            <div class="prop-title">Полная боевая система <span class="ph-tag">скоро</span></div>
-            <div class="prop-desc ph">Инициатива, урон, ответный удар, бегство…</div>
+            <div class="prop-title">Битва</div>
+            <div class="prop-desc">Инициатива по расстоянию (манхэттенское). Бросок D6 определяет очередь, D4 — колесо битвы с 5 исходами. Умершие возрождаются на старте.</div>
           </div>
         </div>
 
         <div class="prop-item">
-          <div class="prop-icon">🐉</div>
+          <div class="prop-icon">🎁</div>
           <div class="prop-text">
-            <div class="prop-title">Бестиарий <span class="ph-tag">скоро</span></div>
-            <div class="prop-desc ph">Монстры, боссы, их характеристики и награды…</div>
+            <div class="prop-title">Секреты</div>
+            <div class="prop-desc">7 типов: бафф, дебафф, бафф+дебафф, телепорт, лечение, яд, лагерь (костёр с радиусом 3). Джокер даёт дополнительную карту.</div>
           </div>
         </div>
 
         <div class="prop-item">
-          <div class="prop-icon">🏰</div>
+          <div class="prop-icon">⚡</div>
           <div class="prop-text">
-            <div class="prop-title">Постройки и укрепления <span class="ph-tag">скоро</span></div>
-            <div class="prop-desc ph">Строительство, осады, экономика…</div>
+            <div class="prop-title">Бедствия (не обязательно)</div>
+            <div class="prop-desc">Карта делится на четверти. Каждые 40 ходов на 20 ходов случайное бедствие: багровая ночь, заморозки, пожар, песчаная буря.</div>
           </div>
         </div>
 
