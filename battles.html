@@ -229,39 +229,23 @@
       font-size: 1.05em; margin-top: 4px;
     }
 
-    /* === PLACEHOLDER BANNER === */
-    .placeholder-banner {
+    /* === LORE BANNER === */
+    .lore-banner {
       margin: 0 0 32px;
       padding: 16px 22px;
-      background: repeating-linear-gradient(
-        45deg,
-        rgba(106,26,26,0.06),
-        rgba(106,26,26,0.06) 10px,
-        rgba(106,26,26,0.02) 10px,
-        rgba(106,26,26,0.02) 20px
-      );
-      border: 1px dashed rgba(139,32,32,0.45);
+      background: rgba(106,26,26,0.07);
+      border: 1px solid rgba(139,32,32,0.35);
       border-radius: 5px;
       text-align: center;
       font-family: 'IM Fell English', serif;
       font-style: italic;
       color: var(--ink-light);
-      font-size: 0.95em;
-      line-height: 1.65;
+      font-size: 1em;
+      line-height: 1.7;
     }
-    .placeholder-banner .stamp {
-      display: inline-block;
-      font-family: 'Cinzel', serif;
-      font-style: normal;
-      font-size: 0.75em;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--crim-mid);
-      border: 1px solid rgba(139,32,32,0.4);
-      padding: 2px 10px;
-      border-radius: 3px;
-      margin-bottom: 8px;
-      opacity: 0.8;
+    .lore-banner::before, .lore-banner::after {
+      content: ' ❦ ';
+      color: var(--crim-light); opacity: 0.65;
     }
 
     /* === SECTION HEADERS === */
@@ -375,7 +359,7 @@
       font-size: 0.93em; color: var(--ink-light);
       margin-top: 2px; line-height: 1.5;
     }
-    .prop-desc.ph { font-style: italic; opacity: 0.5; }
+    .prop-desc strong { color: var(--ink); }
 
     /* === VERSUS VISUAL === */
     .versus-block {
@@ -479,8 +463,8 @@
       <div class="subtitle">Искусство войны и правила сражений</div>
     </div>
 
-    <br>
-      Сей свиток ещё пишется кровью и сталью — законы битв не изречены в полной мере.<br>
+    <div class="lore-banner">
+      Сей свиток ещё пишется кровью и сталью — законы битв не изречены в полной мере.
       Содержимое будет явлено позднее.
     </div>
 
@@ -653,7 +637,7 @@
       </div>
     </div>
 
-    <div class="divider"><div class="divider">✦ · ✦ · ✦</div>
+    <div class="divider">✦ · ✦ · ✦</div>
   </div>
 </div>
 
