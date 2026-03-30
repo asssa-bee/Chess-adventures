@@ -230,39 +230,23 @@
       font-size: 1.05em; margin-top: 4px;
     }
 
-    /* === PLACEHOLDER BANNER === */
-    .placeholder-banner {
+    /* === LORE BANNER === */
+    .lore-banner {
       margin: 0 0 32px;
       padding: 16px 22px;
-      background: repeating-linear-gradient(
-        45deg,
-        rgba(26,58,106,0.05),
-        rgba(26,58,106,0.05) 10px,
-        rgba(26,58,106,0.02) 10px,
-        rgba(26,58,106,0.02) 20px
-      );
-      border: 1px dashed rgba(42,90,138,0.5);
+      background: rgba(26,58,106,0.07);
+      border: 1px solid rgba(42,90,138,0.35);
       border-radius: 5px;
       text-align: center;
       font-family: 'IM Fell English', serif;
       font-style: italic;
       color: var(--ink-light);
-      font-size: 0.95em;
-      line-height: 1.65;
+      font-size: 1em;
+      line-height: 1.7;
     }
-    .placeholder-banner .stamp {
-      display: inline-block;
-      font-family: 'Cinzel', serif;
-      font-style: normal;
-      font-size: 0.75em;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--blue-mid);
-      border: 1px solid rgba(42,90,138,0.4);
-      padding: 2px 10px;
-      border-radius: 3px;
-      margin-bottom: 8px;
-      opacity: 0.8;
+    .lore-banner::before, .lore-banner::after {
+      content: ' ❦ ';
+      color: var(--blue-light); opacity: 0.65;
     }
 
     /* === SECTION HEADERS === */
@@ -327,26 +311,6 @@
       padding-top: 10px; margin-top: 8px;
     }
 
-    .move-card.ph .move-name { opacity: 0.5; }
-    .move-card.ph .move-body {
-      opacity: 0.45;
-      font-style: italic;
-    }
-    .ph-tag {
-      display: inline-block;
-      font-family: 'Cinzel', serif;
-      font-size: 0.65em;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--blue-mid);
-      border: 1px solid rgba(42,90,138,0.35);
-      padding: 1px 7px;
-      border-radius: 2px;
-      margin-left: 6px;
-      vertical-align: middle;
-      opacity: 0.7;
-    }
-
     /* === PROPERTY ROWS === */
     .prop-list { display: flex; flex-direction: column; gap: 10px; margin-top: 14px; }
 
@@ -376,7 +340,7 @@
       font-size: 0.93em; color: var(--ink-light);
       margin-top: 2px; line-height: 1.5;
     }
-    .prop-desc.ph { font-style: italic; opacity: 0.5; }
+    .prop-desc strong { color: var(--ink); }
 
     /* === DICE VISUAL === */
     .dice-row {
@@ -475,8 +439,8 @@
       <div class="subtitle">Законы странствий и бросков судьбы</div>
     </div>
 
-    <br>
-      Сей свиток ещё не дописан — правила движения не изречены в полной мере.<br>
+    <div class="lore-banner">
+      Сей свиток ещё не дописан — правила движения не изречены в полной мере.
       Содержимое будет явлено позднее.
     </div>
 
