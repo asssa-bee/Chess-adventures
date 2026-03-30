@@ -402,11 +402,15 @@
     <span class="nav-sep">·</span>
     <a href="landscape.html" class="active">🏔 Ландшафт</a>
     <span class="nav-sep">·</span>
+    <a href="capture.html">🏴 Захват</a>
+    <span class="nav-sep">·</span>
     <a href="movement.html">🌀 Движение</a>
     <span class="nav-sep">·</span>
     <a href="characteristics.html">🃏 Характеристики</a>
     <span class="nav-sep">·</span>
     <a href="battles.html">⚔ Битвы</a>
+    <span class="nav-sep">·</span>
+    <a href="disasters.html">⚡ Бедствия</a>
   </div>
 
   <div class="nav-mobile-row">
@@ -418,9 +422,11 @@
   <div class="nav-dropdown" id="nav-dropdown">
     <a href="index.html"><span class="nav-icon">⚔</span> Главная</a>
     <a href="landscape.html" class="active"><span class="nav-icon">🏔</span> Ландшафт</a>
+    <a href="capture.html"><span class="nav-icon">🏴</span> Захват</a>
     <a href="movement.html"><span class="nav-icon">🌀</span> Движение</a>
     <a href="characteristics.html"><span class="nav-icon">🃏</span> Характеристики</a>
     <a href="battles.html"><span class="nav-icon">⚔</span> Битвы</a>
+    <a href="disasters.html"><span class="nav-icon">⚡</span> Бедствия</a>
   </div>
 </nav>
 
@@ -436,8 +442,7 @@
       <div class="subtitle">Земли, коими странствуют герои</div>
     </div>
 
-    <div class="placeholder-banner">
-      <div class="stamp">✦ В разработке ✦</div><br>
+    <br>
       Сей свиток ещё не дописан — земли не нанесены на карту, законы ещё не изречены.<br>
       Содержимое будет явлено позднее.
     </div>
@@ -448,51 +453,41 @@
       <div class="terrain-grid">
 
         <div class="terrain-card">
-          <span class="terrain-icon">🌲</span>
-          <span class="terrain-name">Лес</span>
+          <span class="terrain-icon">🪨</span>
+          <span class="terrain-name">Камни (Скалы)</span>
           <div class="terrain-body">
-            Густые чащи, где скрыться легко, но путь тяжёл. Таит древесину и зверьё.
+            Непроходимый участок карты. Зайти на клетку со скалой невозможно — путь прокладывается в обход.
           </div>
         </div>
 
         <div class="terrain-card">
-          <span class="terrain-icon">⛰️</span>
-          <span class="terrain-name">Горы</span>
-          <div class="terrain-body">
-            Суровые кряжи — движение замедлено, но с высоты видно далеко.
-          </div>
-        </div>
-
-        <div class="terrain-card">
-          <span class="terrain-icon">🌾</span>
-          <span class="terrain-name">Равнина</span>
-          <div class="terrain-body">
-            Открытые поля — быстрое передвижение, богатый урожай, но укрыться негде.
-          </div>
-        </div>
-
-        <div class="terrain-card ph">
-          <span class="terrain-icon">🌿</span>
-          <span class="terrain-name">Болото <span class="ph-tag">скоро</span></span>
-          <div class="terrain-body">Описание ещё не написано…</div>
-        </div>
-
-        <div class="terrain-card ph">
-          <span class="terrain-icon">🏜️</span>
-          <span class="terrain-name">Пустошь <span class="ph-tag">скоро</span></span>
-          <div class="terrain-body">Описание ещё не написано…</div>
-        </div>
-
-        <div class="terrain-card ph">
           <span class="terrain-icon">🌊</span>
-          <span class="terrain-name">Вода <span class="ph-tag">скоро</span></span>
-          <div class="terrain-body">Описание ещё не написано…</div>
+          <span class="terrain-name">Река</span>
+          <div class="terrain-body">
+            Каждая речная клетка стоит <strong>2 очка хода</strong>. Проход через 2 речные клетки обходится в 4 очка.
+          </div>
+        </div>
+
+        <div class="terrain-card">
+          <span class="terrain-icon">🌲</span>
+          <span class="terrain-name">Деревья</span>
+          <div class="terrain-body">
+            Можно срубить, пожертвовав меньшим из двух кубиков — персонаж пропускает ход. Срубленное дерево можно посадить на своей территории.
+          </div>
+        </div>
+
+        <div class="terrain-card">
+          <span class="terrain-icon">🏕️</span>
+          <span class="terrain-name">Стартовые клетки</span>
+          <div class="terrain-body">
+            4 стартовые клетки — изначально перманентные. Персонажи начинают на них игру и возвращаются сюда после гибели.
+          </div>
         </div>
 
       </div>
     </div>
 
-    <!-- MOVEMENT EFFECTS -->
+    <!-- MOVEMENT<!-- MOVEMENT EFFECTS -->
     <div class="section">
       <h2>Эффекты на передвижение</h2>
       <div class="prop-list">
@@ -500,95 +495,109 @@
         <div class="prop-item">
           <div class="prop-icon">🌲</div>
           <div class="prop-text">
-            <div class="prop-title">Лес</div>
-            <div class="prop-desc ph">Правило передвижения ещё не определено…</div>
+            <div class="prop-title">Деревья</div>
+            <div class="prop-desc">Срубание дерева стоит кубик меньшего значения — персонаж, срубающий дерево, пропускает этот ход.</div>
           </div>
         </div>
 
         <div class="prop-item">
           <div class="prop-icon">⛰️</div>
           <div class="prop-text">
-            <div class="prop-title">Горы</div>
-            <div class="prop-desc ph">Правило передвижения ещё не определено…</div>
+            <div class="prop-title">Река</div>
+            <div class="prop-desc">Каждая клетка реки стоит 2 очка хода вместо 1. Нельзя войти, если очков хода не хватает.</div>
           </div>
         </div>
 
         <div class="prop-item">
           <div class="prop-icon">🌾</div>
           <div class="prop-text">
-            <div class="prop-title">Равнина</div>
-            <div class="prop-desc ph">Правило передвижения ещё не определено…</div>
+            <div class="prop-title">Камни</div>
+            <div class="prop-desc">Непроходимы — путь строго в обход.</div>
           </div>
         </div>
 
       </div>
     </div>
 
-    <!-- RESOURCES -->
+    <!-- SECRETS -->
     <div class="section">
-      <h2>Ресурсы на клетках</h2>
+      <h2>Секреты на клетках</h2>
       <div class="prop-list">
 
         <div class="prop-item">
-          <div class="prop-icon">🪵</div>
+          <div class="prop-icon">⬆️</div>
           <div class="prop-text">
-            <div class="prop-title">Древесина</div>
-            <div class="prop-desc ph">Что даёт, как добыть — ещё не описано…</div>
+            <div class="prop-title">Бафф</div>
+            <div class="prop-desc">Увеличение одной из характеристик персонажа.</div>
           </div>
         </div>
 
         <div class="prop-item">
-          <div class="prop-icon">⛏️</div>
+          <div class="prop-icon">⬇️</div>
           <div class="prop-text">
-            <div class="prop-title">Руда</div>
-            <div class="prop-desc ph">Что даёт, как добыть — ещё не описано…</div>
+            <div class="prop-title">Дебафф</div>
+            <div class="prop-desc">Уменьшение одной из характеристик персонажа.</div>
           </div>
         </div>
 
         <div class="prop-item">
-          <div class="prop-icon">🌿</div>
+          <div class="prop-icon">↕️</div>
           <div class="prop-text">
-            <div class="prop-title">Травы</div>
-            <div class="prop-desc ph">Что даёт, как добыть — ещё не описано…</div>
+            <div class="prop-title">Бафф + Дебафф</div>
+            <div class="prop-desc">Одна характеристика растёт, другая падает одновременно.</div>
           </div>
         </div>
 
-      </div>
-    </div>
-
-    <!-- HAZARDS -->
-    <div class="section">
-      <h2>Опасности и ловушки</h2>
-      <div class="prop-list">
+        <div class="prop-item">
+          <div class="prop-icon">🌀</div>
+          <div class="prop-text">
+            <div class="prop-title">Телепорт</div>
+            <div class="prop-desc">Перемещение персонажа на любую клетку карты.</div>
+          </div>
+        </div>
 
         <div class="prop-item">
-          <div class="prop-icon">🕳️</div>
+          <div class="prop-icon">❤️</div>
           <div class="prop-text">
-            <div class="prop-title">Ловчая яма <span class="ph-tag">скоро</span></div>
-            <div class="prop-desc ph">Механика ещё не описана…</div>
+            <div class="prop-title">Лечение</div>
+            <div class="prop-desc">Персонаж восстанавливает потерянные очки здоровья.</div>
+          </div>
+        </div>
+
+        <div class="prop-item">
+          <div class="prop-icon">☠️</div>
+          <div class="prop-text">
+            <div class="prop-title">Яд</div>
+            <div class="prop-desc">Персонаж немедленно получает урон.</div>
           </div>
         </div>
 
         <div class="prop-item">
           <div class="prop-icon">🔥</div>
           <div class="prop-text">
-            <div class="prop-title">Пожар <span class="ph-tag">скоро</span></div>
-            <div class="prop-desc ph">Механика ещё не описана…</div>
-          </div>
-        </div>
-
-        <div class="prop-item">
-          <div class="prop-icon">💀</div>
-          <div class="prop-text">
-            <div class="prop-title">Проклятое место <span class="ph-tag">скоро</span></div>
-            <div class="prop-desc ph">Механика ещё не описана…</div>
+            <div class="prop-title">Лагерь</div>
+            <div class="prop-desc">Ставится костёр. В радиусе 3 клеток территория приватизируется перманентно. Может лечить союзных персонажей.</div>
           </div>
         </div>
 
       </div>
     </div>
 
-    <div class="divider">✦ · ✦ · ✦</div>
+    <!-- JOKER NOTE -->
+    <div class="section">
+      <h2>Особое правило</h2>
+      <div class="prop-list">
+        <div class="prop-item">
+          <div class="prop-icon">🃏</div>
+          <div class="prop-text">
+            <div class="prop-title">Джокер при получении карты</div>
+            <div class="prop-desc">Если при вскрытии секрета выпадает джокер — игрок немедленно получает ещё одну карту.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"><div class="divider">✦ · ✦ · ✦</div>
   </div>
 </div>
 

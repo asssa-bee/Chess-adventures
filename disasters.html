@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Бедствия — Chess Adventures</title>
+  <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Cinzel:wght@400;700;900&family=Cinzel+Decorative:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #2a1a0e;
+      --ink-light: #4a3520;
+      --gold: #b8860b;
+      --gold-light: #daa520;
+      --storm: #2a1a4a;
+      --storm-mid: #4a2a7a;
+      --storm-light: #6a3aaa;
+      --storm-pale: #9a6ad8;
+      --storm-glow: #c090f0;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { min-height: 100%; overflow-x: hidden; }
+
+    body {
+      font-family: 'IM Fell English', Georgia, serif;
+      background: #0e0818;
+      color: var(--ink);
+      line-height: 1.6;
+    }
+
+    /* === BACKGROUND === */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 25% 15%, rgba(74,42,122,0.25) 0%, transparent 55%),
+        radial-gradient(ellipse at 75% 85%, rgba(42,26,74,0.22) 0%, transparent 55%),
+        radial-gradient(ellipse at 50% 50%, rgba(154,106,216,0.06) 0%, transparent 40%),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* === NAV === */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: linear-gradient(to bottom, #080410 0%, #0e0818 100%);
+      border-bottom: 1px solid #3a1a6a;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.7), inset 0 -1px 0 rgba(154,106,216,0.12);
+    }
+
+    .nav-desktop {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      padding: 0 20px;
+    }
+    .nav-sep { color: var(--storm-light); opacity: 0.35; font-size: 1em; user-select: none; }
+
+    .nav-desktop a {
+      font-family: 'Cinzel', serif;
+      font-size: 0.75em;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #9878c8;
+      text-decoration: none;
+      padding: 15px 11px;
+      position: relative;
+      transition: color 0.2s;
+      white-space: nowrap;
+    }
+    .nav-desktop a::after {
+      content: '';
+      position: absolute;
+      bottom: 9px; left: 50%;
+      transform: translateX(-50%) scaleX(0);
+      width: 70%; height: 1px;
+      background: var(--storm-pale);
+      transition: transform 0.25s;
+    }
+    .nav-desktop a:hover { color: var(--storm-pale); }
+    .nav-desktop a:hover::after { transform: translateX(-50%) scaleX(1); }
+    .nav-desktop a.active { color: #c8a8f0; }
+    .nav-desktop a.active::after { transform: translateX(-50%) scaleX(1); background: #c8a8f0; }
+
+    .nav-mobile-row {
+      display: none;
+      height: 50px;
+      padding: 0 16px;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-mobile-label {
+      font-family: 'Cinzel', serif;
+      font-size: 0.8em;
+      color: #9878c8;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+    }
+    .hamburger {
+      background: none;
+      border: 1px solid rgba(152,120,200,0.3);
+      border-radius: 4px;
+      padding: 8px 10px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      transition: border-color 0.2s;
+    }
+    .hamburger:hover { border-color: rgba(152,120,200,0.65); }
+    .hamburger span {
+      display: block; width: 20px; height: 2px;
+      background: #9878c8; border-radius: 2px;
+      transition: transform 0.25s, opacity 0.2s;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+    .nav-dropdown {
+      display: none;
+      flex-direction: column;
+      background: #080410;
+      border-top: 1px solid rgba(58,26,106,0.4);
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height 0.35s ease;
+    }
+    .nav-dropdown.open { max-height: 500px; }
+    .nav-dropdown a {
+      font-family: 'Cinzel', serif;
+      font-size: 0.8em;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: #9878c8;
+      text-decoration: none;
+      padding: 13px 20px;
+      border-bottom: 1px solid rgba(58,26,106,0.25);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: background 0.2s, color 0.2s;
+    }
+    .nav-dropdown a:hover { background: rgba(106,58,170,0.07); color: var(--storm-pale); }
+    .nav-dropdown a.active { color: #c8a8f0; }
+    .nav-icon { font-size: 1.1em; min-width: 22px; }
+
+    @media (max-width: 680px) {
+      .nav-desktop    { display: none; }
+      .nav-mobile-row { display: flex; }
+      .nav-dropdown   { display: flex; }
+    }
+
+    /* === PAGE === */
+    .page {
+      position: relative;
+      z-index: 1;
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 28px 12px 80px;
+    }
+
+    /* === SCROLL === */
+    .scroll {
+      background: linear-gradient(to bottom, #d8cce4 0%, #e4d8f0 8%, #e8dcf4 50%, #e4d8f0 92%, #ccc0dc 100%);
+      border-radius: 8px 8px 12px 12px;
+      padding: 50px 40px 60px;
+      box-shadow:
+        0 0 0 2px #7a5aaa,
+        0 0 0 5px #4a2a7a,
+        0 0 0 7px #7a5aaa,
+        0 20px 60px rgba(0,0,0,0.75),
+        inset 0 0 40px rgba(106,58,170,0.18);
+      position: relative;
+    }
+    .scroll::before, .scroll::after {
+      content: '';
+      display: block;
+      height: 22px;
+      background: linear-gradient(to bottom, #8a5ac8, #4a2a8a, #8a5ac8, #4a2a8a, #8a5ac8);
+      border-radius: 4px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5), inset 0 1px 2px rgba(192,144,240,0.3);
+      position: absolute;
+      left: -4px; right: -4px;
+    }
+    .scroll::before { top: -6px; }
+    .scroll::after  { bottom: -6px; }
+
+    .roller-top, .roller-bottom {
+      position: absolute; left: -12px; right: -12px;
+      height: 22px; display: flex;
+      justify-content: space-between;
+      pointer-events: none; z-index: 10;
+    }
+    .roller-top { top: -6px; }
+    .roller-bottom { bottom: -6px; }
+    .roller-top .knob, .roller-bottom .knob {
+      width: 22px; height: 22px; border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #c8a0f0, #4a2a8a);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+    }
+
+    /* === TITLE === */
+    .title-block { text-align: center; margin-bottom: 28px; }
+    .ornament {
+      color: var(--storm-mid);
+      font-size: 1.6em;
+      letter-spacing: 0.15em; opacity: 0.8; user-select: none;
+    }
+    h1 {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: clamp(1.3rem, 5vw, 2.3rem);
+      color: #3a1a6a;
+      text-shadow: 1px 1px 0 #b090d8, 2px 2px 4px rgba(0,0,0,0.25);
+      letter-spacing: 0.06em;
+      margin: 8px 0; line-height: 1.2;
+    }
+    .subtitle {
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      color: var(--storm-mid);
+      font-size: 1.05em; margin-top: 4px;
+    }
+
+    /* === LORE BANNER === */
+    .lore-banner {
+      margin: 0 0 32px;
+      padding: 16px 22px;
+      background: rgba(74,42,122,0.07);
+      border: 1px solid rgba(106,58,154,0.35);
+      border-radius: 5px;
+      text-align: center;
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      color: var(--ink-light);
+      font-size: 1em;
+      line-height: 1.7;
+    }
+    .lore-banner::before, .lore-banner::after {
+      content: ' ❦ ';
+      color: var(--storm-light); opacity: 0.65;
+    }
+
+    /* === SECTION HEADERS === */
+    .section { margin: 36px 0 20px; }
+    h2 {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1rem, 3.5vw, 1.4rem);
+      color: #3a1a6a;
+      text-align: center;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      position: relative;
+      padding: 0 20px;
+      margin-bottom: 18px;
+    }
+    h2::before, h2::after {
+      content: '⸻';
+      color: var(--storm-mid);
+      opacity: 0.6; margin: 0 12px; font-size: 0.85em;
+    }
+
+    /* === CYCLE INFO === */
+    .cycle-block {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 4px;
+      justify-content: center;
+    }
+    .cycle-pill {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      padding: 16px 20px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(106,58,170,0.12) 100%);
+      border: 1px solid rgba(106,58,154,0.4);
+      border-radius: 8px;
+      min-width: 140px;
+      flex: 1;
+    }
+    .cycle-num {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: 2em;
+      color: #3a1a6a;
+      line-height: 1;
+    }
+    .cycle-label {
+      font-family: 'Cinzel', serif;
+      font-size: 0.72em;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--storm-mid);
+    }
+
+    /* === DISASTER CARDS === */
+    .disaster-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 16px;
+    }
+
+    .disaster-card {
+      background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(106,58,170,0.1) 100%);
+      border: 1px solid rgba(106,58,154,0.4);
+      border-radius: 6px;
+      padding: 20px 18px;
+      position: relative;
+      box-shadow: inset 0 1px 0 rgba(200,160,240,0.25), 0 4px 15px rgba(0,0,0,0.1);
+      transition: box-shadow 0.2s;
+    }
+    .disaster-card:hover {
+      box-shadow: inset 0 1px 0 rgba(200,160,240,0.4), 0 6px 22px rgba(106,58,170,0.2);
+    }
+    .disaster-card::before, .disaster-card::after {
+      content: '✦'; position: absolute;
+      color: var(--storm-pale); opacity: 0.4; font-size: 0.65em;
+    }
+    .disaster-card::before { top: 5px; left: 7px; }
+    .disaster-card::after  { bottom: 5px; right: 7px; }
+
+    /* dice badge in top-right */
+    .dice-badge {
+      position: absolute;
+      top: 10px; right: 12px;
+      font-family: 'Cinzel', serif;
+      font-size: 0.68em;
+      letter-spacing: 0.1em;
+      color: var(--storm-mid);
+      background: rgba(106,58,154,0.12);
+      border: 1px solid rgba(106,58,154,0.3);
+      padding: 2px 8px;
+      border-radius: 3px;
+    }
+
+    .disaster-icon {
+      font-size: 2.4em; line-height: 1;
+      margin-bottom: 6px; display: block;
+    }
+    .disaster-name {
+      font-family: 'Cinzel', serif;
+      font-size: 1.08em; font-weight: 700;
+      color: var(--ink); letter-spacing: 0.05em;
+      display: block; margin-bottom: 4px;
+      padding-right: 44px; /* avoid overlap with badge */
+    }
+    .disaster-body {
+      color: var(--ink-light); font-size: 0.93em;
+      line-height: 1.55;
+      border-top: 1px dashed rgba(106,58,154,0.3);
+      padding-top: 10px; margin-top: 8px;
+    }
+    .disaster-body strong { color: var(--ink); font-family: 'Cinzel', serif; font-size: 0.9em; }
+
+    /* card accent colors per disaster */
+    .d-calm    { border-left: 4px solid #6a8a5a; }
+    .d-night   { border-left: 4px solid #6a1a1a; }
+    .d-frost   { border-left: 4px solid #5a7aaa; }
+    .d-fire    { border-left: 4px solid #aa4a1a; }
+    .d-storm   { border-left: 4px solid #8a6a1a; }
+
+    /* === PROP LIST === */
+    .prop-list { display: flex; flex-direction: column; gap: 10px; margin-top: 14px; }
+
+    .prop-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 14px 18px;
+      background: linear-gradient(90deg, rgba(106,58,154,0.08) 0%, transparent 100%);
+      border-left: 3px solid var(--storm-mid);
+      border-radius: 0 4px 4px 0;
+      transition: background 0.2s;
+    }
+    .prop-item:hover { background: linear-gradient(90deg, rgba(106,58,154,0.15) 0%, transparent 100%); }
+
+    .prop-icon { font-size: 1.5em; min-width: 30px; text-align: center; margin-top: 1px; }
+    .prop-text { flex: 1; }
+    .prop-title {
+      font-family: 'Cinzel', serif;
+      font-size: 0.92em; font-weight: 700;
+      color: var(--ink); letter-spacing: 0.04em;
+    }
+    .prop-desc {
+      font-family: 'IM Fell English', serif;
+      font-size: 0.93em; color: var(--ink-light);
+      margin-top: 3px; line-height: 1.5;
+    }
+    .prop-desc strong { color: var(--ink); }
+
+    /* === DIVIDER === */
+    .divider {
+      text-align: center; color: var(--storm-mid);
+      opacity: 0.55; font-size: 1.1em;
+      margin: 36px 0 0; letter-spacing: 0.4em;
+      user-select: none;
+    }
+
+    /* === MOBILE === */
+    @media (max-width: 600px) {
+      .scroll { padding: 40px 20px 50px; }
+      .disaster-grid { grid-template-columns: 1fr; gap: 12px; }
+      .page { padding: 20px 10px 80px; }
+      .cycle-block { gap: 8px; }
+      .cycle-pill { min-width: 100px; padding: 12px 14px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-desktop">
+    <a href="index.html">⚔ Главная</a>
+    <span class="nav-sep">·</span>
+    <a href="landscape.html">🏔 Ландшафт</a>
+    <span class="nav-sep">·</span>
+    <a href="capture.html">🏴 Захват</a>
+    <span class="nav-sep">·</span>
+    <a href="movement.html">🌀 Движение</a>
+    <span class="nav-sep">·</span>
+    <a href="characteristics.html">🃏 Характеристики</a>
+    <span class="nav-sep">·</span>
+    <a href="battles.html">⚔ Битвы</a>
+    <span class="nav-sep">·</span>
+    <a href="disasters.html" class="active">⚡ Бедствия</a>
+  </div>
+
+  <div class="nav-mobile-row">
+    <span class="nav-mobile-label">⚡ Бедствия</span>
+    <button class="hamburger" id="hamburger" aria-label="Меню" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="nav-dropdown" id="nav-dropdown">
+    <a href="index.html"><span class="nav-icon">⚔</span> Главная</a>
+    <a href="landscape.html"><span class="nav-icon">🏔</span> Ландшафт</a>
+    <a href="capture.html"><span class="nav-icon">🏴</span> Захват</a>
+    <a href="movement.html"><span class="nav-icon">🌀</span> Движение</a>
+    <a href="characteristics.html"><span class="nav-icon">🃏</span> Характеристики</a>
+    <a href="battles.html"><span class="nav-icon">⚔</span> Битвы</a>
+    <a href="disasters.html" class="active"><span class="nav-icon">⚡</span> Бедствия</a>
+  </div>
+</nav>
+
+<!-- CONTENT -->
+<div class="page">
+  <div class="scroll">
+    <div class="roller-top"><div class="knob"></div><div class="knob"></div></div>
+    <div class="roller-bottom"><div class="knob"></div><div class="knob"></div></div>
+
+    <div class="title-block">
+      <div class="ornament">⚡ ✦ ⚡</div>
+      <h1>Бедствия</h1>
+      <div class="subtitle">Кары небесные, что обрушиваются на земли героев</div>
+    </div>
+
+    <div class="lore-banner">
+      Карта делится на четверти. В каждой из них раз в 40 ходов наступает время испытаний
+    </div>
+
+    <!-- CYCLE -->
+    <div class="section">
+      <h2>Цикл бедствий</h2>
+      <div class="cycle-block">
+        <div class="cycle-pill">
+          <span class="cycle-num">40</span>
+          <span class="cycle-label">ходов — спокойствие</span>
+        </div>
+        <div class="cycle-pill">
+          <span class="cycle-num">20</span>
+          <span class="cycle-label">ходов — бедствие</span>
+        </div>
+        <div class="cycle-pill">
+          <span class="cycle-num">D6</span>
+          <span class="cycle-label">бросок — выбор бедствия</span>
+        </div>
+      </div>
+
+      <div class="prop-list" style="margin-top:18px;">
+        <div class="prop-item">
+          <div class="prop-icon">🗺️</div>
+          <div class="prop-text">
+            <div class="prop-title">Зона бедствия</div>
+            <div class="prop-desc">Бедствие охватывает одну из четырёх четвертей карты. Персонажи за пределами зоны не страдают от его эффектов.</div>
+          </div>
+        </div>
+        <div class="prop-item">
+          <div class="prop-icon">🎲</div>
+          <div class="prop-text">
+            <div class="prop-title">Определение бедствия</div>
+            <div class="prop-desc">В начале каждого цикла бросается кубик D6. Выпавшее число указывает на вид бедствия согласно таблице ниже. Правило не обязательное — по договорённости можно не использовать.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DISASTER CARDS -->
+    <div class="section">
+      <h2>Виды бедствий</h2>
+      <div class="disaster-grid">
+
+        <div class="disaster-card d-calm">
+          <span class="dice-badge">⚀ 1</span>
+          <span class="disaster-icon">☀️</span>
+          <span class="disaster-name">Спокойное время</span>
+          <div class="disaster-body">
+            Бедствие не наступает. Четверть карты живёт в мире и благоденствии — герои действуют без каких-либо ограничений.
+          </div>
+        </div>
+
+        <div class="disaster-card d-night">
+          <span class="dice-badge">⚁ 2</span>
+          <span class="disaster-icon">🌑</span>
+          <span class="disaster-name">Багровая ночь</span>
+          <div class="disaster-body">
+            Покидать пределы своей территории крайне опасно. Каждый ход в зоне бедствия каждый персонаж теряет <strong>1 HP</strong> и <strong>1 Атаку</strong>. Монстры становятся <strong>вдвое сильнее</strong>. Все полученные усиления и преимущества в эту ночь <strong>удваиваются</strong>.
+          </div>
+        </div>
+
+        <div class="disaster-card d-frost">
+          <span class="dice-badge">⚂ 3</span>
+          <span class="disaster-icon">❄️</span>
+          <span class="disaster-name">Заморозки</span>
+          <div class="disaster-body">
+            Персонажи замерзают. Каждый замёрзший персонаж в зоне бедствия теряет <strong>2 очка хода с каждого кубика</strong>.
+          </div>
+        </div>
+
+        <div class="disaster-card d-fire">
+          <span class="dice-badge">⚃ 4</span>
+          <span class="disaster-icon">🔥</span>
+          <span class="disaster-name">Пожар</span>
+          <div class="disaster-body">
+            Земля горит. Каждый персонаж, находящийся в зоне бедствия, теряет <strong>1 HP при каждом броске кубиков</strong>, независимо от движения.
+          </div>
+        </div>
+
+        <div class="disaster-card d-storm">
+          <span class="dice-badge">⚄ 5</span>
+          <span class="disaster-icon">🌪️</span>
+          <span class="disaster-name">Песчаная буря</span>
+          <div class="disaster-body">
+            Обзор ограничен — герои теряются. Ход персонажа в зоне делается <strong>поочерёдно</strong>: сначала владелец двигает на 1 клетку, затем противник, и так до конца броска. Возвращать персонажа в исходное положение нельзя.
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- STORM EXAMPLE -->
+    <div class="section">
+      <h2>Пример: песчаная буря (выпало 4)</h2>
+      <div class="prop-list">
+        <div class="prop-item">
+          <div class="prop-icon">1️⃣</div>
+          <div class="prop-text">
+            <div class="prop-title">Владелец</div>
+            <div class="prop-desc">Двигает персонажа на 1 клетку в любую сторону.</div>
+          </div>
+        </div>
+        <div class="prop-item">
+          <div class="prop-icon">2️⃣</div>
+          <div class="prop-text">
+            <div class="prop-title">Противник</div>
+            <div class="prop-desc">Двигает того же персонажа на 1 клетку в любую сторону.</div>
+          </div>
+        </div>
+        <div class="prop-item">
+          <div class="prop-icon">3️⃣</div>
+          <div class="prop-text">
+            <div class="prop-title">Владелец</div>
+            <div class="prop-desc">Снова двигает на 1 клетку.</div>
+          </div>
+        </div>
+        <div class="prop-item">
+          <div class="prop-icon">4️⃣</div>
+          <div class="prop-text">
+            <div class="prop-title">Противник</div>
+            <div class="prop-desc">Последний ход — персонаж оказывается там, куда его занесла буря. Вернуться назад нельзя.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider">✦ · ✦ · ✦</div>
+  </div>
+</div>
+
+<script>
+  const btn = document.getElementById('hamburger');
+  const dd  = document.getElementById('nav-dropdown');
+  btn.addEventListener('click', () => {
+    const open = dd.classList.toggle('open');
+    btn.classList.toggle('open', open);
+    btn.setAttribute('aria-expanded', String(open));
+  });
+  dd.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    dd.classList.remove('open');
+    btn.classList.remove('open');
+    btn.setAttribute('aria-expanded', 'false');
+  }));
+</script>
+
+</body>
+</html>

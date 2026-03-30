@@ -435,11 +435,15 @@
     <span class="nav-sep">·</span>
     <a href="landscape.html">🏔 Ландшафт</a>
     <span class="nav-sep">·</span>
+    <a href="capture.html">🏴 Захват</a>
+    <span class="nav-sep">·</span>
     <a href="movement.html" class="active">🌀 Движение</a>
     <span class="nav-sep">·</span>
     <a href="characteristics.html">🃏 Характеристики</a>
     <span class="nav-sep">·</span>
     <a href="battles.html">⚔ Битвы</a>
+    <span class="nav-sep">·</span>
+    <a href="disasters.html">⚡ Бедствия</a>
   </div>
 
   <div class="nav-mobile-row">
@@ -451,9 +455,11 @@
   <div class="nav-dropdown" id="nav-dropdown">
     <a href="index.html"><span class="nav-icon">⚔</span> Главная</a>
     <a href="landscape.html"><span class="nav-icon">🏔</span> Ландшафт</a>
+    <a href="capture.html"><span class="nav-icon">🏴</span> Захват</a>
     <a href="movement.html" class="active"><span class="nav-icon">🌀</span> Движение</a>
     <a href="characteristics.html"><span class="nav-icon">🃏</span> Характеристики</a>
     <a href="battles.html"><span class="nav-icon">⚔</span> Битвы</a>
+    <a href="disasters.html"><span class="nav-icon">⚡</span> Бедствия</a>
   </div>
 </nav>
 
@@ -469,8 +475,7 @@
       <div class="subtitle">Законы странствий и бросков судьбы</div>
     </div>
 
-    <div class="placeholder-banner">
-      <div class="stamp">✦ В разработке ✦</div><br>
+    <br>
       Сей свиток ещё не дописан — правила движения не изречены в полной мере.<br>
       Содержимое будет явлено позднее.
     </div>
@@ -490,9 +495,9 @@
         <div class="prop-item">
           <div class="prop-icon">🎲</div>
           <div class="prop-text">
-            <div class="prop-title">Два кубика (2d6)</div>
+            <div class="prop-title">Два кубика D6 — основной режим</div>
             <div class="prop-desc">
-              Каждый ход герой бросает два шестигранных кубика. Сумма определяет, сколько клеток он может пройти.
+              Каждый ход игроки бросают 2 кубика D6. Каждым кубиком ходит один персонаж. По договорённости можно бросать 4 кубика или 2 раза по 2 кубика, чтобы за ход двигать до 4 персонажей.
             </div>
           </div>
         </div>
@@ -502,7 +507,7 @@
           <div class="prop-text">
             <div class="prop-title">Дубль</div>
             <div class="prop-desc">
-              Если выпал дубль (оба кубика одинаковы) — герой получает <strong>1 карту характеристик</strong> в награду за удачу.
+              Если на обоих кубиках выпало одинаковое число — персонаж получает <strong>1 карту характеристик</strong> в награду за удачу судьбы.
             </div>
           </div>
         </div>
@@ -518,26 +523,32 @@
           <span class="move-icon">🚶</span>
           <span class="move-name">Пешее движение</span>
           <div class="move-body">
-            Основной способ странствия. Герой перемещается на столько клеток, сколько выпало на костях.
+            Основной способ странствия. Персонажи перемещаются строго по горизонтали и вертикали — по диагонали ходить нельзя. Один кубик — один персонаж.
           </div>
         </div>
 
-        <div class="move-card ph">
-          <span class="move-icon">🐴</span>
-          <span class="move-name">Верхом <span class="ph-tag">скоро</span></span>
-          <div class="move-body">Правила верховой езды ещё не описаны…</div>
+        <div class="move-card">
+          <span class="move-icon">🌊</span>
+          <span class="move-name">По реке</span>
+          <div class="move-body">
+            Каждая речная клетка стоит <strong>2 очка хода</strong>. Проход через 2 речные клетки — 4 очка.
+          </div>
         </div>
 
-        <div class="move-card ph">
-          <span class="move-icon">🚣</span>
-          <span class="move-name">По воде <span class="ph-tag">скоро</span></span>
-          <div class="move-body">Правила водного передвижения ещё не описаны…</div>
-        </div>
-
-        <div class="move-card ph">
+        <div class="move-card">
           <span class="move-icon">🌀</span>
-          <span class="move-name">Телепортация <span class="ph-tag">скоро</span></span>
-          <div class="move-body">Тайны мгновенного перемещения ещё не раскрыты…</div>
+          <span class="move-name">Телепортация</span>
+          <div class="move-body">
+            Предмет «Телепорт» из секретов позволяет мгновенно переместить персонажа на любую клетку карты.
+          </div>
+        </div>
+
+        <div class="move-card">
+          <span class="move-icon">🌲</span>
+          <span class="move-name">Сруб дерева</span>
+          <div class="move-body">
+            Персонаж, срубающий дерево, тратит меньший кубик и <strong>пропускает ход</strong>. Остальные персонажи движутся как обычно.
+          </div>
         </div>
 
       </div>
@@ -551,32 +562,32 @@
         <div class="prop-item">
           <div class="prop-icon">🌾</div>
           <div class="prop-text">
-            <div class="prop-title">Равнина</div>
-            <div class="prop-desc ph">Модификатор движения ещё не определён…</div>
+            <div class="prop-title">Обычная клетка</div>
+            <div class="prop-desc">Стоит 1 очко хода. Базовое передвижение без штрафов.</div>
           </div>
         </div>
 
         <div class="prop-item">
           <div class="prop-icon">🌲</div>
           <div class="prop-text">
-            <div class="prop-title">Лес</div>
-            <div class="prop-desc ph">Модификатор движения ещё не определён…</div>
+            <div class="prop-title">Деревья</div>
+            <div class="prop-desc">Если персонаж срубает дерево — тратится меньший кубик, ход пропускается.</div>
           </div>
         </div>
 
         <div class="prop-item">
           <div class="prop-icon">⛰️</div>
           <div class="prop-text">
-            <div class="prop-title">Горы</div>
-            <div class="prop-desc ph">Модификатор движения ещё не определён…</div>
+            <div class="prop-title">Река</div>
+            <div class="prop-desc">Каждая клетка стоит 2 очка хода. Недостаточно очков — нельзя войти.</div>
           </div>
         </div>
 
         <div class="prop-item">
           <div class="prop-icon">🌿</div>
           <div class="prop-text">
-            <div class="prop-title">Болото <span class="ph-tag">скоро</span></div>
-            <div class="prop-desc ph">Модификатор движения ещё не определён…</div>
+            <div class="prop-title">Камни (Скалы)</div>
+            <div class="prop-desc">Непроходимы — любое движение строго в обход.</div>
           </div>
         </div>
 
@@ -591,32 +602,32 @@
         <div class="prop-item">
           <div class="prop-icon">⛔</div>
           <div class="prop-text">
-            <div class="prop-title">Препятствия <span class="ph-tag">скоро</span></div>
-            <div class="prop-desc ph">Что останавливает движение — ещё не описано…</div>
+            <div class="prop-title">Камни и перманентная территория врага</div>
+            <div class="prop-desc">На перманентно захваченную клетку противника наступить нельзя. Путь прокладывается в обход.</div>
           </div>
         </div>
 
         <div class="prop-item">
           <div class="prop-icon">⚔️</div>
           <div class="prop-text">
-            <div class="prop-title">Встреча с противником <span class="ph-tag">скоро</span></div>
-            <div class="prop-desc ph">Как столкновение влияет на ход — ещё не описано…</div>
+            <div class="prop-title">Встреча с противником</div>
+            <div class="prop-desc">Когда персонаж подходит вплотную к вражескому персонажу или монстру — начинается битва.</div>
           </div>
         </div>
 
         <div class="prop-item">
           <div class="prop-icon">🏰</div>
           <div class="prop-text">
-            <div class="prop-title">Постройки <span class="ph-tag">скоро</span></div>
-            <div class="prop-desc ph">Влияние строений на передвижение — ещё не описано…</div>
+            <div class="prop-title">Захват при движении</div>
+            <div class="prop-desc">При наступлении на нейтральную или чужую (не перманентную) клетку — она захватывается, тратя 1 очко захвата.</div>
           </div>
         </div>
 
         <div class="prop-item">
           <div class="prop-icon">🌙</div>
           <div class="prop-text">
-            <div class="prop-title">Ночное движение <span class="ph-tag">скоро</span></div>
-            <div class="prop-desc ph">Особенности ночных странствий — ещё не описаны…</div>
+            <div class="prop-title">Направление движения</div>
+            <div class="prop-desc">Только по горизонтали и вертикали. Диагональное движение запрещено.</div>
           </div>
         </div>
 

@@ -439,11 +439,15 @@
     <span class="nav-sep">·</span>
     <a href="landscape.html">🏔 Ландшафт</a>
     <span class="nav-sep">·</span>
+    <a href="capture.html">🏴 Захват</a>
+    <span class="nav-sep">·</span>
     <a href="movement.html">🌀 Движение</a>
     <span class="nav-sep">·</span>
     <a href="characteristics.html">🃏 Характеристики</a>
     <span class="nav-sep">·</span>
     <a href="battles.html" class="active">⚔ Битвы</a>
+    <span class="nav-sep">·</span>
+    <a href="disasters.html">⚡ Бедствия</a>
   </div>
 
   <div class="nav-mobile-row">
@@ -455,9 +459,11 @@
   <div class="nav-dropdown" id="nav-dropdown">
     <a href="index.html"><span class="nav-icon">⚔</span> Главная</a>
     <a href="landscape.html"><span class="nav-icon">🏔</span> Ландшафт</a>
+    <a href="capture.html"><span class="nav-icon">🏴</span> Захват</a>
     <a href="movement.html"><span class="nav-icon">🌀</span> Движение</a>
     <a href="characteristics.html"><span class="nav-icon">🃏</span> Характеристики</a>
     <a href="battles.html" class="active"><span class="nav-icon">⚔</span> Битвы</a>
+    <a href="disasters.html"><span class="nav-icon">⚡</span> Бедствия</a>
   </div>
 </nav>
 
@@ -473,8 +479,7 @@
       <div class="subtitle">Искусство войны и правила сражений</div>
     </div>
 
-    <div class="placeholder-banner">
-      <div class="stamp">✦ В разработке ✦</div><br>
+    <br>
       Сей свиток ещё пишется кровью и сталью — законы битв не изречены в полной мере.<br>
       Содержимое будет явлено позднее.
     </div>
@@ -501,7 +506,7 @@
           <div class="prop-text">
             <div class="prop-title">Начало боя</div>
             <div class="prop-desc">
-              Бой начинается, когда герой встаёт на клетку с противником или когда монстр настигает героя.
+              Бой начинается, когда персонаж подходит вплотную к вражескому персонажу или монстру. В битве участвуют <strong>все</strong> персонажи обеих сторон.
             </div>
           </div>
         </div>
@@ -509,9 +514,9 @@
         <div class="prop-item">
           <div class="prop-icon">♣</div>
           <div class="prop-text">
-            <div class="prop-title">Атака</div>
+            <div class="prop-title">Инициатива</div>
             <div class="prop-desc">
-              Одна атака снимает одно ♥ (сердечко) у противника. Количество атак определяется картами крестей.
+              Первый ход — за инициатором битвы. Персонажи выстраиваются в очередь от ближайшего к противнику до дальнего (расстояние считается по горизонтали + вертикали).
             </div>
           </div>
         </div>
@@ -560,32 +565,32 @@
         <div class="prop-item">
           <div class="prop-icon">1️⃣</div>
           <div class="prop-text">
-            <div class="prop-title">Инициатива <span class="ph-tag">скоро</span></div>
-            <div class="prop-desc ph">Кто бьёт первым — ещё не определено…</div>
+            <div class="prop-title">Бросок D6 — выбор персонажа</div>
+            <div class="prop-desc">Бросается D6. Ход делает персонаж с номером выпавшего числа. Если такого нет — ход переходит к оппоненту.</div>
           </div>
         </div>
 
         <div class="prop-item">
           <div class="prop-icon">2️⃣</div>
           <div class="prop-text">
-            <div class="prop-title">Нанесение урона <span class="ph-tag">скоро</span></div>
-            <div class="prop-desc ph">Подробная механика расчёта урона ещё не описана…</div>
+            <div class="prop-title">Колесо битвы (D4)</div>
+            <div class="prop-desc">Если персонаж найден — крутится колесо (D4): 1 — Атака прошла; 2 — Атака заблокирована; 3 — Противник контратаковал; 4 — Критический урон (D20, формула: атака + 5 × выпавшее число% от атаки); 5 — Попадание в уязвимую зону (урон только по HP, защита не считается).</div>
           </div>
         </div>
 
         <div class="prop-item">
           <div class="prop-icon">3️⃣</div>
           <div class="prop-text">
-            <div class="prop-title">Ответный удар <span class="ph-tag">скоро</span></div>
-            <div class="prop-desc ph">Как противник наносит урон герою — ещё не описано…</div>
+            <div class="prop-title">Смерть персонажа</div>
+            <div class="prop-desc">Если здоровье опускается до нуля — персонаж погибает. Он перемещается на стартовую клетку, характеристики сбрасываются. Предметы «Телепорт» и «Лагерь» остаются при нём.</div>
           </div>
         </div>
 
         <div class="prop-item">
           <div class="prop-icon">4️⃣</div>
           <div class="prop-text">
-            <div class="prop-title">Завершение боя <span class="ph-tag">скоро</span></div>
-            <div class="prop-desc ph">Условия победы и поражения — ещё не описаны…</div>
+            <div class="prop-title">Конец битвы</div>
+            <div class="prop-desc">Выжившие остаются на своих позициях. Победитель забирает территорию вокруг клетки зачинщика ромбом, радиус — бросок D6.</div>
           </div>
         </div>
 
@@ -600,24 +605,24 @@
         <div class="prop-item">
           <div class="prop-icon">🏆</div>
           <div class="prop-text">
-            <div class="prop-title">Победа <span class="ph-tag">скоро</span></div>
-            <div class="prop-desc ph">Что получает победитель — ещё не описано…</div>
+            <div class="prop-title">Победа</div>
+            <div class="prop-desc">Победитель перманентно захватывает территорию вокруг места битвы ромбом (радиус — D6).</div>
           </div>
         </div>
 
         <div class="prop-item">
           <div class="prop-icon">💀</div>
           <div class="prop-text">
-            <div class="prop-title">Поражение <span class="ph-tag">скоро</span></div>
-            <div class="prop-desc ph">Что теряет проигравший — ещё не описано…</div>
+            <div class="prop-title">Поражение</div>
+            <div class="prop-desc">Павший персонаж возвращается на стартовую клетку. Все характеристики сбрасываются до начального значения. Телепорт и лагерь сохраняются.</div>
           </div>
         </div>
 
         <div class="prop-item">
           <div class="prop-icon">🏃</div>
           <div class="prop-text">
-            <div class="prop-title">Бегство <span class="ph-tag">скоро</span></div>
-            <div class="prop-desc ph">Можно ли сбежать из боя — ещё не описано…</div>
+            <div class="prop-title">Монстр не побеждён</div>
+            <div class="prop-desc">Если монстра победить не удалось — территория остаётся нейтральной.</div>
           </div>
         </div>
 
@@ -626,37 +631,29 @@
 
     <!-- BESTIARY PREVIEW -->
     <div class="section">
-      <h2>Бестиарий</h2>
+      <h2>Джокеры в битве</h2>
       <div class="battle-grid">
 
-        <div class="battle-card ph">
-          <span class="battle-icon">🐺</span>
-          <span class="battle-name">Волк <span class="ph-tag">скоро</span></span>
-          <div class="battle-body">Характеристики и повадки ещё не описаны…</div>
+        <div class="battle-card">
+          <span class="battle-icon">🃏</span>
+          <span class="battle-name">Красный джокер</span>
+          <div class="battle-body">
+            Воскрешает персонажа прямо во время битвы. Применяется немедленно при гибели.
+          </div>
         </div>
 
-        <div class="battle-card ph">
-          <span class="battle-icon">🕷️</span>
-          <span class="battle-name">Гигантский паук <span class="ph-tag">скоро</span></span>
-          <div class="battle-body">Характеристики и повадки ещё не описаны…</div>
-        </div>
-
-        <div class="battle-card ph">
-          <span class="battle-icon">💀</span>
-          <span class="battle-name">Скелет <span class="ph-tag">скоро</span></span>
-          <div class="battle-body">Характеристики и повадки ещё не описаны…</div>
-        </div>
-
-        <div class="battle-card ph">
-          <span class="battle-icon">🐉</span>
-          <span class="battle-name">Дракон <span class="ph-tag">скоро</span></span>
-          <div class="battle-body">Характеристики и повадки ещё не описаны…</div>
+        <div class="battle-card">
+          <span class="battle-icon">🂿</span>
+          <span class="battle-name">Чёрный джокер</span>
+          <div class="battle-body">
+            Мгновенно убивает вражеского персонажа. Против монстра — наносит урон равный половине его HP.
+          </div>
         </div>
 
       </div>
     </div>
 
-    <div class="divider">✦ · ✦ · ✦</div>
+    <div class="divider"><div class="divider">✦ · ✦ · ✦</div>
   </div>
 </div>
 

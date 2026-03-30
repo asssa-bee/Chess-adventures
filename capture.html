@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Захват территории — Chess Adventures</title>
+  <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Cinzel:wght@400;700;900&family=Cinzel+Decorative:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #2a1a0e;
+      --ink-light: #4a3520;
+      --gold: #b8860b;
+      --gold-light: #daa520;
+      --teal: #1a5a52;
+      --teal-mid: #226a60;
+      --teal-light: #3a8a7a;
+      --teal-pale: #5aaa98;
+      --teal-glow: #7acaba;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { min-height: 100%; overflow-x: hidden; }
+
+    body {
+      font-family: 'IM Fell English', Georgia, serif;
+      background: #071414;
+      color: var(--ink);
+      line-height: 1.6;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 15% 25%, rgba(26,90,82,0.22) 0%, transparent 55%),
+        radial-gradient(ellipse at 85% 75%, rgba(10,60,55,0.2) 0%, transparent 55%),
+        radial-gradient(ellipse at 50% 0%, rgba(90,170,152,0.06) 0%, transparent 45%),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.07'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* === NAV === */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: linear-gradient(to bottom, #050e0e 0%, #0a1818 100%);
+      border-bottom: 1px solid #1a4a44;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.7), inset 0 -1px 0 rgba(90,170,152,0.12);
+    }
+
+    .nav-desktop {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      padding: 0 20px;
+    }
+    .nav-sep { color: var(--gold); opacity: 0.35; font-size: 1em; user-select: none; }
+
+    .nav-desktop a {
+      font-family: 'Cinzel', serif;
+      font-size: 0.75em;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #70a898;
+      text-decoration: none;
+      padding: 15px 11px;
+      position: relative;
+      transition: color 0.2s;
+      white-space: nowrap;
+    }
+    .nav-desktop a::after {
+      content: '';
+      position: absolute;
+      bottom: 9px; left: 50%;
+      transform: translateX(-50%) scaleX(0);
+      width: 70%; height: 1px;
+      background: var(--teal-glow);
+      transition: transform 0.25s;
+    }
+    .nav-desktop a:hover { color: var(--teal-glow); }
+    .nav-desktop a:hover::after { transform: translateX(-50%) scaleX(1); }
+    .nav-desktop a.active { color: #a0e0d0; }
+    .nav-desktop a.active::after { transform: translateX(-50%) scaleX(1); background: #a0e0d0; }
+
+    .nav-mobile-row {
+      display: none;
+      height: 50px;
+      padding: 0 16px;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-mobile-label {
+      font-family: 'Cinzel', serif;
+      font-size: 0.8em;
+      color: #70a898;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+    }
+    .hamburger {
+      background: none;
+      border: 1px solid rgba(112,168,152,0.3);
+      border-radius: 4px;
+      padding: 8px 10px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .hamburger span {
+      display: block; width: 20px; height: 2px;
+      background: #70a898; border-radius: 2px;
+      transition: transform 0.25s, opacity 0.2s;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+    .nav-dropdown {
+      display: none;
+      flex-direction: column;
+      background: #050e0e;
+      border-top: 1px solid rgba(26,74,68,0.4);
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height 0.35s ease;
+    }
+    .nav-dropdown.open { max-height: 500px; }
+    .nav-dropdown a {
+      font-family: 'Cinzel', serif;
+      font-size: 0.8em;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: #70a898;
+      text-decoration: none;
+      padding: 13px 20px;
+      border-bottom: 1px solid rgba(26,74,68,0.25);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: background 0.2s, color 0.2s;
+    }
+    .nav-dropdown a:hover { background: rgba(90,170,152,0.07); color: var(--teal-glow); }
+    .nav-dropdown a.active { color: #a0e0d0; }
+    .nav-icon { font-size: 1.1em; min-width: 22px; }
+
+    @media (max-width: 680px) {
+      .nav-desktop    { display: none; }
+      .nav-mobile-row { display: flex; }
+      .nav-dropdown   { display: flex; }
+    }
+
+    /* === PAGE === */
+    .page {
+      position: relative;
+      z-index: 1;
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 28px 12px 80px;
+    }
+
+    /* === SCROLL === */
+    .scroll {
+      background: linear-gradient(to bottom, #c8dcd8 0%, #d8ece8 8%, #dcf0ec 50%, #d8ece8 92%, #c0d4d0 100%);
+      border-radius: 8px 8px 12px 12px;
+      padding: 50px 40px 60px;
+      box-shadow:
+        0 0 0 2px #5a9a8a,
+        0 0 0 5px #2a6a5a,
+        0 0 0 7px #5a9a8a,
+        0 20px 60px rgba(0,0,0,0.75),
+        inset 0 0 40px rgba(40,120,100,0.18);
+      position: relative;
+    }
+    .scroll::before, .scroll::after {
+      content: '';
+      display: block;
+      height: 22px;
+      background: linear-gradient(to bottom, #5aaa90, #1a7a60, #5aaa90, #1a7a60, #5aaa90);
+      border-radius: 4px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5), inset 0 1px 2px rgba(120,240,200,0.25);
+      position: absolute;
+      left: -4px; right: -4px;
+    }
+    .scroll::before { top: -6px; }
+    .scroll::after  { bottom: -6px; }
+
+    .roller-top, .roller-bottom {
+      position: absolute; left: -12px; right: -12px;
+      height: 22px; display: flex;
+      justify-content: space-between;
+      pointer-events: none; z-index: 10;
+    }
+    .roller-top { top: -6px; }
+    .roller-bottom { bottom: -6px; }
+    .roller-top .knob, .roller-bottom .knob {
+      width: 22px; height: 22px; border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #90d8c0, #1a7a60);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+    }
+
+    /* === TITLE === */
+    .title-block { text-align: center; margin-bottom: 28px; }
+    .ornament { color: var(--teal-mid); font-size: 1.6em; letter-spacing: 0.15em; opacity: 0.8; user-select: none; }
+    h1 {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: clamp(1.3rem, 5vw, 2.3rem);
+      color: #1a5a50;
+      text-shadow: 1px 1px 0 #90c8b8, 2px 2px 4px rgba(0,0,0,0.25);
+      letter-spacing: 0.06em;
+      margin: 8px 0; line-height: 1.2;
+    }
+    .subtitle { font-family: 'IM Fell English', serif; font-style: italic; color: var(--teal-mid); font-size: 1.05em; margin-top: 4px; }
+
+    /* === SECTION === */
+    .section { margin: 36px 0 20px; }
+    h2 {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1rem, 3.5vw, 1.4rem);
+      color: #1a5a50;
+      text-align: center;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0 20px;
+      margin-bottom: 18px;
+    }
+    h2::before, h2::after { content: '⸻'; color: var(--teal-mid); opacity: 0.6; margin: 0 12px; font-size: 0.85em; }
+
+    /* === KEYWORD CARDS === */
+    .keyword-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 14px;
+    }
+    .keyword-card {
+      background: linear-gradient(135deg, rgba(255,255,255,0.22) 0%, rgba(40,120,100,0.1) 100%);
+      border: 1px solid rgba(42,122,102,0.4);
+      border-radius: 6px;
+      padding: 18px 18px;
+      position: relative;
+      box-shadow: inset 0 1px 0 rgba(160,240,200,0.25), 0 4px 15px rgba(0,0,0,0.1);
+    }
+    .keyword-card::before, .keyword-card::after {
+      content: '✦'; position: absolute;
+      color: var(--teal-light); opacity: 0.45; font-size: 0.65em;
+    }
+    .keyword-card::before { top: 5px; left: 7px; }
+    .keyword-card::after  { bottom: 5px; right: 7px; }
+    .keyword-icon { font-size: 1.8em; margin-bottom: 6px; display: block; }
+    .keyword-name { font-family: 'Cinzel', serif; font-size: 1em; font-weight: 700; color: var(--ink); letter-spacing: 0.05em; display: block; margin-bottom: 6px; }
+    .keyword-desc { color: var(--ink-light); font-size: 0.93em; line-height: 1.55; border-top: 1px dashed rgba(42,122,102,0.3); padding-top: 8px; margin-top: 4px; }
+
+    /* === PROP ROWS === */
+    .prop-list { display: flex; flex-direction: column; gap: 10px; margin-top: 14px; }
+    .prop-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 14px 18px;
+      background: linear-gradient(90deg, rgba(42,122,102,0.08) 0%, transparent 100%);
+      border-left: 3px solid var(--teal-mid);
+      border-radius: 0 4px 4px 0;
+      transition: background 0.2s;
+    }
+    .prop-item:hover { background: linear-gradient(90deg, rgba(42,122,102,0.15) 0%, transparent 100%); }
+    .prop-icon { font-size: 1.5em; min-width: 30px; text-align: center; margin-top: 2px; }
+    .prop-text { flex: 1; }
+    .prop-title { font-family: 'Cinzel', serif; font-size: 0.92em; font-weight: 700; color: var(--ink); letter-spacing: 0.04em; margin-bottom: 3px; }
+    .prop-desc { font-size: 0.93em; color: var(--ink-light); line-height: 1.55; }
+    .prop-desc strong { color: var(--ink); }
+
+    /* === NOTE BOX === */
+    .note-box {
+      margin-top: 14px;
+      padding: 13px 18px;
+      background: rgba(26,90,82,0.08);
+      border: 1px solid rgba(42,122,102,0.35);
+      border-radius: 5px;
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      font-size: 0.95em;
+      color: var(--ink-light);
+      line-height: 1.6;
+    }
+    .note-box .excl { font-style: normal; font-weight: bold; color: var(--teal-mid); margin-right: 4px; }
+
+    /* === TOKEN LEGEND === */
+    .token-legend { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 14px; }
+    .token-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(40,120,100,0.08) 100%);
+      border: 1px solid rgba(42,122,102,0.35);
+      border-radius: 5px;
+      font-size: 0.93em;
+      color: var(--ink-light);
+      flex: 1;
+      min-width: 200px;
+    }
+    .token-swatch {
+      width: 30px; height: 30px;
+      border-radius: 50%;
+      border: 2px solid rgba(0,0,0,0.12);
+      flex-shrink: 0;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+    .token-swatch.light { background: radial-gradient(circle at 35% 35%, #b0e8d0, #68b898); }
+    .token-swatch.dark  { background: radial-gradient(circle at 35% 35%, #3a8068, #1a5040); }
+    .token-label { font-family: 'Cinzel', serif; font-size: 0.88em; font-weight: 700; color: var(--ink); display: block; margin-bottom: 2px; }
+
+    /* === DIAMOND DIAGRAM === */
+    .diagram-wrap { margin: 16px 0 4px; display: flex; justify-content: center; }
+    .diamond-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 34px);
+      grid-template-rows: repeat(7, 34px);
+      gap: 3px;
+    }
+    .cell {
+      width: 34px; height: 34px;
+      border: 1px solid rgba(42,122,102,0.25);
+      border-radius: 3px;
+      background: rgba(255,255,255,0.12);
+    }
+    .cell.capture {
+      background: rgba(42,122,102,0.38);
+      border-color: rgba(42,122,102,0.6);
+    }
+    .cell.origin {
+      background: rgba(26,90,82,0.78);
+      border-color: #1a7a60;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1em;
+      color: #a0e0d0;
+    }
+    .diagram-caption {
+      text-align: center;
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      font-size: 0.88em;
+      color: var(--ink-light);
+      margin-top: 10px;
+      opacity: 0.8;
+    }
+
+    /* === VICTORY NOTE === */
+    .victory-note {
+      margin: 0 0 32px;
+      padding: 16px 22px;
+      background: rgba(26,90,82,0.06);
+      border: 1px solid rgba(42,122,102,0.3);
+      border-radius: 5px;
+      text-align: center;
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      color: var(--ink-light);
+      font-size: 1em;
+      line-height: 1.65;
+    }
+    .victory-note::before, .victory-note::after { content: ' ❦ '; color: var(--teal-mid); opacity: 0.65; }
+
+    /* === DIVIDER === */
+    .divider { text-align: center; color: var(--teal-mid); opacity: 0.55; font-size: 1.1em; margin: 36px 0 0; letter-spacing: 0.4em; user-select: none; }
+
+    /* === MOBILE === */
+    @media (max-width: 600px) {
+      .scroll { padding: 40px 20px 50px; }
+      .keyword-grid { grid-template-columns: 1fr; gap: 12px; }
+      .token-legend { flex-direction: column; }
+      .page { padding: 20px 10px 80px; }
+      .diamond-grid { grid-template-columns: repeat(7, 28px); grid-template-rows: repeat(7, 28px); }
+      .cell, .cell.origin { width: 28px; height: 28px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-desktop">
+    <a href="index.html">⚔ Главная</a>
+    <span class="nav-sep">·</span>
+    <a href="landscape.html">🏔 Ландшафт</a>
+    <span class="nav-sep">·</span>
+    <a href="capture.html" class="active">🏴 Захват</a>
+    <span class="nav-sep">·</span>
+    <a href="movement.html">🌀 Движение</a>
+    <span class="nav-sep">·</span>
+    <a href="characteristics.html">🃏 Характеристики</a>
+    <span class="nav-sep">·</span>
+    <a href="battles.html">⚔ Битвы</a>
+    <span class="nav-sep">·</span>
+    <a href="disasters.html">⚡ Бедствия</a>
+  </div>
+
+  <div class="nav-mobile-row">
+    <span class="nav-mobile-label">🏴 Захват</span>
+    <button class="hamburger" id="hamburger" aria-label="Меню" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="nav-dropdown" id="nav-dropdown">
+    <a href="index.html"><span class="nav-icon">⚔</span> Главная</a>
+    <a href="landscape.html"><span class="nav-icon">🏔</span> Ландшафт</a>
+    <a href="capture.html" class="active"><span class="nav-icon">🏴</span> Захват</a>
+    <a href="movement.html"><span class="nav-icon">🌀</span> Движение</a>
+    <a href="characteristics.html"><span class="nav-icon">🃏</span> Характеристики</a>
+    <a href="battles.html"><span class="nav-icon">⚔</span> Битвы</a>
+    <a href="disasters.html"><span class="nav-icon">⚡</span> Бедствия</a>
+  </div>
+</nav>
+
+<!-- CONTENT -->
+<div class="page">
+  <div class="scroll">
+    <div class="roller-top"><div class="knob"></div><div class="knob"></div></div>
+    <div class="roller-bottom"><div class="knob"></div><div class="knob"></div></div>
+
+    <div class="title-block">
+      <div class="ornament">🚩 ✦ 🚩</div>
+      <h1>Захват территории</h1>
+      <div class="subtitle">Законы владения землёй и её приватизации</div>
+    </div>
+
+    <div class="victory-note">
+      Побеждает тот, кто захватил оговорённое количество территории — по договорённости игроков до начала партии
+    </div>
+
+    <!-- KEYWORDS -->
+    <div class="section">
+      <h2>Ключевые слова</h2>
+      <div class="keyword-grid">
+
+        <div class="keyword-card">
+          <span class="keyword-icon">🏳️</span>
+          <span class="keyword-name">Захваченная клетка</span>
+          <div class="keyword-desc">
+            Может быть перехвачена противником при наступлении на неё.
+          </div>
+        </div>
+
+        <div class="keyword-card">
+          <span class="keyword-icon">🏴</span>
+          <span class="keyword-name">Перманентно захваченная</span>
+          <div class="keyword-desc">
+            Не может быть перехвачена противником ни при каких обстоятельствах.
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- TOKEN LEGEND -->
+    <div class="section">
+      <h2>Жетоны владения</h2>
+      <div class="token-legend">
+        <div class="token-item">
+          <div class="token-swatch light"></div>
+          <div>
+            <span class="token-label">Светлый жетон</span>
+            Обычный захват — клетку можно отнять
+          </div>
+        </div>
+        <div class="token-item">
+          <div class="token-swatch dark"></div>
+          <div>
+            <span class="token-label">Тёмный жетон</span>
+            Перманентный захват — клетка неприкосновенна
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ORDINARY CAPTURE -->
+    <div class="section">
+      <h2>Обычный захват</h2>
+      <div class="prop-list">
+
+        <div class="prop-item">
+          <div class="prop-icon">💠</div>
+          <div class="prop-text">
+            <div class="prop-title">Очки захвата</div>
+            <div class="prop-desc">
+              Для захвата клеток тратятся <strong>Очки захвата</strong> (масть Бубей). Одна клетка — одно очко захвата.
+            </div>
+          </div>
+        </div>
+
+        <div class="prop-item">
+          <div class="prop-icon">🗺️</div>
+          <div class="prop-text">
+            <div class="prop-title">Условие захвата</div>
+            <div class="prop-desc">
+              При перемещении по карте, если клетка не была захвачена <em>либо</em> была захвачена противником не перманентно — она захватывается и помечается светлым жетоном.
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- PERMANENT CAPTURE -->
+    <div class="section">
+      <h2>Перманентный захват</h2>
+
+      <div class="note-box">
+        <span class="excl">!</span>На перманентно захваченную клетку противник наступить не может. Обязательно должен оставаться свободный проход для противника на другую сторону карты.
+      </div>
+
+      <div class="prop-list">
+
+        <div class="prop-item">
+          <div class="prop-icon">⚔️</div>
+          <div class="prop-text">
+            <div class="prop-title">После битвы</div>
+            <div class="prop-desc">
+              Победитель захватывает территорию вокруг клетки зачинщика битвы в форме ромба. Радиус определяется броском D6.
+            </div>
+          </div>
+        </div>
+
+        <div class="prop-item">
+          <div class="prop-icon">🌲</div>
+          <div class="prop-text">
+            <div class="prop-title">При посадке дерева</div>
+            <div class="prop-desc">
+              Срубленное дерево можно посадить на своей территории — зона <strong>радиусом 2</strong> становится перманентной. Противник не может срубить посаженное дерево. Нейтральная территория в зоне посадки тоже приватизируется.
+            </div>
+          </div>
+        </div>
+
+        <div class="prop-item">
+          <div class="prop-icon">🔥</div>
+          <div class="prop-text">
+            <div class="prop-title">Установка лагеря</div>
+            <div class="prop-desc">
+              Лагерь можно получить из секретов. Костёр приватизирует территорию <strong>радиусом 3</strong> перманентно и лечит союзных персонажей в этой зоне.
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="note-box" style="margin-top:14px;">
+        <span class="excl">!</span>Если монстр не был побеждён — территория остаётся нейтральной.
+      </div>
+    </div>
+
+    <!-- DIAGRAM -->
+    <div class="section">
+      <h2>Пример захвата после битвы</h2>
+      <p style="font-family:'IM Fell English',serif;font-style:italic;font-size:0.95em;color:var(--ink-light);text-align:center;margin-bottom:2px;">
+        На кубике выпало 3 — ромб радиусом 3 клетки
+      </p>
+
+      <div class="diagram-wrap">
+        <div class="diamond-grid" id="diamond"></div>
+      </div>
+      <div class="diagram-caption">★ — клетка зачинщика битвы · тёмные — перманентно захваченная территория</div>
+    </div>
+
+    <div class="divider">✦ · ✦ · ✦</div>
+  </div>
+</div>
+
+<script>
+  /* --- Nav --- */
+  const btn = document.getElementById('hamburger');
+  const dd  = document.getElementById('nav-dropdown');
+  btn.addEventListener('click', () => {
+    const open = dd.classList.toggle('open');
+    btn.classList.toggle('open', open);
+    btn.setAttribute('aria-expanded', String(open));
+  });
+  dd.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    dd.classList.remove('open');
+    btn.classList.remove('open');
+    btn.setAttribute('aria-expanded', 'false');
+  }));
+
+  /* --- Diamond diagram (radius 3, grid 7x7) --- */
+  const grid = document.getElementById('diamond');
+  const CENTER = 3, RADIUS = 3, SIZE = 7;
+  for (let r = 0; r < SIZE; r++) {
+    for (let c = 0; c < SIZE; c++) {
+      const cell = document.createElement('div');
+      const dist = Math.abs(r - CENTER) + Math.abs(c - CENTER);
+      if (r === CENTER && c === CENTER) {
+        cell.className = 'cell origin';
+        cell.textContent = '★';
+      } else if (dist <= RADIUS) {
+        cell.className = 'cell capture';
+      } else {
+        cell.className = 'cell';
+      }
+      grid.appendChild(cell);
+    }
+  }
+</script>
+
+</body>
+</html>
