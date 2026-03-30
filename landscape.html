@@ -27,7 +27,6 @@
       line-height: 1.6;
     }
 
-    /* === BACKGROUND === */
     body::before {
       content: '';
       position: fixed;
@@ -41,7 +40,6 @@
       z-index: 0;
     }
 
-    /* === NAV === */
     nav {
       position: sticky;
       top: 0;
@@ -157,7 +155,6 @@
       .nav-dropdown   { display: flex; }
     }
 
-    /* === PAGE === */
     .page {
       position: relative;
       z-index: 1;
@@ -166,7 +163,6 @@
       padding: 28px 12px 80px;
     }
 
-    /* === SCROLL === */
     .scroll {
       background: linear-gradient(to bottom, #dde8c8 0%, #eaf0d8 8%, #eef3dc 50%, #eaf0d8 92%, #d4e0b8 100%);
       border-radius: 8px 8px 12px 12px;
@@ -206,7 +202,6 @@
       box-shadow: 0 2px 8px rgba(0,0,0,0.5);
     }
 
-    /* === TITLE === */
     .title-block { text-align: center; margin-bottom: 28px; }
     .ornament {
       color: var(--green);
@@ -228,7 +223,6 @@
       font-size: 1.05em; margin-top: 4px;
     }
 
-    /* === LORE BANNER === */
     .lore-banner {
       margin: 0 0 32px;
       padding: 16px 22px;
@@ -247,7 +241,6 @@
       color: var(--green-light); opacity: 0.65;
     }
 
-    /* === SECTION HEADERS === */
     .section { margin: 36px 0 20px; }
     h2 {
       font-family: 'Cinzel', serif;
@@ -266,7 +259,6 @@
       opacity: 0.6; margin: 0 12px; font-size: 0.85em;
     }
 
-    /* === TERRAIN GRID === */
     .terrain-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -309,7 +301,6 @@
       padding-top: 10px; margin-top: 8px;
     }
 
-    /* === PROPERTY ROWS === */
     .prop-list { display: flex; flex-direction: column; gap: 10px; margin-top: 14px; }
 
     .prop-item {
@@ -340,7 +331,6 @@
     }
     .prop-desc strong { color: var(--ink); }
 
-    /* === DIVIDER === */
     .divider {
       text-align: center; color: var(--green);
       opacity: 0.55; font-size: 1.1em;
@@ -348,11 +338,160 @@
       user-select: none;
     }
 
-    /* === MOBILE === */
+    /* === MAP === */
+    .map-frame {
+      background:
+        radial-gradient(ellipse at 50% 50%, rgba(200,190,160,0.25) 0%, transparent 70%),
+        rgba(45, 35, 20, 0.05);
+      border: 1px solid rgba(74, 122, 42, 0.35);
+      border-radius: 6px;
+      padding: 22px 16px 20px;
+      margin-top: 8px;
+      position: relative;
+    }
+    .map-frame::before {
+      content: '🗺️';
+      position: absolute;
+      top: -14px; left: 50%;
+      transform: translateX(-50%);
+      font-size: 1.5em;
+      background: #eaf0d8;
+      padding: 0 10px;
+      line-height: 1;
+    }
+
+    .map-subtitle {
+      text-align: center;
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      font-size: 0.88em;
+      color: var(--ink-light);
+      opacity: 0.7;
+      margin-bottom: 14px;
+    }
+
+    .map-legend {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 6px 14px;
+      margin-bottom: 18px;
+      font-size: 0.84em;
+      color: var(--ink-light);
+      font-family: 'IM Fell English', serif;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      white-space: nowrap;
+    }
+    .legend-swatch {
+      display: inline-block;
+      width: 13px; height: 13px;
+      border-radius: 2px;
+      border: 1px solid rgba(0,0,0,0.18);
+    }
+    .swatch-empty { background: #d8d0b8; }
+    .swatch-rock  { background: #4a4a4a; }
+    .swatch-tree  { background: #2d8a27; }
+    .swatch-water { background: #4a90c4; }
+    .swatch-start { background: #daa520; }
+
+    .map-wrapper {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 4px;
+    }
+
+    .map-grid {
+      display: grid;
+      grid-template-columns: repeat(24, 1fr);
+      gap: 1px;
+      max-width: 580px;
+      min-width: 290px;
+      margin: 0 auto;
+      background: rgba(45, 55, 30, 0.35);
+      border: 2px solid rgba(74, 100, 42, 0.55);
+      border-radius: 4px;
+      padding: 2px;
+      box-shadow:
+        0 4px 20px rgba(0,0,0,0.15),
+        inset 0 0 10px rgba(0,0,0,0.06);
+    }
+
+    .map-cell {
+      aspect-ratio: 1;
+      border-radius: 1px;
+      transition: transform 0.15s, box-shadow 0.15s;
+      cursor: default;
+      position: relative;
+    }
+    .map-cell:hover {
+      transform: scale(1.5);
+      z-index: 5;
+      box-shadow: 0 0 8px rgba(0,0,0,0.55);
+      border-radius: 2px;
+    }
+
+    .cell-empty {
+      background: #d8d0b8;
+    }
+    .cell-rock {
+      background: linear-gradient(135deg, #5c5c5c, #3a3a3a);
+      box-shadow: inset 0 1px 2px rgba(0,0,0,0.35);
+    }
+    .cell-tree {
+      background: linear-gradient(135deg, #3ca832, #1f6a14);
+      box-shadow: inset 0 1px 2px rgba(0,40,0,0.3);
+    }
+    .cell-water {
+      background: linear-gradient(135deg, #5a9cd8, #3878b8);
+      box-shadow: inset 0 1px 2px rgba(0,0,60,0.2);
+      animation: waterShimmer 3s ease-in-out infinite;
+    }
+    .cell-start {
+      background: linear-gradient(135deg, #ecc030, #c89418);
+      box-shadow:
+        inset 0 1px 2px rgba(255,220,80,0.5),
+        0 0 5px rgba(218,165,32,0.35);
+      animation: startGlow 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes waterShimmer {
+      0%, 100% { opacity: 1; }
+      50%      { opacity: 0.78; }
+    }
+    @keyframes startGlow {
+      0%   { box-shadow: inset 0 1px 2px rgba(255,220,80,0.5), 0 0 3px rgba(218,165,32,0.2); }
+      100% { box-shadow: inset 0 1px 2px rgba(255,220,80,0.5), 0 0 7px rgba(218,165,32,0.5); }
+    }
+
+    /* Tooltip */
+    .map-cell[data-tip]:hover::after {
+      content: attr(data-tip);
+      position: absolute;
+      bottom: calc(100% + 6px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: #1a1a10;
+      color: #d0c8a0;
+      font-family: 'IM Fell English', serif;
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 3px;
+      white-space: nowrap;
+      pointer-events: none;
+      z-index: 20;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+    }
+
     @media (max-width: 600px) {
       .scroll { padding: 40px 20px 50px; }
       .terrain-grid { grid-template-columns: 1fr; gap: 12px; }
       .page { padding: 20px 10px 80px; }
+      .map-frame { padding: 20px 10px 16px; }
+      .map-cell:hover::after { display: none; }
     }
   </style>
 </head>
@@ -447,6 +586,24 @@
           </div>
         </div>
 
+      </div>
+    </div>
+
+    <!-- MAP -->
+    <div class="section">
+      <h2>Карта мира</h2>
+      <div class="map-frame">
+        <div class="map-subtitle">Поле 24 × 24 клетки — наведите на ячейку для подробностей</div>
+        <div class="map-legend">
+          <span class="legend-item"><span class="legend-swatch swatch-empty"></span> Равнина</span>
+          <span class="legend-item"><span class="legend-swatch swatch-rock"></span> Камни</span>
+          <span class="legend-item"><span class="legend-swatch swatch-tree"></span> Деревья</span>
+          <span class="legend-item"><span class="legend-swatch swatch-water"></span> Река</span>
+          <span class="legend-item"><span class="legend-swatch swatch-start"></span> Старт</span>
+        </div>
+        <div class="map-wrapper">
+          <div class="map-grid" id="map-grid"></div>
+        </div>
       </div>
     </div>
 
@@ -565,6 +722,7 @@
 </div>
 
 <script>
+  /* ─── NAV ─── */
   const btn = document.getElementById('hamburger');
   const dd  = document.getElementById('nav-dropdown');
   btn.addEventListener('click', () => {
@@ -577,7 +735,65 @@
     btn.classList.remove('open');
     btn.setAttribute('aria-expanded', 'false');
   }));
+
+  /* ─── MAP ─── */
+  const MAP_ROWS = [
+    // 24 chars per row — . empty, R rock, T tree, W water, S start
+    // Reconstructed from the PDF map illustration
+    "S......WWW.............S", // row 1
+    "..RR.RRWW..............T", // row 2
+    "..R....W..............TT", // row 3
+    ".....T.................T", // row 4
+    "........................", // row 5
+    "...RR.RR................", // row 6
+    "........R...............", // row 7
+    ".......RR.........RR....", // row 8
+    ".....TT.....R...........", // row 9
+    "..................RR....", // row 10
+    "....T..............R....", // row 11
+    "......TT..RR............", // row 12
+    "........................", // row 13
+    "...R....................", // row 14
+    "........................", // row 15
+    "..T.....................", // row 16
+    ".R......................", // row 17
+    "...TT...................", // row 18
+    "TT.TTT..................", // row 19
+    "T.TT.T............R.....", // row 20
+    "...TT.............R.....", // row 21
+    "........................", // row 22
+    ".................RR.....", // row 23
+    "S......................S", // row 24
+  ];
+
+  const CELL_CLASS = {
+    '.': 'cell-empty',
+    'R': 'cell-rock',
+    'T': 'cell-tree',
+    'W': 'cell-water',
+    'S': 'cell-start',
+  };
+
+  const CELL_LABEL = {
+    '.': 'Равнина',
+    'R': 'Камень',
+    'T': 'Дерево',
+    'W': 'Река',
+    'S': 'Старт',
+  };
+
+  const grid = document.getElementById('map-grid');
+
+  MAP_ROWS.forEach((row, r) => {
+    for (let c = 0; c < row.length; c++) {
+      const ch  = row[c];
+      const div = document.createElement('div');
+      div.className = 'map-cell ' + (CELL_CLASS[ch] || 'cell-empty');
+      div.setAttribute('data-tip', (CELL_LABEL[ch] || '') + '  (' + (c + 1) + ', ' + (r + 1) + ')');
+      grid.appendChild(div);
+    }
+  });
 </script>
 
 </body>
-</html>
+  </html>
