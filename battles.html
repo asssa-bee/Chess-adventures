@@ -292,55 +292,59 @@
     /* === GRID ILLUSTRATION === */
     .grid-illustration {
       margin: 24px auto 20px;
-      max-width: 380px;
+      max-width: 400px;
+      background: #fff;
+      padding: 16px;
     }
     .grid-illustration-title {
       font-family: 'Cinzel', serif;
-      font-size: 0.8em;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--crim-mid);
+      font-size: 0.85em;
+      letter-spacing: 0.08em;
+      color: var(--ink);
       text-align: center;
-      margin-bottom: 12px;
+      margin-bottom: 16px;
+      font-weight: 400;
     }
     .grid-table {
       margin: 0 auto;
       border-collapse: collapse;
+      background: #fff;
     }
     .grid-table td {
-      width: 44px; height: 44px;
+      width: 38px; height: 38px;
       text-align: center; vertical-align: middle;
-      border: 1px solid rgba(139,50,40,0.25);
+      border: 1px solid rgba(100,100,100,0.3);
       font-family: 'Cinzel', serif;
       font-size: 0.8em;
-      color: var(--ink-light);
-      background: rgba(255,255,255,0.15);
+      color: var(--ink);
+      background: #fff;
       position: relative;
     }
     .grid-table td.empty {
-      border-color: transparent;
-      background: transparent;
+      border: 1px solid rgba(100,100,100,0.15);
+      background: #fff;
     }
     .grid-table td.hero {
-      background: rgba(139,32,32,0.12);
+      color: #2e7d32;
       font-weight: 700;
-      color: #6a1a1a;
-      font-size: 1.05em;
+      font-size: 0.85em;
+    }
+    .grid-table td.hero-o {
+      color: #2e7d32;
+      font-weight: 700;
+      font-size: 0.85em;
     }
     .grid-table td.enemy {
-      background: rgba(200,40,40,0.18);
-      color: #cc2222;
-      font-weight: 900;
-      font-size: 1.1em;
+      color: #c62828;
+      font-weight: 700;
+      font-size: 0.85em;
     }
     .grid-table td.path {
-      background: rgba(139,32,32,0.06);
+      background: rgba(200,200,200,0.15);
     }
     .grid-table td .dist {
-      display: block;
-      font-size: 0.7em;
-      color: var(--crim-mid);
-      opacity: 0.8;
+      font-size: 0.75em;
+      color: #000;
       font-weight: 700;
     }
 
@@ -584,15 +588,18 @@
 
       <!-- GRID ILLUSTRATION -->
       <div class="grid-illustration">
-        <div class="grid-illustration-title">Пример: расстояние от O до F — 6 клеток</div>
+        <div class="grid-illustration-title">Пример от самого ближнего O до самого дальнего F расстояние 6 клеток</div>
         <table class="grid-table">
           <tr>
             <td class="empty"></td>
             <td class="empty"></td>
             <td class="empty"></td>
-            <td class="hero">T<span class="dist">1</span></td>
-            <td class="path"><span class="dist">1</span></td>
-            <td class="hero">O<span class="dist">0</span></td>
+            <td class="empty"></td>
+            <td class="empty"></td>
+            <td class="empty"></td>
+            <td class="empty"></td>
+            <td class="empty"></td>
+            <td class="empty"></td>
           </tr>
           <tr>
             <td class="empty"></td>
@@ -600,38 +607,86 @@
             <td class="empty"></td>
             <td class="empty"></td>
             <td class="empty"></td>
-            <td class="path"><span class="dist">1</span></td>
+            <td class="empty"></td>
+            <td class="enemy">X</td>
+            <td class="empty"></td>
+            <td class="empty"></td>
           </tr>
           <tr>
+            <td class="empty"></td>
+            <td class="empty"></td>
+            <td class="empty"></td>
+            <td class="empty"></td>
+            <td class="hero">T</td>
+            <td class="path"><span class="dist">1</span></td>
+            <td class="hero-o">O</td>
+            <td class="empty"></td>
+            <td class="empty"></td>
+          </tr>
+          <tr>
+            <td class="empty"></td>
+            <td class="empty"></td>
+            <td class="empty"></td>
+            <td class="empty"></td>
+            <td class="empty"></td>
+            <td class="empty"></td>
+            <td class="path"><span class="dist">1</span></td>
+            <td class="empty"></td>
+            <td class="empty"></td>
+          </tr>
+          <tr>
+            <td class="empty"></td>
             <td class="empty"></td>
             <td class="empty"></td>
             <td class="empty"></td>
             <td class="empty"></td>
             <td class="empty"></td>
             <td class="path"><span class="dist">2</span></td>
+            <td class="empty"></td>
+            <td class="empty"></td>
           </tr>
           <tr>
-            <td class="hero">F<span class="dist">6</span></td>
+            <td class="empty"></td>
+            <td class="empty"></td>
+            <td class="hero">F</td>
+            <td class="path"><span class="dist">6</span></td>
             <td class="path"><span class="dist">5</span></td>
             <td class="path"><span class="dist">4</span></td>
-            <td class="enemy">✕<span class="dist">3</span></td>
+            <td class="path"><span class="dist">3</span></td>
             <td class="empty"></td>
             <td class="empty"></td>
           </tr>
           <tr>
+            <td class="empty"></td>
+            <td class="empty"></td>
             <td class="empty"></td>
             <td class="empty"></td>
             <td class="empty"></td>
             <td class="empty"></td>
             <td class="path"><span class="dist">4</span></td>
             <td class="empty"></td>
+            <td class="empty"></td>
           </tr>
           <tr>
             <td class="empty"></td>
             <td class="empty"></td>
             <td class="empty"></td>
             <td class="empty"></td>
-            <td class="hero">H<span class="dist">5</span></td>
+            <td class="empty"></td>
+            <td class="hero">H</td>
+            <td class="path"><span class="dist">5</span></td>
+            <td class="empty"></td>
+            <td class="empty"></td>
+          </tr>
+          <tr>
+            <td class="empty"></td>
+            <td class="empty"></td>
+            <td class="empty"></td>
+            <td class="empty"></td>
+            <td class="empty"></td>
+            <td class="empty"></td>
+            <td class="empty"></td>
+            <td class="empty"></td>
             <td class="empty"></td>
           </tr>
         </table>
@@ -667,7 +722,7 @@
           <div class="prop-icon">🎡</div>
           <div class="prop-text">
             <div class="prop-title">Шаг 2 — Колесо битвы</div>
-            <div class="prop-desc">Если персонаж найден — крутится колесо битвы (можно использовать D4 или D5). Результат определяет исход удара.</div>
+            <div class="prop-desc">Если такой есть — крутится колесо битвы (можно использовать D4). Результат определяет исход удара.</div>
           </div>
         </div>
 
@@ -714,42 +769,6 @@
     </div>
 
     <!-- ============================================ -->
-    <!--              ВИДЫ СРАЖЕНИЙ                   -->
-    <!-- ============================================ -->
-    <div class="section">
-      <h2>Виды сражений</h2>
-      <div class="battle-grid">
-
-        <div class="battle-card">
-          <span class="battle-icon">👹</span>
-          <span class="battle-name">Бой с монстром</span>
-          <div class="battle-body">
-            Герой сталкивается с чудовищем на клетке. Монстры обитают в определённых землях и стерегут добычу.
-          </div>
-        </div>
-
-        <div class="battle-card ph">
-          <span class="battle-icon">⚔️</span>
-          <span class="battle-name">Бой с другим героем <span class="ph-tag">скоро</span></span>
-          <div class="battle-body">Правила PvP-сражений ещё не описаны…</div>
-        </div>
-
-        <div class="battle-card ph">
-          <span class="battle-icon">🏰</span>
-          <span class="battle-name">Осада <span class="ph-tag">скоро</span></span>
-          <div class="battle-body">Правила осады укреплений ещё не описаны…</div>
-        </div>
-
-        <div class="battle-card ph">
-          <span class="battle-icon">🐉</span>
-          <span class="battle-name">Босс <span class="ph-tag">скоро</span></span>
-          <div class="battle-body">Особые правила битв с боссами ещё не описаны…</div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- ============================================ -->
     <!--              КОНЕЦ БИТВЫ                     -->
     <!-- ============================================ -->
     <div class="section">
@@ -777,22 +796,6 @@
           <div class="prop-text">
             <div class="prop-title">Предметы после гибели</div>
             <div class="prop-desc">Предметы <strong>«Телепорт»</strong> и <strong>«Лагерь»</strong> остаются при погибшем персонаже и не теряются.</div>
-          </div>
-        </div>
-
-        <div class="prop-item">
-          <div class="prop-icon">🗺️</div>
-          <div class="prop-text">
-            <div class="prop-title">Территория победителя</div>
-            <div class="prop-desc">Победитель перманентно захватывает территорию вокруг клетки зачинщика ромбом (радиус определяется броском <strong>D6</strong>).</div>
-          </div>
-        </div>
-
-        <div class="prop-item">
-          <div class="prop-icon">🏃</div>
-          <div class="prop-text">
-            <div class="prop-title">Монстр не побеждён</div>
-            <div class="prop-desc">Если монстра победить не удалось — территория остаётся нейтральной.</div>
           </div>
         </div>
 
