@@ -13,9 +13,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;1,400;1,600&family=Cinzel:wght@400;700;900&family=Cinzel+Decorative:wght@400;700&display=swap" rel="stylesheet">
 
   <style>
-    /* ═══════════════════════════════════════
-       ТЁМНАЯ ТЕМА
-    ═══════════════════════════════════════ */
     :root,
     [data-theme="dark"] {
       --bg-base:        #080e05;
@@ -82,9 +79,6 @@
       --theme-btn-color:  #80b050;
     }
 
-    /* ═══════════════════════════════════════
-       СВЕТЛАЯ ТЕМА
-    ═══════════════════════════════════════ */
     [data-theme="light"] {
       --bg-base:        #f0ead8;
       --bg-nav:         #e8e0c8;
@@ -150,7 +144,6 @@
       --theme-btn-color:  #3a6a1e;
     }
 
-    /* ═══ RESET & BASE ═══ */
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html, body { min-height: 100%; overflow-x: hidden; }
 
@@ -212,7 +205,6 @@
       background: var(--nav-active);
     }
 
-    /* Кнопка темы */
     .theme-toggle {
       position: absolute; right: 24px; top: 50%; transform: translateY(-50%);
       background: var(--theme-btn-bg);
@@ -226,8 +218,6 @@
     }
     .theme-toggle:hover { border-color: var(--green-glow); color: var(--green-glow); }
 
-    /* MOBILE NAV */
-    .nav-desktop-links { display: contents; }
     .nav-mobile-row {
       display: none; height: 52px; padding: 0 16px;
       align-items: center; justify-content: space-between;
@@ -419,7 +409,6 @@
     /* ═══ PROP LIST ═══ */
     .prop-list { display: flex; flex-direction: column; gap: 12px; margin-top: 16px; }
 
-    /* Двухколоночный вариант */
     .prop-list-2col {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -484,9 +473,17 @@
     }
     .swatch-empty { background: #cfc8b0; }
     .swatch-rock  { background: #585858; }
-    .swatch-tree  { background: #2e8a28; }
     .swatch-water { background: #4a92c8; }
     .swatch-start { background: #f0f0e8; border-color: #b8a060; }
+
+    /* Легенда — дерево: иконка-картинка */
+    .swatch-tree {
+      width: 14px; height: 14px;
+      background: url('resources/tree_400_400.png') center/cover no-repeat;
+      border-radius: 2px;
+      border: 1px solid rgba(0,0,0,0.15);
+      display: inline-block;
+    }
 
     .map-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 6px; }
     .map-grid {
@@ -499,27 +496,57 @@
       box-shadow: 0 4px 22px rgba(0,0,0,0.18), inset 0 0 10px rgba(0,0,0,0.07);
       transition: background 0.3s;
     }
+
+    /* ═══ ЯЧЕЙКИ КАРТЫ ═══ */
     .map-cell {
       aspect-ratio: 1; border-radius: 1px;
       transition: transform 0.15s, box-shadow 0.15s;
       cursor: default; position: relative;
+      overflow: hidden;
     }
-    .map-cell:hover { transform: scale(1.65); z-index: 5; box-shadow: 0 0 8px rgba(0,0,0,0.6); border-radius: 2px; }
+    .map-cell:hover {
+      transform: scale(1.65); z-index: 5;
+      box-shadow: 0 0 8px rgba(0,0,0,0.6);
+      border-radius: 2px;
+    }
+
     .cell-empty { background: #cfc8b0; }
-    .cell-rock  { background: linear-gradient(135deg, #646464, #404040); box-shadow: inset 0 1px 2px rgba(0,0,0,0.4); }
-    .cell-tree  { background: linear-gradient(135deg, #42b238, #1e6e14); box-shadow: inset 0 1px 2px rgba(0,40,0,0.3); }
-    .cell-water { background: linear-gradient(135deg, #5a9ed8, #3880c0); box-shadow: inset 0 1px 2px rgba(0,0,60,0.22); animation: waterShimmer 3s ease-in-out infinite; }
-    .cell-start { background: #f0f0e8; border: 1px solid rgba(184,160,96,0.5); }
+
+    .cell-rock  {
+      background: linear-gradient(135deg, #646464, #404040);
+      box-shadow: inset 0 1px 2px rgba(0,0,0,0.4);
+    }
+
+    /* Дерево — картинка, масштабируется в ячейку */
+    .cell-tree {
+      background:
+        url('resources/tree_400_400.png') center/cover no-repeat,
+        /* запасной фон на случай если картинка не загрузилась */
+        linear-gradient(135deg, #42b238, #1e6e14);
+    }
+
+    .cell-water {
+      background: linear-gradient(135deg, #5a9ed8, #3880c0);
+      box-shadow: inset 0 1px 2px rgba(0,0,60,0.22);
+      animation: waterShimmer 3s ease-in-out infinite;
+    }
+
+    .cell-start {
+      background: #f0f0e8;
+      border: 1px solid rgba(184,160,96,0.5);
+    }
+
     @keyframes waterShimmer { 0%,100%{opacity:1} 50%{opacity:0.8} }
 
+    /* Тултип */
     .map-cell[data-tip]:hover::after {
       content: attr(data-tip); position: absolute;
       bottom: calc(100% + 7px); left: 50%; transform: translateX(-50%);
       background: var(--tip-bg); color: var(--tip-color);
       font-family: 'Crimson Pro', serif; font-size: 12px;
       padding: 4px 10px; border-radius: 3px; white-space: nowrap;
-      pointer-events: none; z-index: 20; box-shadow: 0 2px 8px rgba(0,0,0,0.5);
-      transition: background 0.3s;
+      pointer-events: none; z-index: 20;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.5);
     }
 
     /* ═══ RESPONSIVE ═══ */
@@ -543,7 +570,6 @@
 <body>
 
 <nav>
-  <!-- DESKTOP -->
   <div class="nav-inner">
     <div class="nav-desktop-links" style="display:contents">
       <a href="index.html">⚔ Главная</a>
@@ -566,7 +592,6 @@
     </button>
   </div>
 
-  <!-- MOBILE -->
   <div class="nav-mobile-row">
     <div class="nav-mobile-left">
       <span class="nav-mobile-label">🏔 Ландшафт</span>
@@ -604,7 +629,6 @@
       Шахматная доска 24 × 24 клетки — мир, по которому странствуют герои
     </div>
 
-    <!-- TERRAIN TYPES -->
     <div class="section">
       <h2>Типы местности</h2>
       <div class="terrain-grid">
@@ -631,7 +655,6 @@
       </div>
     </div>
 
-    <!-- MAP -->
     <div class="section">
       <h2>Карта мира</h2>
       <div class="map-frame">
@@ -649,7 +672,6 @@
       </div>
     </div>
 
-    <!-- MOVEMENT EFFECTS -->
     <div class="section">
       <h2>Эффекты на передвижение</h2>
       <div class="prop-list-2col">
@@ -677,7 +699,6 @@
       </div>
     </div>
 
-    <!-- SECRETS -->
     <div class="section">
       <h2>Секреты на клетках</h2>
       <div class="prop-list-2col">
@@ -733,7 +754,6 @@
       </div>
     </div>
 
-    <!-- SPECIAL RULE -->
     <div class="section">
       <h2>Особое правило</h2>
       <div class="prop-list">
@@ -815,8 +835,21 @@
     "RR......................",
   ];
 
-  const CELL_CLASS = { '.':'cell-empty','R':'cell-rock','T':'cell-tree','W':'cell-water','S':'cell-start' };
-  const CELL_LABEL = { '.':'Равнина','R':'Камень','T':'Дерево','W':'Река','S':'Старт' };
+  const CELL_CLASS = {
+    '.': 'cell-empty',
+    'R': 'cell-rock',
+    'T': 'cell-tree',
+    'W': 'cell-water',
+    'S': 'cell-start'
+  };
+  const CELL_LABEL = {
+    '.': 'Равнина',
+    'R': 'Камень',
+    'T': 'Дерево',
+    'W': 'Река',
+    'S': 'Старт'
+  };
+
   const grid = document.getElementById('map-grid');
 
   MAP_ROWS.forEach((row, r) => {
@@ -825,7 +858,7 @@
       const ch  = padded[c] || '.';
       const div = document.createElement('div');
       div.className = 'map-cell ' + (CELL_CLASS[ch] || 'cell-empty');
-      div.setAttribute('data-tip', (CELL_LABEL[ch] || 'Равнина') + ' (' + (c+1) + ', ' + (r+1) + ')');
+      div.setAttribute('data-tip', (CELL_LABEL[ch] || 'Равнина') + ' (' + (c + 1) + ', ' + (r + 1) + ')');
       grid.appendChild(div);
     }
   });
