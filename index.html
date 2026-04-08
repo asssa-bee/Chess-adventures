@@ -1,109 +1,291 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" data-theme="dark">
 <head>
+  <!-- ВАЖНО: этот скрипт должен быть ПЕРВЫМ в head, до любых стилей -->
+  <script>
+    (function(){
+      var t = localStorage.getItem('theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Chess Adventures — Настольное приключение</title>
-  <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Cinzel:wght@400;700;900&family=Cinzel+Decorative:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;1,400;1,600&family=Cinzel:wght@400;700;900&family=Cinzel+Decorative:wght@400;700&display=swap" rel="stylesheet">
+
   <style>
-    :root {
-      --ink: #2a1a0e;
-      --ink-light: #4a3520;
-      --gold: #b8860b;
-      --gold-light: #daa520;
-      --royal: #2a1a3a;
-      --royal-mid: #4a2a6a;
-      --royal-light: #6a3a9a;
-      --royal-pale: #8a5abc;
-      --royal-glow: #b080e0;
+    /* ═══════════════════════════════════════════
+       ТЁМНАЯ ТЕМА (по умолчанию)
+    ═══════════════════════════════════════════ */
+    :root,
+    [data-theme="dark"] {
+      --bg-base:        #0d0717;
+      --bg-nav:         #090512;
+      --bg-nav-border:  #2e1850;
+
+      --scroll-top:     #c8bcd8;
+      --scroll-mid:     #d8ccec;
+      --scroll-bot:     #baaed0;
+      --scroll-border1: #7a5a9a;
+      --scroll-border2: #4a2a6a;
+      --scroll-shadow:  rgba(0,0,0,0.8);
+      --scroll-inset:   rgba(90,50,130,0.18);
+
+      --roller-grad:    linear-gradient(135deg, #c0a0e0, #3e2260);
+      --knob-shadow:    rgba(0,0,0,0.6);
+
+      --ink:            #1e1008;
+      --ink-light:      #3a2410;
+
+      --royal:          #1e1030;
+      --royal-mid:      #4a2a7a;
+      --royal-light:    #6a3aaa;
+      --royal-pale:     #8a5acc;
+      --royal-glow:     #b888f0;
+
+      --gold:           #c89c10;
+
+      --nav-link:       #a888c8;
+      --nav-active:     #d0b0f8;
+      --nav-sep:        rgba(200,156,16,0.3);
+
+      --lore-bg:        rgba(74,42,106,0.08);
+      --lore-border:    rgba(106,58,154,0.35);
+
+      --card-bg:        linear-gradient(135deg, rgba(255,255,255,0.16) 0%, rgba(100,60,150,0.12) 100%);
+      --card-border:    rgba(106,58,154,0.45);
+      --card-hover:     0 8px 32px rgba(74,42,106,0.32);
+      --card-inset:     rgba(200,160,248,0.2);
+
+      --what-bg:        linear-gradient(135deg, rgba(255,255,255,0.12) 0%, rgba(100,60,150,0.08) 100%);
+      --what-border:    rgba(106,58,154,0.28);
+
+      --prop-bg:        rgba(74,42,106,0.1);
+      --prop-bg-hover:  rgba(74,42,106,0.18);
+      --prop-border:    var(--royal-mid);
+
+      --divider:        var(--royal-mid);
+      --ornament:       var(--royal-mid);
+
+      --gradient-bg:
+        radial-gradient(ellipse at 20% 15%, rgba(74,42,106,0.25) 0%, transparent 55%),
+        radial-gradient(ellipse at 80% 85%, rgba(42,26,68,0.22) 0%, transparent 55%),
+        radial-gradient(ellipse at 50% 50%, rgba(138,90,188,0.07) 0%, transparent 40%),
+        radial-gradient(ellipse at 50% 0%,  rgba(184,134,11,0.09) 0%, transparent 40%);
+
+      --theme-btn-bg:   rgba(74,42,106,0.25);
+      --theme-btn-border: rgba(138,90,188,0.4);
+      --theme-btn-color: #a888c8;
+    }
+
+    /* ═══════════════════════════════════════════
+       СВЕТЛАЯ ТЕМА
+    ═══════════════════════════════════════════ */
+    [data-theme="light"] {
+      --bg-base:        #f4efe8;
+      --bg-nav:         #ede6dc;
+      --bg-nav-border:  #c4a878;
+
+      --scroll-top:     #e8dfc8;
+      --scroll-mid:     #f2ead8;
+      --scroll-bot:     #ddd3b8;
+      --scroll-border1: #a08050;
+      --scroll-border2: #7a5c30;
+      --scroll-shadow:  rgba(80,50,20,0.3);
+      --scroll-inset:   rgba(160,128,80,0.12);
+
+      --roller-grad:    linear-gradient(135deg, #d4b880, #6a4820);
+      --knob-shadow:    rgba(80,50,20,0.4);
+
+      --ink:            #1e1008;
+      --ink-light:      #4a3010;
+
+      --royal:          #3c2808;
+      --royal-mid:      #7a5020;
+      --royal-light:    #9a6830;
+      --royal-pale:     #b88840;
+      --royal-glow:     #c8980c;
+
+      --gold:           #9a7008;
+
+      --nav-link:       #6a4820;
+      --nav-active:     #3a1c08;
+      --nav-sep:        rgba(122,80,32,0.35);
+
+      --lore-bg:        rgba(160,120,60,0.07);
+      --lore-border:    rgba(122,80,32,0.3);
+
+      --card-bg:        linear-gradient(135deg, rgba(255,248,230,0.7) 0%, rgba(200,168,100,0.1) 100%);
+      --card-border:    rgba(160,120,60,0.4);
+      --card-hover:     0 8px 32px rgba(122,80,32,0.2);
+      --card-inset:     rgba(200,168,100,0.3);
+
+      --what-bg:        linear-gradient(135deg, rgba(255,248,230,0.6) 0%, rgba(200,168,100,0.08) 100%);
+      --what-border:    rgba(160,120,60,0.25);
+
+      --prop-bg:        rgba(160,120,60,0.07);
+      --prop-bg-hover:  rgba(160,120,60,0.14);
+      --prop-border:    var(--royal-mid);
+
+      --divider:        var(--royal-mid);
+      --ornament:       var(--royal-mid);
+
+      --gradient-bg:
+        radial-gradient(ellipse at 20% 15%, rgba(200,168,100,0.15) 0%, transparent 55%),
+        radial-gradient(ellipse at 80% 85%, rgba(180,140,80,0.12) 0%, transparent 55%),
+        radial-gradient(ellipse at 50% 50%, rgba(220,190,130,0.08) 0%, transparent 40%);
+
+      --theme-btn-bg:   rgba(160,120,60,0.15);
+      --theme-btn-border: rgba(160,120,60,0.4);
+      --theme-btn-color: #6a4820;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html, body { min-height: 100%; overflow-x: hidden; }
 
     body {
-      font-family: 'IM Fell English', Georgia, serif;
-      background: #0e0818;
+      font-family: 'Crimson Pro', Georgia, serif;
+      font-size: 17px;
+      background: var(--bg-base);
       color: var(--ink);
-      line-height: 1.6;
+      line-height: 1.65;
+      transition: background 0.3s, color 0.3s;
     }
 
-    /* === BACKGROUND === */
     body::before {
       content: '';
       position: fixed;
       inset: 0;
-      background:
-        radial-gradient(ellipse at 20% 15%, rgba(74,42,106,0.22) 0%, transparent 55%),
-        radial-gradient(ellipse at 80% 85%, rgba(42,26,58,0.2) 0%, transparent 55%),
-        radial-gradient(ellipse at 50% 50%, rgba(138,90,188,0.06) 0%, transparent 40%),
-        radial-gradient(ellipse at 50% 0%, rgba(184,134,11,0.08) 0%, transparent 40%),
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.07'/%3E%3C/svg%3E");
+      background: var(--gradient-bg);
       pointer-events: none;
       z-index: 0;
+      transition: background 0.3s;
     }
 
-    /* === NAV === */
+    /* ═══ NAV ═══ */
     nav {
       position: sticky;
       top: 0;
       z-index: 100;
-      background: linear-gradient(to bottom, #08040e 0%, #0e0818 100%);
-      border-bottom: 1px solid #3a1a5a;
-      box-shadow: 0 4px 24px rgba(0,0,0,0.7), inset 0 -1px 0 rgba(138,90,188,0.12);
+      background: var(--bg-nav);
+      border-bottom: 1px solid var(--bg-nav-border);
+      box-shadow: 0 4px 24px rgba(0,0,0,0.5),
+                  inset 0 -1px 0 rgba(138,90,188,0.1);
+      transition: background 0.3s, border-color 0.3s;
     }
 
-    .nav-desktop {
-      max-width: 900px;
+    .nav-inner {
+      max-width: 1600px;
       margin: 0 auto;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 4px;
-      padding: 0 20px;
+      gap: 2px;
+      padding: 0 24px;
+      position: relative;
     }
-    .nav-sep { color: var(--gold); opacity: 0.35; font-size: 1em; user-select: none; }
 
-    .nav-desktop a {
+    .nav-sep {
+      color: var(--nav-sep);
+      font-size: 1em;
+      user-select: none;
+    }
+
+    .nav-inner a {
       font-family: 'Cinzel', serif;
-      font-size: 0.75em;
+      font-size: 0.78em;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: #a890c0;
+      color: var(--nav-link);
       text-decoration: none;
-      padding: 15px 11px;
+      padding: 16px 12px;
       position: relative;
       transition: color 0.2s;
       white-space: nowrap;
     }
-    .nav-desktop a::after {
+    .nav-inner a::after {
       content: '';
       position: absolute;
-      bottom: 9px; left: 50%;
+      bottom: 10px; left: 50%;
       transform: translateX(-50%) scaleX(0);
       width: 70%; height: 1px;
       background: var(--royal-glow);
       transition: transform 0.25s;
     }
-    .nav-desktop a:hover { color: var(--royal-glow); }
-    .nav-desktop a:hover::after { transform: translateX(-50%) scaleX(1); }
-    .nav-desktop a.active { color: #d0b8f0; }
-    .nav-desktop a.active::after { transform: translateX(-50%) scaleX(1); background: #d0b8f0; }
+    .nav-inner a:hover { color: var(--royal-glow); }
+    .nav-inner a:hover::after { transform: translateX(-50%) scaleX(1); }
+    .nav-inner a.active { color: var(--nav-active); }
+    .nav-inner a.active::after {
+      transform: translateX(-50%) scaleX(1);
+      background: var(--nav-active);
+    }
 
+    /* Кнопка темы в навигации */
+    .theme-toggle {
+      position: absolute;
+      right: 24px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: var(--theme-btn-bg);
+      border: 1px solid var(--theme-btn-border);
+      border-radius: 20px;
+      padding: 5px 12px;
+      cursor: pointer;
+      font-family: 'Cinzel', serif;
+      font-size: 0.7em;
+      letter-spacing: 0.08em;
+      color: var(--theme-btn-color);
+      transition: all 0.2s;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .theme-toggle:hover {
+      border-color: var(--royal-glow);
+      color: var(--royal-glow);
+    }
+    .theme-icon { font-size: 1.1em; }
+
+    /* MOBILE NAV */
+    .nav-desktop { display: contents; }
     .nav-mobile-row {
       display: none;
-      height: 50px;
+      height: 52px;
       padding: 0 16px;
       align-items: center;
       justify-content: space-between;
     }
+    .nav-mobile-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
     .nav-mobile-label {
       font-family: 'Cinzel', serif;
-      font-size: 0.8em;
-      color: #a890c0;
+      font-size: 0.82em;
+      color: var(--nav-link);
       letter-spacing: 0.09em;
       text-transform: uppercase;
     }
+    .nav-mobile-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .theme-toggle-mobile {
+      background: var(--theme-btn-bg);
+      border: 1px solid var(--theme-btn-border);
+      border-radius: 16px;
+      padding: 4px 10px;
+      cursor: pointer;
+      font-size: 0.85em;
+      color: var(--theme-btn-color);
+      transition: all 0.2s;
+    }
+
     .hamburger {
       background: none;
       border: 1px solid rgba(168,144,192,0.3);
@@ -118,7 +300,7 @@
     .hamburger:hover { border-color: rgba(168,144,192,0.65); }
     .hamburger span {
       display: block; width: 20px; height: 2px;
-      background: #a890c0; border-radius: 2px;
+      background: var(--nav-link); border-radius: 2px;
       transition: transform 0.25s, opacity 0.2s;
     }
     .hamburger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
@@ -128,66 +310,81 @@
     .nav-dropdown {
       display: none;
       flex-direction: column;
-      background: #08040e;
-      border-top: 1px solid rgba(58,26,90,0.4);
+      background: var(--bg-nav);
+      border-top: 1px solid rgba(58,26,90,0.3);
       overflow: hidden;
       max-height: 0;
       transition: max-height 0.35s ease;
     }
-    .nav-dropdown.open { max-height: 400px; }
+    .nav-dropdown.open { max-height: 450px; }
     .nav-dropdown a {
       font-family: 'Cinzel', serif;
-      font-size: 0.8em;
+      font-size: 0.82em;
       letter-spacing: 0.09em;
       text-transform: uppercase;
-      color: #a890c0;
+      color: var(--nav-link);
       text-decoration: none;
-      padding: 13px 20px;
-      border-bottom: 1px solid rgba(58,26,90,0.25);
+      padding: 14px 20px;
+      border-bottom: 1px solid rgba(58,26,90,0.2);
       display: flex;
       align-items: center;
       gap: 10px;
       transition: background 0.2s, color 0.2s;
     }
     .nav-dropdown a:hover { background: rgba(138,90,188,0.07); color: var(--royal-glow); }
-    .nav-dropdown a.active { color: #d0b8f0; }
+    .nav-dropdown a.active { color: var(--nav-active); }
     .nav-icon { font-size: 1.1em; min-width: 22px; }
 
-    @media (max-width: 680px) {
-      .nav-desktop    { display: none; }
+    @media (max-width: 760px) {
+      .nav-desktop    { display: none !important; }
       .nav-mobile-row { display: flex; }
       .nav-dropdown   { display: flex; }
+      .theme-toggle   { display: none; }
     }
 
-    /* === PAGE === */
+    /* ═══ PAGE ═══ */
     .page {
       position: relative;
       z-index: 1;
-      max-width: 820px;
+      max-width: 1400px;
       margin: 0 auto;
-      padding: 28px 12px 80px;
+      padding: 32px 20px 90px;
     }
 
-    /* === SCROLL === */
+    /* ═══ SCROLL ═══ */
     .scroll {
-      background: linear-gradient(to bottom, #d8cce0 0%, #e4d8ec 8%, #e8dcf0 50%, #e4d8ec 92%, #d0c0d8 100%);
+      background: linear-gradient(
+        to bottom,
+        var(--scroll-top)  0%,
+        var(--scroll-mid)  8%,
+        var(--scroll-mid) 92%,
+        var(--scroll-bot) 100%
+      );
       border-radius: 8px 8px 12px 12px;
-      padding: 50px 40px 60px;
+      padding: 56px 52px 68px;
       box-shadow:
-        0 0 0 2px #7a5a9a,
-        0 0 0 5px #4a2a6a,
-        0 0 0 7px #7a5a9a,
-        0 20px 60px rgba(0,0,0,0.75),
-        inset 0 0 40px rgba(100,60,140,0.15);
+        0 0 0 2px var(--scroll-border1),
+        0 0 0 5px var(--scroll-border2),
+        0 0 0 7px var(--scroll-border1),
+        0 24px 70px var(--scroll-shadow),
+        inset 0 0 50px var(--scroll-inset);
       position: relative;
+      transition: background 0.3s, box-shadow 0.3s;
     }
     .scroll::before, .scroll::after {
       content: '';
       display: block;
-      height: 22px;
-      background: linear-gradient(to bottom, #8a5abc, #4a2a6a, #8a5abc, #4a2a6a, #8a5abc);
+      height: 24px;
+      background: linear-gradient(
+        to bottom,
+        var(--scroll-border1),
+        var(--scroll-border2),
+        var(--scroll-border1),
+        var(--scroll-border2),
+        var(--scroll-border1)
+      );
       border-radius: 4px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.5), inset 0 1px 2px rgba(200,160,240,0.25);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.45), inset 0 1px 2px rgba(200,160,240,0.2);
       position: absolute;
       left: -4px; right: -4px;
     }
@@ -195,256 +392,259 @@
     .scroll::after  { bottom: -6px; }
 
     .roller-top, .roller-bottom {
-      position: absolute; left: -12px; right: -12px;
-      height: 22px; display: flex;
+      position: absolute; left: -14px; right: -14px;
+      height: 24px; display: flex;
       justify-content: space-between;
       pointer-events: none; z-index: 10;
     }
     .roller-top { top: -6px; }
     .roller-bottom { bottom: -6px; }
     .roller-top .knob, .roller-bottom .knob {
-      width: 22px; height: 22px; border-radius: 50%;
-      background: radial-gradient(circle at 35% 35%, #c8a0e8, #4a2a6a);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+      width: 24px; height: 24px; border-radius: 50%;
+      background: var(--roller-grad);
+      box-shadow: 0 2px 10px var(--knob-shadow);
+      transition: background 0.3s;
     }
 
-    /* === TITLE === */
-    .title-block { text-align: center; margin-bottom: 28px; }
+    /* ═══ LAYOUT INSIDE SCROLL ═══ */
+    /* Двухколоночный макет для ПК */
+    .scroll-body {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+
+    /* ═══ TITLE ═══ */
+    .title-block { text-align: center; margin-bottom: 32px; }
     .ornament {
-      color: var(--royal-mid);
-      font-size: 1.6em;
-      letter-spacing: 0.15em; opacity: 0.8; user-select: none;
+      color: var(--ornament);
+      font-size: 1.7em;
+      letter-spacing: 0.15em;
+      opacity: 0.8;
+      user-select: none;
     }
     h1 {
       font-family: 'Cinzel Decorative', serif;
-      font-size: clamp(1.4rem, 5.5vw, 2.6rem);
-      color: #3a1a5a;
-      text-shadow: 1px 1px 0 #c0a8d8, 2px 2px 4px rgba(0,0,0,0.2);
+      font-size: clamp(1.6rem, 4.5vw, 3rem);
+      color: var(--royal);
+      text-shadow: 1px 1px 0 var(--scroll-border1), 2px 2px 6px rgba(0,0,0,0.15);
       letter-spacing: 0.06em;
-      margin: 8px 0; line-height: 1.2;
+      margin: 10px 0;
+      line-height: 1.2;
     }
     .subtitle {
-      font-family: 'IM Fell English', serif;
+      font-family: 'Crimson Pro', serif;
       font-style: italic;
       color: var(--royal-mid);
-      font-size: 1.1em; margin-top: 6px;
+      font-size: 1.2em;
+      margin-top: 8px;
     }
 
-    /* === LORE BANNER === */
+    /* ═══ LORE BANNER ═══ */
     .lore-banner {
-      margin: 0 0 32px;
-      padding: 18px 22px;
-      background: rgba(74,42,106,0.06);
-      border: 1px solid rgba(106,58,154,0.3);
+      margin: 0 0 36px;
+      padding: 20px 28px;
+      background: var(--lore-bg);
+      border: 1px solid var(--lore-border);
       border-radius: 5px;
       text-align: center;
-      font-family: 'IM Fell English', serif;
+      font-family: 'Crimson Pro', serif;
       font-style: italic;
       color: var(--ink-light);
-      font-size: 1.02em;
+      font-size: 1.15em;
       line-height: 1.7;
+      transition: background 0.3s, border-color 0.3s;
     }
     .lore-banner::before, .lore-banner::after {
       content: ' ❦ ';
-      color: var(--royal-light); opacity: 0.65;
+      color: var(--royal-light);
+      opacity: 0.65;
     }
 
-    /* === PLACEHOLDER BANNER === */
-    .placeholder-banner {
-      margin: 0 0 32px;
-      padding: 16px 22px;
-      background: repeating-linear-gradient(
-        45deg,
-        rgba(74,42,106,0.05),
-        rgba(74,42,106,0.05) 10px,
-        rgba(74,42,106,0.02) 10px,
-        rgba(74,42,106,0.02) 20px
-      );
-      border: 1px dashed rgba(106,58,154,0.45);
-      border-radius: 5px;
-      text-align: center;
-      font-family: 'IM Fell English', serif;
-      font-style: italic;
-      color: var(--ink-light);
-      font-size: 0.95em;
-      line-height: 1.65;
-    }
-    .placeholder-banner .stamp {
-      display: inline-block;
-      font-family: 'Cinzel', serif;
-      font-style: normal;
-      font-size: 0.75em;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--royal-mid);
-      border: 1px solid rgba(106,58,154,0.4);
-      padding: 2px 10px;
-      border-radius: 3px;
-      margin-bottom: 8px;
-      opacity: 0.8;
-    }
-
-    /* === SECTION HEADERS === */
-    .section { margin: 36px 0 20px; }
+    /* ═══ SECTION HEADERS ═══ */
+    .section { margin: 42px 0 22px; }
     h2 {
       font-family: 'Cinzel', serif;
-      font-size: clamp(1rem, 3.5vw, 1.4rem);
-      color: #3a1a5a;
+      font-size: clamp(1.05rem, 2.5vw, 1.5rem);
+      color: var(--royal);
       text-align: center;
       letter-spacing: 0.12em;
       text-transform: uppercase;
       position: relative;
-      padding: 0 20px;
-      margin-bottom: 18px;
+      padding: 0 24px;
+      margin-bottom: 20px;
     }
     h2::before, h2::after {
       content: '⸻';
       color: var(--royal-mid);
-      opacity: 0.6; margin: 0 12px; font-size: 0.85em;
+      opacity: 0.6;
+      margin: 0 14px;
+      font-size: 0.85em;
     }
 
-    /* === NAV CARDS (page links) === */
+    /* ═══ NAV CARDS ═══ */
     .nav-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 16px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
     }
 
     .nav-card {
-      background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(100,60,140,0.1) 100%);
-      border: 1px solid rgba(106,58,154,0.4);
-      border-radius: 6px;
-      padding: 22px 18px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 7px;
+      padding: 24px 20px;
       position: relative;
-      box-shadow: inset 0 1px 0 rgba(200,168,240,0.25), 0 4px 15px rgba(0,0,0,0.1);
-      transition: box-shadow 0.25s, transform 0.2s;
+      box-shadow: inset 0 1px 0 var(--card-inset), 0 4px 18px rgba(0,0,0,0.1);
+      transition: box-shadow 0.25s, transform 0.2s, background 0.3s;
       text-decoration: none;
       display: block;
       cursor: pointer;
     }
     .nav-card:hover {
-      box-shadow: inset 0 1px 0 rgba(200,168,240,0.4), 0 8px 28px rgba(74,42,106,0.25);
-      transform: translateY(-2px);
+      box-shadow: inset 0 1px 0 var(--card-inset), var(--card-hover);
+      transform: translateY(-3px);
     }
     .nav-card::before, .nav-card::after {
-      content: '✦'; position: absolute;
-      color: var(--royal-pale); opacity: 0.45; font-size: 0.65em;
+      content: '✦';
+      position: absolute;
+      color: var(--royal-pale);
+      opacity: 0.4;
+      font-size: 0.65em;
     }
-    .nav-card::before { top: 5px; left: 7px; }
-    .nav-card::after  { bottom: 5px; right: 7px; }
+    .nav-card::before { top: 6px; left: 8px; }
+    .nav-card::after  { bottom: 6px; right: 8px; }
 
-    .nav-card-icon {
-      font-size: 2.4em; line-height: 1;
-      margin-bottom: 8px; display: block;
-    }
-    .nav-card-name {
+    .nav-card-icon  { font-size: 2.6em; line-height: 1; margin-bottom: 10px; display: block; }
+    .nav-card-name  {
       font-family: 'Cinzel', serif;
-      font-size: 1.08em; font-weight: 700;
+      font-size: 1.1em; font-weight: 700;
       color: var(--ink); letter-spacing: 0.05em;
-      display: block; margin-bottom: 4px;
+      display: block; margin-bottom: 6px;
     }
-    .nav-card-desc {
-      color: var(--ink-light); font-size: 0.9em;
-      line-height: 1.5;
-      border-top: 1px dashed rgba(106,58,154,0.3);
-      padding-top: 8px; margin-top: 6px;
+    .nav-card-desc  {
+      color: var(--ink-light); font-size: 0.97em;
+      line-height: 1.55;
+      border-top: 1px dashed var(--card-border);
+      padding-top: 10px; margin-top: 8px;
     }
 
-    /* color accents per card */
-    .nav-card.c-green  { border-left: 4px solid #2d5a27; }
-    .nav-card.c-teal   { border-left: 4px solid #2a6a6a; }
-    .nav-card.c-blue   { border-left: 4px solid #2a5a8a; }
-    .nav-card.c-gold   { border-left: 4px solid #b8860b; }
-    .nav-card.c-red    { border-left: 4px solid #8b2020; }
-    .nav-card.c-purple { border-left: 4px solid #6a1a5a; }
+    .nav-card.c-green  { border-left: 4px solid #3a7a30; }
+    .nav-card.c-teal   { border-left: 4px solid #2a8a7a; }
+    .nav-card.c-blue   { border-left: 4px solid #2a6aaa; }
+    .nav-card.c-gold   { border-left: 4px solid #c89c10; }
+    .nav-card.c-red    { border-left: 4px solid #aa2828; }
+    .nav-card.c-purple { border-left: 4px solid #7a1a7a; }
 
-    /* === WHAT IS === */
+    /* ═══ WHAT IS ═══ */
     .what-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 14px;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
     }
     .what-item {
       display: flex;
       align-items: flex-start;
-      gap: 12px;
-      padding: 16px;
-      background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(100,60,140,0.06) 100%);
-      border: 1px solid rgba(106,58,154,0.25);
-      border-radius: 5px;
+      gap: 14px;
+      padding: 18px;
+      background: var(--what-bg);
+      border: 1px solid var(--what-border);
+      border-radius: 6px;
+      transition: background 0.3s;
     }
-    .what-icon { font-size: 1.8em; min-width: 36px; text-align: center; line-height: 1; }
+    .what-icon { font-size: 2em; min-width: 38px; text-align: center; line-height: 1; }
     .what-text {
-      font-size: 0.93em; color: var(--ink-light); line-height: 1.5;
+      font-size: 1rem;
+      color: var(--ink-light);
+      line-height: 1.55;
     }
     .what-text strong {
       font-family: 'Cinzel', serif;
       color: var(--ink);
       font-size: 0.95em;
       display: block;
-      margin-bottom: 2px;
+      margin-bottom: 3px;
     }
 
-    /* === PROP ROWS === */
-    .prop-list { display: flex; flex-direction: column; gap: 10px; margin-top: 14px; }
+    /* ═══ PROP ROWS ═══ */
+    .prop-list { display: flex; flex-direction: column; gap: 12px; margin-top: 16px; }
+
+    /* Двухколоночный список для ПК */
+    .prop-list-2col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 16px;
+    }
 
     .prop-item {
       display: flex;
       align-items: flex-start;
-      gap: 14px;
-      padding: 14px 18px;
-      background: linear-gradient(90deg, rgba(74,42,106,0.08) 0%, transparent 100%);
-      border-left: 3px solid var(--royal-mid);
-      border-radius: 0 4px 4px 0;
+      gap: 16px;
+      padding: 16px 20px;
+      background: linear-gradient(90deg, var(--prop-bg) 0%, transparent 100%);
+      border-left: 3px solid var(--prop-border);
+      border-radius: 0 5px 5px 0;
       transition: background 0.2s;
     }
-    .prop-item:hover { background: linear-gradient(90deg, rgba(74,42,106,0.14) 0%, transparent 100%); }
+    .prop-item:hover {
+      background: linear-gradient(90deg, var(--prop-bg-hover) 0%, transparent 100%);
+    }
 
-    .prop-icon { font-size: 1.5em; min-width: 30px; text-align: center; margin-top: 1px; }
-
+    .prop-icon {
+      font-size: 1.6em;
+      min-width: 32px;
+      text-align: center;
+      margin-top: 1px;
+    }
     .prop-text { flex: 1; }
     .prop-title {
       font-family: 'Cinzel', serif;
-      font-size: 0.92em; font-weight: 700;
-      color: var(--ink); letter-spacing: 0.04em;
-      display: flex; align-items: center; gap: 6px;
+      font-size: 0.95em;
+      font-weight: 700;
+      color: var(--ink);
+      letter-spacing: 0.04em;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 4px;
     }
     .prop-desc {
-      font-family: 'IM Fell English', serif;
-      font-size: 0.93em; color: var(--ink-light);
-      margin-top: 2px; line-height: 1.5;
-    }
-    .prop-desc.ph { font-style: italic; opacity: 0.5; }
-
-    .ph-tag {
-      display: inline-block;
-      font-family: 'Cinzel', serif;
-      font-size: 0.65em;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--royal-mid);
-      border: 1px solid rgba(106,58,154,0.35);
-      padding: 1px 7px;
-      border-radius: 2px;
-      margin-left: 6px;
-      vertical-align: middle;
-      opacity: 0.7;
+      font-family: 'Crimson Pro', serif;
+      font-size: 1rem;
+      color: var(--ink-light);
+      line-height: 1.55;
     }
 
-    /* === DIVIDER === */
+    /* ═══ DIVIDER ═══ */
     .divider {
-      text-align: center; color: var(--royal-mid);
-      opacity: 0.55; font-size: 1.1em;
-      margin: 36px 0 0; letter-spacing: 0.4em;
+      text-align: center;
+      color: var(--divider);
+      opacity: 0.55;
+      font-size: 1.2em;
+      margin: 42px 0 0;
+      letter-spacing: 0.4em;
       user-select: none;
     }
 
-    /* === MOBILE === */
-    @media (max-width: 600px) {
-      .scroll { padding: 40px 20px 50px; }
-      .nav-grid { grid-template-columns: 1fr; gap: 12px; }
+    /* ═══ RESPONSIVE ═══ */
+    @media (max-width: 1100px) {
+      .nav-grid  { grid-template-columns: repeat(2, 1fr); }
+      .what-grid { grid-template-columns: repeat(2, 1fr); }
+      .prop-list-2col { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 760px) {
+      .scroll { padding: 44px 22px 56px; }
+      .page   { padding: 20px 10px 80px; }
+      .nav-grid  { grid-template-columns: 1fr; gap: 12px; }
       .what-grid { grid-template-columns: 1fr; }
-      .page { padding: 20px 10px 80px; }
+      .prop-list-2col { grid-template-columns: 1fr; }
+      h1 { font-size: clamp(1.4rem, 6vw, 2rem); }
+    }
+
+    @media (min-width: 761px) and (max-width: 900px) {
+      .what-grid { grid-template-columns: repeat(2, 1fr); }
     }
   </style>
 </head>
@@ -452,7 +652,8 @@
 
 <!-- NAV -->
 <nav>
-  <div class="nav-desktop">
+  <!-- DESKTOP -->
+  <div class="nav-inner nav-desktop">
     <a href="index.html" class="active">⚔ Главная</a>
     <span class="nav-sep">·</span>
     <a href="landscape.html">🏔 Ландшафт</a>
@@ -466,13 +667,24 @@
     <a href="battles.html">⚔ Битвы</a>
     <span class="nav-sep">·</span>
     <a href="disasters.html">⚡ Бедствия</a>
+
+    <button class="theme-toggle" id="theme-toggle-desktop" aria-label="Сменить тему">
+      <span class="theme-icon" id="theme-icon-desktop">☀️</span>
+      <span id="theme-label-desktop">Светлая</span>
+    </button>
   </div>
 
+  <!-- MOBILE -->
   <div class="nav-mobile-row">
-    <span class="nav-mobile-label">⚔ Главная</span>
-    <button class="hamburger" id="hamburger" aria-label="Меню" aria-expanded="false">
-      <span></span><span></span><span></span>
-    </button>
+    <div class="nav-mobile-left">
+      <span class="nav-mobile-label">⚔ Главная</span>
+    </div>
+    <div class="nav-mobile-right">
+      <button class="theme-toggle-mobile" id="theme-toggle-mobile" aria-label="Сменить тему">🌙</button>
+      <button class="hamburger" id="hamburger" aria-label="Меню" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
   </div>
   <div class="nav-dropdown" id="nav-dropdown">
     <a href="index.html" class="active"><span class="nav-icon">⚔</span> Главная</a>
@@ -505,7 +717,6 @@
     <div class="section">
       <h2>Что это за игра</h2>
       <div class="what-grid">
-
         <div class="what-item">
           <span class="what-icon">♟️</span>
           <div class="what-text">
@@ -513,7 +724,6 @@
             Большое игровое поле с ландшафтами: камни, река, деревья, стартовые клетки
           </div>
         </div>
-
         <div class="what-item">
           <span class="what-icon">🎲</span>
           <div class="what-text">
@@ -521,7 +731,6 @@
             Два кубика за ход — каждый кубик это один персонаж
           </div>
         </div>
-
         <div class="what-item">
           <span class="what-icon">🃏</span>
           <div class="what-text">
@@ -529,7 +738,6 @@
             Черви — HP, буби — очки захвата, крести — атака, вини — защита, джокеры — особые эффекты
           </div>
         </div>
-
         <div class="what-item">
           <span class="what-icon">⚔️</span>
           <div class="what-text">
@@ -537,15 +745,13 @@
             Инициатива по расстоянию, колесо битвы D4, захват территории после победы
           </div>
         </div>
-
       </div>
     </div>
 
-    <!-- CHAPTERS / SECTIONS -->
+    <!-- CHAPTERS -->
     <div class="section">
       <h2>Свитки правил</h2>
       <div class="nav-grid">
-
         <a href="landscape.html" class="nav-card c-green">
           <span class="nav-card-icon">🏔</span>
           <span class="nav-card-name">Ландшафт</span>
@@ -553,7 +759,6 @@
             Стартовые клетки, камни (скалы), река, деревья. Секреты: баффы, телепорт, лечение, яд, лагерь.
           </div>
         </a>
-
         <a href="capture.html" class="nav-card c-teal">
           <span class="nav-card-icon">🏴</span>
           <span class="nav-card-name">Захват</span>
@@ -561,7 +766,6 @@
             Обычный и перманентный захват. Захваченная и перманентно захваченная клетка. Условия победы.
           </div>
         </a>
-
         <a href="movement.html" class="nav-card c-blue">
           <span class="nav-card-icon">🌀</span>
           <span class="nav-card-name">Движение</span>
@@ -569,7 +773,6 @@
             Бросок 2D6 за ход. Один кубик = один персонаж. Движение по горизонтали и вертикали.
           </div>
         </a>
-
         <a href="characteristics.html" class="nav-card c-gold">
           <span class="nav-card-icon">🃏</span>
           <span class="nav-card-name">Характеристики</span>
@@ -577,7 +780,6 @@
             Колода 52: черви — HP, буби — очки захвата, крести — атака, вини — защита. Джокеры.
           </div>
         </a>
-
         <a href="battles.html" class="nav-card c-red">
           <span class="nav-card-icon">⚔️</span>
           <span class="nav-card-name">Битвы</span>
@@ -585,23 +787,20 @@
             Инициатива по расстоянию, бросок D6 для очереди, D4 — колесо битвы с 5 исходами.
           </div>
         </a>
-
         <a href="disasters.html" class="nav-card c-purple">
           <span class="nav-card-icon">⚡</span>
           <span class="nav-card-name">Бедствия</span>
           <div class="nav-card-desc">
-            Карта делится на четверти. Каждые 40 ходов на 20 ходов — бедствие: багровая ночь, заморозки, пожар, песчаная буря (опционально).
+            Карта делится на четверти. Каждые 40 ходов на 20 ходов — бедствие: багровая ночь, заморозки, пожар, песчаная буря.
           </div>
         </a>
-
       </div>
     </div>
 
-    <!-- HOW TO START -->
+    <!-- WHAT YOU NEED -->
     <div class="section">
       <h2>Что нужно для игры</h2>
-      <div class="prop-list">
-
+      <div class="prop-list-2col">
         <div class="prop-item">
           <div class="prop-icon">♟️</div>
           <div class="prop-text">
@@ -609,7 +808,6 @@
             <div class="prop-desc">Большая сетка для размещения ландшафтов и перемещения персонажей.</div>
           </div>
         </div>
-
         <div class="prop-item">
           <div class="prop-icon">🎲</div>
           <div class="prop-text">
@@ -617,7 +815,6 @@
             <div class="prop-desc">D6 для хода и инициативы, D4 для колеса битвы.</div>
           </div>
         </div>
-
         <div class="prop-item">
           <div class="prop-icon">🃏</div>
           <div class="prop-text">
@@ -625,7 +822,6 @@
             <div class="prop-desc">Стандартная колода плюс красный и чёрный джокеры.</div>
           </div>
         </div>
-
         <div class="prop-item">
           <div class="prop-icon">📝</div>
           <div class="prop-text">
@@ -633,7 +829,6 @@
             <div class="prop-desc">Для записи характеристик: HP, атака, защита, очки захвата.</div>
           </div>
         </div>
-
         <div class="prop-item">
           <div class="prop-icon">👥</div>
           <div class="prop-text">
@@ -641,15 +836,13 @@
             <div class="prop-desc">Играйте против друг друга — кто первым захватит согласованное количество территории.</div>
           </div>
         </div>
-
       </div>
     </div>
 
-    <!-- GAME MECHANICS -->
+    <!-- MECHANICS -->
     <div class="section">
       <h2>Основные механики</h2>
-      <div class="prop-list">
-
+      <div class="prop-list-2col">
         <div class="prop-item">
           <div class="prop-icon">🏔️</div>
           <div class="prop-text">
@@ -657,7 +850,6 @@
             <div class="prop-desc">Стартовые клетки, камни (непроходимые), река (2 очка хода за клетку), деревья (можно срубить или посадить для приватизации).</div>
           </div>
         </div>
-
         <div class="prop-item">
           <div class="prop-icon">🏴</div>
           <div class="prop-text">
@@ -665,7 +857,6 @@
             <div class="prop-desc">Обычный захват — светлый жетон, можно перехватить. Перманентный — тёмный, защищён от врагов. Победа при захвате согласованного количества территории.</div>
           </div>
         </div>
-
         <div class="prop-item">
           <div class="prop-icon">🌀</div>
           <div class="prop-text">
@@ -673,15 +864,13 @@
             <div class="prop-desc">Каждый ход бросается 2D6. Один кубик = ход одним персонажем. Движение только по горизонтали и вертикали.</div>
           </div>
         </div>
-
         <div class="prop-item">
           <div class="prop-icon">🃏</div>
           <div class="prop-text">
             <div class="prop-title">Характеристики</div>
-            <div class="prop-desc">Черви — HP (сердечки), буби — очки захвата, крести — атака, вини — защита. Красный джокер воскрешает, чёрный убивает врага.</div>
+            <div class="prop-desc">Черви — HP, буби — очки захвата, крести — атака, вини — защита. Красный джокер воскрешает, чёрный убивает врага.</div>
           </div>
         </div>
-
         <div class="prop-item">
           <div class="prop-icon">⚔️</div>
           <div class="prop-text">
@@ -689,7 +878,6 @@
             <div class="prop-desc">Инициатива по расстоянию (манхэттенское). Бросок D6 определяет очередь, D4 — колесо битвы с 5 исходами. Умершие возрождаются на старте.</div>
           </div>
         </div>
-
         <div class="prop-item">
           <div class="prop-icon">🎁</div>
           <div class="prop-text">
@@ -697,15 +885,13 @@
             <div class="prop-desc">7 типов: бафф, дебафф, бафф+дебафф, телепорт, лечение, яд, лагерь (костёр с радиусом 3). Джокер даёт дополнительную карту.</div>
           </div>
         </div>
-
         <div class="prop-item">
           <div class="prop-icon">⚡</div>
           <div class="prop-text">
-            <div class="prop-title">Бедствия (не обязательно)</div>
+            <div class="prop-title">Бедствия (опционально)</div>
             <div class="prop-desc">Карта делится на четверти. Каждые 40 ходов на 20 ходов случайное бедствие: багровая ночь, заморозки, пожар, песчаная буря.</div>
           </div>
         </div>
-
       </div>
     </div>
 
@@ -714,6 +900,40 @@
 </div>
 
 <script>
+  /* ─── ТЕМА ─── */
+  function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+
+    const isDark = theme === 'dark';
+
+    const iconD  = document.getElementById('theme-icon-desktop');
+    const labelD = document.getElementById('theme-label-desktop');
+    const btnM   = document.getElementById('theme-toggle-mobile');
+
+    if (iconD)  iconD.textContent  = isDark ? '☀️' : '🌙';
+    if (labelD) labelD.textContent = isDark ? 'Светлая' : 'Тёмная';
+    if (btnM)   btnM.textContent   = isDark ? '☀️' : '🌙';
+  }
+
+  // Применяем сохранённую тему сразу (уже сделано inline-скриптом,
+  // здесь обновляем только кнопки после загрузки DOM)
+  (function() {
+    const saved = localStorage.getItem('theme') || 'dark';
+    applyTheme(saved);
+  })();
+
+  document.getElementById('theme-toggle-desktop').addEventListener('click', () => {
+    const current = document.documentElement.getAttribute('data-theme') || 'dark';
+    applyTheme(current === 'dark' ? 'light' : 'dark');
+  });
+
+  document.getElementById('theme-toggle-mobile').addEventListener('click', () => {
+    const current = document.documentElement.getAttribute('data-theme') || 'dark';
+    applyTheme(current === 'dark' ? 'light' : 'dark');
+  });
+
+  /* ─── ГАМБУРГЕР ─── */
   const btn = document.getElementById('hamburger');
   const dd  = document.getElementById('nav-dropdown');
   btn.addEventListener('click', () => {
