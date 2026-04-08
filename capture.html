@@ -110,7 +110,7 @@
       --teal-mid:       #226a60;
       --teal-light:     #3a8a7a;
       --teal-pale:      #5aaa98;
-      --teal-glow:      #226a60;
+      --teal-glow:      #88d8c0;
       --gold:           #9a7808;
 
       --nav-link:       #2e6e62;
@@ -460,6 +460,12 @@
     }
     .prop-item:hover { background: linear-gradient(90deg, var(--prop-bg-hover) 0%, transparent 100%); }
     .prop-icon { font-size: 1.6em; min-width: 32px; text-align: center; margin-top: 2px; }
+    .prop-icon.tree-icon {
+      background: url('resources/tree_400_400.png') center / contain no-repeat;
+      width: 1.4em;          /* 1em от своего font-size 2.5em = 2.5em от body */
+      height: 1.4em;
+      display: block;
+    }
     .prop-text { flex: 1; }
     .prop-title {
       font-family: 'Cinzel', serif; font-size: 0.95em; font-weight: 700;
@@ -696,11 +702,11 @@
           </div>
         </div>
         <div class="prop-item">
-          <div class="prop-icon">🌲</div>
+          <div class="prop-icon tree-icon"></div>
           <div class="prop-text">
             <div class="prop-title">При посадке дерева</div>
             <div class="prop-desc">
-              Срубленное дерево можно посадить на своей территории — зона <strong>радиусом 2</strong> становится перманентной. Противник не может срубить посаженное дерево. Нейтральная территория в зоне посадки тоже приватизируется.
+              Срубленное дерево можно посадить на своей территории — зона <strong>радиусом 1</strong> становится перманентной. Противник не может срубить посаженное дерево. Нейтральная территория в зоне посадки тоже приватизируется.
             </div>
           </div>
         </div>
@@ -709,7 +715,7 @@
           <div class="prop-text">
             <div class="prop-title">Установка лагеря</div>
             <div class="prop-desc">
-              Лагерь можно получить из секретов. Костёр приватизирует территорию <strong>радиусом 3</strong> перманентно и лечит союзных персонажей в этой зоне.
+              Лагерь можно получить из секретов. Костёр приватизирует территорию <strong>радиусом 2</strong> перманентно и лечит союзных персонажей в этой зоне.
             </div>
           </div>
         </div>
@@ -774,7 +780,7 @@
 
   /* ─── DIAMOND DIAGRAM (radius 3, grid 7×7) ─── */
   const grid = document.getElementById('diamond');
-  const CENTER = 3, RADIUS = 3, SIZE = 7;
+  const CENTER = 3, RADIUS = 2, SIZE = 7;
   for (let r = 0; r < SIZE; r++) {
     for (let c = 0; c < SIZE; c++) {
       const cell = document.createElement('div');

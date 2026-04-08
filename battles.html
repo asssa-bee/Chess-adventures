@@ -724,7 +724,7 @@
           <div class="prop-text">
             <div class="prop-title">Расчёт расстояния</div>
             <div class="prop-desc">
-              Расстояние рассчитывается суммой клеток по горизонтали и вертикали — <strong>манхэттенское расстояние</strong>.
+              Расстояние рассчитывается <strong>суммой</strong> клеток по горизонтали и вертикали.
             </div>
           </div>
         </div>
@@ -733,7 +733,7 @@
           <div class="prop-text">
             <div class="prop-title">Очередь персонажей</div>
             <div class="prop-desc">
-              Персонажи собираются в очередь от <strong>ближайшего</strong> к противнику до <strong>дальнего</strong>. Первый ход — за инициатором битвы.
+              Персонажи собираются в очередь от <strong>ближайшего</strong> к противнику до <strong>дальнего</strong>. Первый ход — бросается D6 на у кого больше число.
             </div>
           </div>
         </div>
@@ -818,15 +818,15 @@
         <div class="prop-item">
           <div class="prop-icon">🎲</div>
           <div class="prop-text">
-            <div class="prop-title">Шаг 1 — Бросок D6</div>
-            <div class="prop-desc">Бросается D6. Ход делает персонаж с номером выпавшего числа. Если персонажа с таким номером нет — ход переходит к оппоненту.</div>
+            <div class="prop-title">Шаг 1 — Бросок D6 (Имитация скорости в пошаговых битвах видеоигр)</div>
+            <div class="prop-desc">Бросается D6. Ход делает персонаж с номером выпавшего числа в очереди. Если персонажа с таким номером нет — ход переходит к оппоненту.</div>
           </div>
         </div>
         <div class="prop-item">
           <div class="prop-icon">🎡</div>
           <div class="prop-text">
             <div class="prop-title">Шаг 2 — Колесо битвы</div>
-            <div class="prop-desc">Если такой персонаж есть — крутится колесо битвы (можно использовать D4). Результат определяет исход удара.</div>
+            <div class="prop-desc">Если такой персонаж есть — крутится колесо битвы (можно использовать D5 если есть или D6). Результат определяет исход удара.</div>
           </div>
         </div>
       </div>
@@ -850,11 +850,11 @@
         <div class="wheel-card">
           <span class="wheel-num">4</span>
           <span class="wheel-label">Крит. урон</span>
-          <span class="wheel-desc">Бросается D20. Урон = атака + 5 × число% от атаки</span>
+          <span class="wheel-desc">Бросается D20.<br> Урон = атака + <strong>((5 × D20)% от атаки)</strong></span>
         </div>
         <div class="wheel-card">
           <span class="wheel-num">5</span>
-          <span class="wheel-label">Уязвимая зона</span>
+          <span class="wheel-label">Удар в уязвимую зону</span>
           <span class="wheel-desc">Урон идёт только по HP — защита не считается</span>
         </div>
       </div>

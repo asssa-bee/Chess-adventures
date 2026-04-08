@@ -394,7 +394,18 @@
     .terrain-card::before { top: 6px; left: 8px; }
     .terrain-card::after  { bottom: 6px; right: 8px; }
 
-    .terrain-icon { font-size: 2.5em; line-height: 1; margin-bottom: 8px; display: block; }
+    .terrain-icon { 
+      font-size: 2.5em;
+      line-height: 1; 
+      margin-bottom: 8px; 
+      display: block;
+    }
+    .terrain-icon.tree-icon {
+      background: url('resources/tree_400_400.png') center / contain no-repeat;
+      width: 1em;          
+      height: 1em;
+      display: block;
+    }
     .terrain-name {
       font-family: 'Cinzel', serif; font-size: 1.08em; font-weight: 700;
       color: var(--ink); letter-spacing: 0.05em; display: block;
@@ -424,6 +435,12 @@
     }
     .prop-item:hover { background: linear-gradient(90deg, var(--prop-bg-hover) 0%, transparent 100%); }
     .prop-icon { font-size: 1.6em; min-width: 32px; text-align: center; margin-top: 1px; }
+    .prop-icon.tree-icon {
+      background: url('resources/tree_400_400.png') center / contain no-repeat;
+      width: 1.4em;          /* 1em от своего font-size 2.5em = 2.5em от body */
+      height: 1.4em;
+      display: block;
+    }
     .prop-text { flex: 1; }
     .prop-title {
       font-family: 'Cinzel', serif; font-size: 0.95em; font-weight: 700;
@@ -626,7 +643,7 @@
     </div>
 
     <div class="lore-banner">
-      Шахматная доска 24 × 24 клетки — мир, по которому странствуют герои
+      Доска 24 × 24 клетки — мир, по которому странствуют герои
     </div>
 
     <div class="section">
@@ -643,7 +660,7 @@
           <div class="terrain-body">Каждая речная клетка стоит <strong>2 очка хода</strong>. Проход через 2 речные клетки обходится в 4 очка.</div>
         </div>
         <div class="terrain-card">
-          <span class="terrain-icon">🌲</span>
+          <span class="terrain-icon tree-icon"></span>
           <span class="terrain-name">Деревья</span>
           <div class="terrain-body">Можно срубить, пожертвовав меньшим из двух кубиков — персонаж пропускает ход. Срубленное дерево можно посадить на своей территории.</div>
         </div>
@@ -673,10 +690,10 @@
     </div>
 
     <div class="section">
-      <h2>Эффекты на передвижение</h2>
+      <h2>Влияния объектов на передвижение</h2>
       <div class="prop-list-2col">
         <div class="prop-item">
-          <div class="prop-icon">🌲</div>
+          <div class="prop-icon tree-icon"></div>
           <div class="prop-text">
             <div class="prop-title">Деревья</div>
             <div class="prop-desc">Срубание дерева стоит кубик меньшего значения — персонаж, срубающий дерево, пропускает этот ход.</div>
@@ -700,7 +717,7 @@
     </div>
 
     <div class="section">
-      <h2>Секреты на клетках</h2>
+      <h2>Виды секретов</h2>
       <div class="prop-list-2col">
         <div class="prop-item">
           <div class="prop-icon">⬆️</div>
@@ -755,13 +772,13 @@
     </div>
 
     <div class="section">
-      <h2>Особое правило</h2>
+      <h2>Особое правило для джокера</h2>
       <div class="prop-list">
         <div class="prop-item">
           <div class="prop-icon">🃏</div>
           <div class="prop-text">
-            <div class="prop-title">Джокер при получении карты</div>
-            <div class="prop-desc">Если при вскрытии секрета выпадает джокер — игрок немедленно получает ещё одну карту.</div>
+            <div class="prop-title">При получении карты джокер</div>
+            <div class="prop-desc">Джокер не является картой характеристики. Поэтому при его получении нужно достать еще одну карту для характиеристики, а джокер добавляется в предметы.</div>
           </div>
         </div>
       </div>
