@@ -394,15 +394,21 @@
     .terrain-card::before { top: 6px; left: 8px; }
     .terrain-card::after  { bottom: 6px; right: 8px; }
 
-    .terrain-icon { 
+    .terrain-icon {
       font-size: 2.5em;
-      line-height: 1; 
-      margin-bottom: 8px; 
+      line-height: 1;
+      margin-bottom: 8px;
       display: block;
     }
     .terrain-icon.tree-icon {
       background: url('resources/tree_400_400.png') center / contain no-repeat;
-      width: 1em;          
+      width: 1em;
+      height: 1em;
+      display: block;
+    }
+    .terrain-icon.monster-icon {
+      background: url('resources/monster_400_400.png') center / contain no-repeat;
+      width: 1em;
       height: 1em;
       display: block;
     }
@@ -437,8 +443,15 @@
     .prop-icon { font-size: 1.6em; min-width: 32px; text-align: center; margin-top: 1px; }
     .prop-icon.tree-icon {
       background: url('resources/tree_400_400.png') center / contain no-repeat;
-      width: 1.4em;          /* 1em от своего font-size 2.5em = 2.5em от body */
+      width: 1.4em;
       height: 1.4em;
+      display: block;
+    }
+    .prop-icon.monster-icon {
+      background: url('resources/monster_400_400.png') center / contain no-repeat;
+      width: 1.4em;
+      height: 1.4em;
+      font-size: 1.6em;
       display: block;
     }
     .prop-text { flex: 1; }
@@ -488,15 +501,21 @@
       display: inline-block; width: 14px; height: 14px;
       border-radius: 2px; border: 1px solid rgba(0,0,0,0.2);
     }
-    .swatch-empty { background: #cfc8b0; }
-    .swatch-rock  { background: #585858; }
-    .swatch-water { background: #4a92c8; }
-    .swatch-start { background: #f0f0e8; border-color: #b8a060; }
+    .swatch-empty   { background: #cfc8b0; }
+    .swatch-rock    { background: #585858; }
+    .swatch-water   { background: #4a92c8; }
+    .swatch-start   { background: #f0f0e8; border-color: #b8a060; }
 
-    /* Легенда — дерево: иконка-картинка */
     .swatch-tree {
       width: 14px; height: 14px;
       background: url('resources/tree_400_400.png') center/cover no-repeat;
+      border-radius: 2px;
+      border: 1px solid rgba(0,0,0,0.15);
+      display: inline-block;
+    }
+    .swatch-monster {
+      width: 14px; height: 14px;
+      background: url('resources/monster_400_400.png') center/cover no-repeat;
       border-radius: 2px;
       border: 1px solid rgba(0,0,0,0.15);
       display: inline-block;
@@ -527,19 +546,26 @@
       border-radius: 2px;
     }
 
-    .cell-empty { background: #cfc8b0; }
+    .cell-empty   { background: #cfc8b0; }
 
-    .cell-rock  {
+    .cell-rock {
       background: linear-gradient(135deg, #646464, #404040);
       box-shadow: inset 0 1px 2px rgba(0,0,0,0.4);
     }
 
-    /* Дерево — картинка, масштабируется в ячейку */
     .cell-tree {
       background:
         url('resources/tree_400_400.png') center/cover no-repeat,
-        /* запасной фон на случай если картинка не загрузилась */
         #cfc8b0;
+    }
+
+    /* Монстр — картинка, масштабируется в ячейку */
+    .cell-monster {
+      background:
+        url('resources/monster_400_400.png') center/cover no-repeat,
+        #cfc8b0;
+      /* лёгкое красноватое свечение вокруг клетки с монстром */
+      box-shadow: inset 0 0 3px rgba(180,30,30,0.35);
     }
 
     .cell-water {
@@ -665,6 +691,11 @@
           <div class="terrain-body">Можно срубить, пожертвовав меньшим из двух кубиков — персонаж пропускает ход. Срубленное дерево можно посадить на своей территории.</div>
         </div>
         <div class="terrain-card">
+          <span class="terrain-icon monster-icon"></span>
+          <span class="terrain-name">Монстры</span>
+          <div class="terrain-body">Опасные существа, блуждающие по землям. Встреча с монстром грозит сражением — победа приносит награду, поражение несёт потери.</div>
+        </div>
+        <div class="terrain-card">
           <span class="terrain-icon">🏕️</span>
           <span class="terrain-name">Стартовые клетки</span>
           <div class="terrain-body">4 стартовые клетки — изначально перманентные. Персонажи начинают на них игру и возвращаются сюда после гибели.</div>
@@ -680,6 +711,7 @@
           <span class="legend-item"><span class="legend-swatch swatch-empty"></span> Равнина</span>
           <span class="legend-item"><span class="legend-swatch swatch-rock"></span> Камни</span>
           <span class="legend-item"><span class="legend-swatch swatch-tree"></span> Деревья</span>
+          <span class="legend-item"><span class="legend-swatch swatch-monster"></span> Монстр</span>
           <span class="legend-item"><span class="legend-swatch swatch-water"></span> Река</span>
           <span class="legend-item"><span class="legend-swatch swatch-start"></span> Старт</span>
         </div>
@@ -711,6 +743,13 @@
           <div class="prop-text">
             <div class="prop-title">Камни</div>
             <div class="prop-desc">Непроходимы — путь строго в обход.</div>
+          </div>
+        </div>
+        <div class="prop-item">
+          <div class="prop-icon monster-icon"></div>
+          <div class="prop-text">
+            <div class="prop-title">Монстры</div>
+            <div class="prop-desc">При входе на клетку монстра начинается сражение. Монстр не блокирует проход, но атакует вошедшего персонажа.</div>
           </div>
         </div>
       </div>
@@ -778,7 +817,7 @@
           <div class="prop-icon">🃏</div>
           <div class="prop-text">
             <div class="prop-title">При получении карты джокер</div>
-            <div class="prop-desc">Джокер не является картой характеристики. Поэтому при его получении нужно достать еще одну карту для характиеристики, а джокер добавляется в предметы.</div>
+            <div class="prop-desc">Джокер не является картой характеристики. Поэтому при его получении нужно достать еще одну карту для характеристики, а джокер добавляется в предметы.</div>
           </div>
         </div>
       </div>
@@ -825,12 +864,23 @@
   }));
 
   /* ─── MAP 24×24 ─── */
+  /*
+    Символы:
+      . = равнина
+      R = камень
+      T = дерево
+      W = вода (река)
+      S = старт
+      M = монстр  ← новый символ
+    Монстры расставлены с запасом (~4+ клетки друг от друга)
+    и не перекрывают стартовые позиции, скалы и воду.
+  */
   const MAP_ROWS = [
     "........WWW...........SS",
     ".RR..RR.WWW.......T...SS",
     ".R.......W............T.",
     ".....T...W..............",
-    "........................",
+    "................M.......",
     "...RR.R..W..............",
     "........R...............",
     ".......R.......RR.......",
@@ -838,16 +888,16 @@
     "...............RR.......",
     "....T.............R.....",
     ".......TT.RR............",
-    "........................",
+    "..........M.............",
     "..R.....................",
-    "........................",
+    "......M.................",
     "..T.....................",
     ".R......................",
     "...TT...................",
     "TT.TTT..................",
     "T.TT.T...........R......",
-    "...TT............R......",
-    "........................",
+    "...TT............R..M...",
+    "........M...............",
     "RR..............RR......",
     "RR......................",
   ];
@@ -857,14 +907,16 @@
     'R': 'cell-rock',
     'T': 'cell-tree',
     'W': 'cell-water',
-    'S': 'cell-start'
+    'S': 'cell-start',
+    'M': 'cell-monster'
   };
   const CELL_LABEL = {
     '.': 'Равнина',
     'R': 'Камень',
     'T': 'Дерево',
     'W': 'Река',
-    'S': 'Старт'
+    'S': 'Старт',
+    'M': 'Монстр'
   };
 
   const grid = document.getElementById('map-grid');
