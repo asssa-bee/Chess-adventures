@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Характеристики персонажей</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #1a1a2e;
+            color: #eee;
+            font-family: 'Georgia', serif;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #f0c040;
+            text-shadow: 0 0 10px rgba(240,192,64,0.5);
+            letter-spacing: 2px;
+        }
+
+        /* === СЧЁТЧИК ХОДОВ === */
+        .turn-card {
+            width: 100%;
+            max-width: 500px;
+            background: linear-gradient(135deg, #2a2a0a, #4a4a10);
+            border: 1px solid #f0c040;
+            border-radius: 20px;
+            padding: 16px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 20px rgba(240,192,64,0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .turn-title {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: #f0c040;
+        }
+
+        .turn-display {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .turn-value {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #f0c040;
+            text-shadow: 0 0 12px rgba(240,192,64,0.6);
+            min-width: 80px;
+            text-align: center;
+            line-height: 1;
+        }
+
+        .turn-btn {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            border: 2px solid #f0c040;
+            background: rgba(240,192,64,0.15);
+            color: #f0c040;
+            font-size: 1.6rem;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.1s, background 0.2s;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+        }
+
+        .turn-btn:active {
+            transform: scale(0.88);
+            background: rgba(240,192,64,0.35);
+        }
+
+        .turn-next-btn {
+            width: 100%;
+            padding: 11px;
+            border-radius: 30px;
+            border: 2px solid #f0c040;
+            background: rgba(240,192,64,0.2);
+            color: #f0c040;
+            font-size: 0.95rem;
+            font-family: 'Georgia', serif;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .turn-next-btn:active {
+            transform: scale(0.97);
+            background: rgba(240,192,64,0.4);
+        }
+
+        /* === ТАБЫ ПЕРСОНАЖЕЙ === */
+        .chars-wrapper {
+            width: 100%;
+            max-width: 500px;
+            margin-bottom: 20px;
+        }
+
+        .char-tabs {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 14px;
+            overflow-x: auto;
+            padding-bottom: 4px;
+            scrollbar-width: none;
+        }
+
+        .char-tabs::-webkit-scrollbar { display: none; }
+
+        .char-tab {
+            flex: 1;
+            min-width: 70px;
+            padding: 10px 6px;
+            border-radius: 14px;
+            border: 2px solid transparent;
+            background: rgba(255,255,255,0.06);
+            color: rgba(255,255,255,0.45);
+            font-family: 'Georgia', serif;
+            font-size: 0.75rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+        }
+
+        .char-tab .tab-emoji { font-size: 1.3rem; }
+        .char-tab .tab-name  { font-size: 0.7rem; letter-spacing: 0.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 68px; }
+
+        .char-tab.active {
+            color: #fff;
+            border-color: var(--tab-color);
+            background: rgba(255,255,255,0.12);
+            box-shadow: 0 0 12px var(--tab-glow);
+        }
+
+        /* === ПАНЕЛЬ ПЕРСОНАЖА === */
+        .char-panel {
+            display: none;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .char-panel.active { display: flex; }
+
+        /* Заголовок персонажа */
+        .char-header {
+            border-radius: 16px;
+            padding: 14px 18px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            border: 2px solid var(--char-color);
+            background: var(--char-bg);
+            box-shadow: 0 0 18px var(--char-glow);
+        }
+
+        .char-avatar {
+            font-size: 2.6rem;
+            line-height: 1;
+        }
+
+        .char-info { flex: 1; }
+
+        .char-name-input {
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid rgba(255,255,255,0.25);
+            color: #fff;
+            font-family: 'Georgia', serif;
+            font-size: 1.1rem;
+            font-weight: bold;
+            width: 100%;
+            outline: none;
+            padding: 2px 0;
+            letter-spacing: 1px;
+        }
+
+        .char-name-input::placeholder { color: rgba(255,255,255,0.3); }
+
+        .char-subtitle {
+            font-size: 0.7rem;
+            color: rgba(255,255,255,0.4);
+            letter-spacing: 1px;
+            margin-top: 4px;
+        }
+
+        .char-alive-btn {
+            padding: 6px 14px;
+            border-radius: 20px;
+            border: 1px solid;
+            font-size: 0.75rem;
+            font-family: 'Georgia', serif;
+            cursor: pointer;
+            transition: all 0.2s;
+            -webkit-tap-highlight-color: transparent;
+            white-space: nowrap;
+        }
+
+        .char-alive-btn.alive {
+            border-color: #4dff88;
+            background: rgba(77,255,136,0.15);
+            color: #4dff88;
+        }
+
+        .char-alive-btn.dead {
+            border-color: #ff4444;
+            background: rgba(255,68,68,0.15);
+            color: #ff4444;
+        }
+
+        /* === КАРТОЧКИ СТАТОВ === */
+        .stat-card {
+            border-radius: 16px;
+            padding: 14px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            gap: 10px;
+        }
+
+        .stat-card.hearts   { background: linear-gradient(135deg, #3d0a0a, #6b1515); border: 1px solid #c0392b; }
+        .stat-card.clubs    { background: linear-gradient(135deg, #0a2e0a, #1a5c1a); border: 1px solid #27ae60; }
+        .stat-card.diamonds { background: linear-gradient(135deg, #0a1a3d, #1a3a7a); border: 1px solid #2980b9; }
+        .stat-card.spades   { background: linear-gradient(135deg, #1a0a3d, #3a1a6b); border: 1px solid #8e44ad; }
+
+        .stat-icon-label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 54px;
+        }
+
+        .stat-icon { font-size: 2rem; line-height: 1; }
+        .hearts .stat-icon   { color: #ff4d4d; }
+        .clubs .stat-icon    { color: #4dff88; }
+        .diamonds .stat-icon { color: #4db8ff; }
+        .spades .stat-icon   { color: #cc88ff; }
+
+        .stat-label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: rgba(255,255,255,0.6);
+            margin-top: 3px;
+        }
+
+        .stat-name {
+            flex: 1;
+            font-size: 1rem;
+            font-weight: bold;
+            color: #fff;
+            text-align: center;
+        }
+
+        .stat-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            border: none;
+            font-size: 1.4rem;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.1s, opacity 0.2s;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+            line-height: 1;
+        }
+
+        .btn:active { transform: scale(0.88); opacity: 0.8; }
+        .btn-minus { background: rgba(255,255,255,0.15); color: #fff; border: 1px solid rgba(255,255,255,0.3); }
+        .btn-plus  { background: rgba(255,255,255,0.25); color: #fff; border: 1px solid rgba(255,255,255,0.5); }
+
+        .stat-value {
+            font-size: 1.7rem;
+            font-weight: bold;
+            min-width: 42px;
+            text-align: center;
+            color: #fff;
+            text-shadow: 0 0 8px rgba(255,255,255,0.4);
+        }
+
+        /* === ОБЗОР ВСЕХ ПЕРСОНАЖЕЙ === */
+        .overview-section {
+            width: 100%;
+            max-width: 500px;
+            margin-bottom: 20px;
+        }
+
+        .overview-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: rgba(255,255,255,0.4);
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .overview-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .overview-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 10px 14px;
+            border: 1px solid rgba(255,255,255,0.08);
+            cursor: pointer;
+            transition: background 0.2s;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .overview-row:active { background: rgba(255,255,255,0.1); }
+        .overview-row.dead-row { opacity: 0.45; }
+
+        .ov-emoji  { font-size: 1.5rem; }
+        .ov-name   { flex: 1; font-size: 0.9rem; font-weight: bold; color: #fff; }
+        .ov-stats  { display: flex; gap: 10px; }
+
+        .ov-stat {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            font-size: 0.8rem;
+        }
+
+        .ov-stat .ov-icon { font-size: 0.9rem; }
+        .ov-stat .ov-val  { font-weight: bold; color: #fff; min-width: 20px; }
+
+        .ov-status {
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            border-radius: 10px;
+        }
+
+        .ov-status.alive { background: rgba(77,255,136,0.15); color: #4dff88; }
+        .ov-status.dead  { background: rgba(255,68,68,0.15);  color: #ff4444; }
+
+        /* === РАНДОМАЙЗЕР КАРТЫ === */
+        .randomizer-card {
+            width: 100%;
+            max-width: 500px;
+            background: linear-gradient(135deg, #1a0a2e, #2e1a4a);
+            border: 1px solid #9b59b6;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 25px rgba(155,89,182,0.3);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .randomizer-title {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: #cc88ff;
+        }
+
+        .playing-card-wrap { perspective: 600px; }
+
+        .playing-card {
+            width: 140px;
+            height: 200px;
+            border-radius: 14px;
+            background: #fff;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.6), 0 0 0 2px rgba(255,255,255,0.15);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform-style: preserve-3d;
+            cursor: default;
+            user-select: none;
+        }
+
+        .playing-card.flipping {
+            animation: cardFlip 0.5s ease-in-out;
+        }
+
+        @keyframes cardFlip {
+            0%   { transform: rotateY(0deg) scale(1); }
+            40%  { transform: rotateY(90deg) scale(1.08); }
+            60%  { transform: rotateY(90deg) scale(1.08); }
+            100% { transform: rotateY(0deg) scale(1); }
+        }
+
+        .card-back {
+            width: 140px;
+            height: 200px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, #1a237e, #283593);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-back::before {
+            content: '';
+            position: absolute;
+            inset: 8px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 8px;
+        }
+
+        .card-back-pattern {
+            position: absolute;
+            inset: 0;
+            background-image:
+                repeating-linear-gradient(45deg, rgba(255,255,255,0.03) 0px, rgba(255,255,255,0.03) 2px, transparent 2px, transparent 10px),
+                repeating-linear-gradient(-45deg, rgba(255,255,255,0.03) 0px, rgba(255,255,255,0.03) 2px, transparent 2px, transparent 10px);
+            border-radius: 14px;
+        }
+
+        .card-face {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            padding: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: 14px;
+        }
+
+        .card-corner {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            line-height: 1;
+            gap: 1px;
+        }
+
+        .card-corner.top-left  { top: 7px; left: 9px; }
+        .card-corner.bot-right { bottom: 7px; right: 9px; transform: rotate(180deg); }
+
+        .corner-rank { font-size: 1.1rem; font-weight: 900; line-height: 1; }
+        .corner-suit { font-size: 0.85rem; line-height: 1; }
+
+        .card-center {
+            font-size: 4rem;
+            line-height: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+        }
+
+        .card-center-suit { font-size: 3.5rem; }
+        .card-center-rank { font-size: 1.4rem; font-weight: 900; letter-spacing: -1px; }
+
+        .card-color-red   { color: #d32f2f; }
+        .card-color-black { color: #212121; }
+
+        .card-suit-bar {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 6px;
+            border-radius: 0 0 14px 14px;
+            opacity: 0.5;
+        }
+
+        .card-name-label {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #e0c8ff;
+            text-align: center;
+            letter-spacing: 1px;
+            min-height: 1.5rem;
+            text-shadow: 0 0 8px rgba(180,120,255,0.5);
+        }
+
+        .rand-btn {
+            width: 100%;
+            padding: 13px;
+            border-radius: 30px;
+            border: 2px solid #9b59b6;
+            background: linear-gradient(135deg, rgba(155,89,182,0.3), rgba(155,89,182,0.15));
+            color: #cc88ff;
+            font-size: 1rem;
+            font-family: 'Georgia', serif;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .rand-btn:active {
+            transform: scale(0.97);
+            background: linear-gradient(135deg, rgba(155,89,182,0.5), rgba(155,89,182,0.3));
+        }
+
+        .card-history {
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            justify-content: center;
+            max-height: 80px;
+            overflow-y: auto;
+        }
+
+        .history-chip {
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: bold;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.15);
+            color: #ddd;
+            white-space: nowrap;
+        }
+
+        .history-chip.red   { color: #ff8888; border-color: rgba(255,100,100,0.3); }
+        .history-chip.black { color: #cccccc; border-color: rgba(200,200,200,0.2); }
+        .history-chip.joker { color: #ffdd44; border-color: rgba(255,200,0,0.35); }
+
+        .deck-counter {
+            font-size: 0.78rem;
+            color: rgba(255,255,255,0.45);
+            letter-spacing: 1px;
+        }
+
+        /* === СБРОС === */
+        .reset-btn {
+            margin-top: 10px;
+            margin-bottom: 30px;
+            padding: 13px 38px;
+            background: linear-gradient(135deg, #333, #555);
+            color: #f0c040;
+            border: 1px solid #f0c040;
+            border-radius: 30px;
+            font-size: 0.95rem;
+            letter-spacing: 2px;
+            cursor: pointer;
+            font-family: 'Georgia', serif;
+            transition: background 0.2s, transform 0.1s;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .reset-btn:active {
+            transform: scale(0.95);
+            background: linear-gradient(135deg, #444, #666);
+        }
+
+        /* Разделитель секций */
+        .section-divider {
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+            font-size: 0.72rem;
+            letter-spacing: 3px;
+            color: rgba(255,255,255,0.25);
+            text-transform: uppercase;
+            margin-bottom: 14px;
+            position: relative;
+        }
+
+        .section-divider::before,
+        .section-divider::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 28%;
+            height: 1px;
+            background: rgba(255,255,255,0.1);
+        }
+
+        .section-divider::before { left: 0; }
+        .section-divider::after  { right: 0; }
+    </style>
+</head>
+<body>
+
+<h1>⚔️ Партия</h1>
+
+<!-- СЧЁТЧИК ХОДОВ -->
+<div class="turn-card">
+    <div class="turn-title">⏱ Ход</div>
+    <div class="turn-display">
+        <button class="turn-btn" onclick="changeTurn(-1)">−</button>
+        <div class="turn-value" id="turn">1</div>
+        <button class="turn-btn" onclick="changeTurn(1)">+</button>
+    </div>
+    <button class="turn-next-btn" onclick="changeTurn(1)">➤ Следующий ход</button>
+</div>
+
+<!-- ОБЗОР ВСЕХ ПЕРСОНАЖЕЙ -->
+<div class="section-divider">Все персонажи</div>
+<div class="overview-section">
+    <div class="overview-grid" id="overviewGrid"></div>
+</div>
+
+<!-- ТАБЫ + ПАНЕЛИ ПЕРСОНАЖЕЙ -->
+<div class="section-divider">Редактировать</div>
+<div class="chars-wrapper">
+    <div class="char-tabs" id="charTabs"></div>
+    <div id="charPanels"></div>
+</div>
+
+<!-- РАНДОМАЙЗЕР КАРТЫ -->
+<div class="section-divider">Карта судьбы</div>
+<div class="randomizer-card">
+    <div class="randomizer-title">🃏 Вытянуть карту</div>
+    <div class="playing-card-wrap">
+        <div class="playing-card" id="playingCard">
+            <div class="card-back" id="cardBack">
+                <div class="card-back-pattern"></div>
+            </div>
+        </div>
+    </div>
+    <div class="card-name-label" id="cardNameLabel">— нажмите кнопку —</div>
+    <div class="deck-counter" id="deckCounter">Колода: 54 карты</div>
+    <button class="rand-btn" onclick="drawCard()">🎴 Вытянуть карту</button>
+    <button class="rand-btn" style="background:rgba(80,80,80,0.3);border-color:#666;color:#aaa;font-size:0.85rem;padding:9px;margin-top:-6px;" onclick="resetDeck()">♻️ Перемешать колоду</button>
+    <div style="width:100%;font-size:0.72rem;color:rgba(255,255,255,0.4);letter-spacing:1px;text-align:center;">ИСТОРИЯ</div>
+    <div class="card-history" id="cardHistory"></div>
+</div>
+
+<button class="reset-btn" onclick="resetAll()">🔄 Полный сброс</button>
+
+<script>
+/* =========================================================
+   ДАННЫЕ ПЕРСОНАЖЕЙ
+========================================================= */
+const CHAR_CONFIGS = [
+    { emoji: '🧙', color: '#c0392b', glow: 'rgba(192,57,43,0.35)', bg: 'linear-gradient(135deg,#2a0505,#4a0f0f)', defaultName: 'Маг' },
+    { emoji: '⚔️', color: '#27ae60', glow: 'rgba(39,174,96,0.35)',  bg: 'linear-gradient(135deg,#052a10,#0f4a20)', defaultName: 'Воин' },
+    { emoji: '🏹', color: '#2980b9', glow: 'rgba(41,128,185,0.35)', bg: 'linear-gradient(135deg,#051a2a,#0f2f4a)', defaultName: 'Лучник' },
+    { emoji: '🗡️', color: '#8e44ad', glow: 'rgba(142,68,173,0.35)', bg: 'linear-gradient(135deg,#150525,#2a0f40)', defaultName: 'Плут' },
+    { emoji: '🛡️', color: '#e67e22', glow: 'rgba(230,126,34,0.35)', bg: 'linear-gradient(135deg,#2a1505,#4a2a0a)', defaultName: 'Паладин' },
+];
+
+const DEFAULT_STATS = { hp: 10, attack: 5, capture: 3, defense: 7 };
+
+let characters = CHAR_CONFIGS.map((cfg, i) => ({
+    id: i,
+    name: cfg.defaultName,
+    emoji: cfg.emoji,
+    alive: true,
+    stats: { ...DEFAULT_STATS },
+}));
+
+let activeChar = 0;
+let turn = 1;
+
+/* =========================================================
+   РЕНДЕР ТАБОВ
+========================================================= */
+function renderTabs() {
+    const tabsEl = document.getElementById('charTabs');
+    tabsEl.innerHTML = '';
+    characters.forEach((ch, i) => {
+        const cfg = CHAR_CONFIGS[i];
+        const tab = document.createElement('button');
+        tab.className = 'char-tab' + (i === activeChar ? ' active' : '');
+        tab.style.setProperty('--tab-color', cfg.color);
+        tab.style.setProperty('--tab-glow', cfg.glow);
+        tab.innerHTML = `<span class="tab-emoji">${ch.emoji}</span><span class="tab-name">${ch.name}</span>`;
+        tab.onclick = () => switchChar(i);
+        tabsEl.appendChild(tab);
+    });
+}
+
+/* =========================================================
+   РЕНДЕР ПАНЕЛЕЙ
+========================================================= */
+function renderPanels() {
+    const panelsEl = document.getElementById('charPanels');
+    panelsEl.innerHTML = '';
+
+    characters.forEach((ch, i) => {
+        const cfg = CHAR_CONFIGS[i];
+        const panel = document.createElement('div');
+        panel.className = 'char-panel' + (i === activeChar ? ' active' : '');
+        panel.id = `panel-${i}`;
+
+        panel.innerHTML = `
+            <!-- Заголовок -->
+            <div class="char-header" style="
+                --char-color:${cfg.color};
+                --char-bg:${cfg.bg};
+                --char-glow:${cfg.glow};
+                border-color:${cfg.color};
+                background:${cfg.bg};
+                box-shadow:0 0 18px ${cfg.glow};
+            ">
+                <div class="char-avatar">${ch.emoji}</div>
+                <div class="char-info">
+                    <input
+                        class="char-name-input"
+                        type="text"
+                        value="${ch.name}"
+                        placeholder="Имя персонажа"
+                        maxlength="20"
+                        oninput="updateName(${i}, this.value)"
+                    />
+                    <div class="char-subtitle">Персонаж ${i + 1}</div>
+                </div>
+                <button
+                    class="char-alive-btn ${ch.alive ? 'alive' : 'dead'}"
+                    id="aliveBtn-${i}"
+                    onclick="toggleAlive(${i})"
+                >${ch.alive ? '✅ Живой' : '💀 Мёртв'}</button>
+            </div>
+
+            <!-- Характеристики -->
+            <div class="stat-card hearts">
+                <div class="stat-icon-label">
+                    <span class="stat-icon">♥</span>
+                    <span class="stat-label">Червы</span>
+                </div>
+                <div class="stat-name">HP</div>
+                <div class="stat-controls">
+                    <button class="btn btn-minus" onclick="changeStat(${i},'hp',-1)">−</button>
+                    <span class="stat-value" id="val-${i}-hp">${ch.stats.hp}</span>
+                    <button class="btn btn-plus"  onclick="changeStat(${i},'hp', 1)">+</button>
+                </div>
+            </div>
+
+            <div class="stat-card clubs">
+                <div class="stat-icon-label">
+                    <span class="stat-icon">♣</span>
+                    <span class="stat-label">Трефы</span>
+                </div>
+                <div class="stat-name">Атака</div>
+                <div class="stat-controls">
+                    <button class="btn btn-minus" onclick="changeStat(${i},'attack',-1)">−</button>
+                    <span class="stat-value" id="val-${i}-attack">${ch.stats.attack}</span>
+                    <button class="btn btn-plus"  onclick="changeStat(${i},'attack', 1)">+</button>
+                </div>
+            </div>
+
+            <div class="stat-card diamonds">
+                <div class="stat-icon-label">
+                    <span class="stat-icon">♦</span>
+                    <span class="stat-label">Бубны</span>
+                </div>
+                <div class="stat-name">Захват</div>
+                <div class="stat-controls">
+                    <button class="btn btn-minus" onclick="changeStat(${i},'capture',-1)">−</button>
+                    <span class="stat-value" id="val-${i}-capture">${ch.stats.capture}</span>
+                    <button class="btn btn-plus"  onclick="changeStat(${i},'capture', 1)">+</button>
+                </div>
+            </div>
+
+            <div class="stat-card spades">
+                <div class="stat-icon-label">
+                    <span class="stat-icon">♠</span>
+                    <span class="stat-label">Пики</span>
+                </div>
+                <div class="stat-name">Защита</div>
+                <div class="stat-controls">
+                    <button class="btn btn-minus" onclick="changeStat(${i},'defense',-1)">−</button>
+                    <span class="stat-value" id="val-${i}-defense">${ch.stats.defense}</span>
+                    <button class="btn btn-plus"  onclick="changeStat(${i},'defense', 1)">+</button>
+                </div>
+            </div>
+        `;
+
+        panelsEl.appendChild(panel);
+    });
+}
+
+/* =========================================================
+   ОБЗОР
+========================================================= */
+function renderOverview() {
+    const grid = document.getElementById('overviewGrid');
+    grid.innerHTML = '';
+
+    characters.forEach((ch, i) => {
+        const cfg = CHAR_CONFIGS[i];
+        const row = document.createElement('div');
+        row.className = 'overview-row' + (!ch.alive ? ' dead-row' : '');
+        row.style.borderColor = cfg.color + '44';
+        row.onclick = () => switchChar(i);
+
+        row.innerHTML = `
+            <span class="ov-emoji">${ch.emoji}</span>
+            <span class="ov-name">${ch.name}</span>
+            <div class="ov-stats">
+                <div class="ov-stat"><span class="ov-icon" style="color:#ff4d4d">♥</span><span class="ov-val">${ch.stats.hp}</span></div>
+                <div class="ov-stat"><span class="ov-icon" style="color:#4dff88">♣</span><span class="ov-val">${ch.stats.attack}</span></div>
+                <div class="ov-stat"><span class="ov-icon" style="color:#4db8ff">♦</span><span class="ov-val">${ch.stats.capture}</span></div>
+                <div class="ov-stat"><span class="ov-icon" style="color:#cc88ff">♠</span><span class="ov-val">${ch.stats.defense}</span></div>
+            </div>
+            <span class="ov-status ${ch.alive ? 'alive' : 'dead'}">${ch.alive ? '✅' : '💀'}</span>
+        `;
+
+        grid.appendChild(row);
+    });
+}
+
+/* =========================================================
+   ПЕРЕКЛЮЧЕНИЕ ПЕРСОНАЖА
+========================================================= */
+function switchChar(idx) {
+    activeChar = idx;
+    renderTabs();
+    document.querySelectorAll('.char-panel').forEach((p, i) => {
+        p.classList.toggle('active', i === idx);
+    });
+    document.getElementById(`panel-${idx}`)
+        ?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+/* =========================================================
+   ИЗМЕНЕНИЕ ДАННЫХ
+========================================================= */
+function changeStat(charIdx, stat, delta) {
+    const ch = characters[charIdx];
+    ch.stats[stat] = Math.max(0, ch.stats[stat] + delta);
+    document.getElementById(`val-${charIdx}-${stat}`).textContent = ch.stats[stat];
+    renderOverview();
+}
+
+function updateName(charIdx, val) {
+    characters[charIdx].name = val || CHAR_CONFIGS[charIdx].defaultName;
+    renderTabs();
+    renderOverview();
+}
+
+function toggleAlive(charIdx) {
+    characters[charIdx].alive = !characters[charIdx].alive;
+    const btn = document.getElementById(`aliveBtn-${charIdx}`);
+    const ch  = characters[charIdx];
+    btn.className = 'char-alive-btn ' + (ch.alive ? 'alive' : 'dead');
+    btn.textContent = ch.alive ? '✅ Живой' : '💀 Мёртв';
+    renderOverview();
+}
+
+/* =========================================================
+   ХОД
+========================================================= */
+function changeTurn(delta) {
+    turn = Math.max(1, turn + delta);
+    document.getElementById('turn').textContent = turn;
+}
+
+/* =========================================================
+   КОЛОДА 54 КАРТЫ
+========================================================= */
+const SUITS = [
+    { name: 'Червы',  sym: '♥', color: 'red',   bar: '#e53935' },
+    { name: 'Бубны',  sym: '♦', color: 'red',   bar: '#e53935' },
+    { name: 'Трефы',  sym: '♣', color: 'black', bar: '#37474f' },
+    { name: 'Пики',   sym: '♠', color: 'black', bar: '#37474f' },
+];
+
+const RANKS = [
+    { name: 'Туз',    short: 'A'  },
+    { name: '2',      short: '2'  },
+    { name: '3',      short: '3'  },
+    { name: '4',      short: '4'  },
+    { name: '5',      short: '5'  },
+    { name: '6',      short: '6'  },
+    { name: '7',      short: '7'  },
+    { name: '8',      short: '8'  },
+    { name: '9',      short: '9'  },
+    { name: '10',     short: '10' },
+    { name: 'Валет',  short: 'J'  },
+    { name: 'Дама',   short: 'Q'  },
+    { name: 'Король', short: 'K'  },
+];
+
+function buildDeck() {
+    const deck = [];
+    for (const suit of SUITS)
+        for (const rank of RANKS)
+            deck.push({ type: 'card', suit, rank });
+    deck.push({ type: 'joker', color: 'red',   name: 'Красный Джокер' });
+    deck.push({ type: 'joker', color: 'black', name: 'Чёрный Джокер'  });
+    return deck;
+}
+
+function shuffle(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+}
+
+let deck    = shuffle(buildDeck());
+let history = [];
+let isAnimating = false;
+
+function renderCard(cardData) {
+    const cardEl = document.getElementById('playingCard');
+    if (!cardData) {
+        cardEl.innerHTML = `<div class="card-back"><div class="card-back-pattern"></div></div>`;
+        return;
+    }
+    if (cardData.type === 'joker') {
+        const isRed = cardData.color === 'red';
+        const colorClass = isRed ? 'card-color-red' : 'card-color-black';
+        const barColor   = isRed ? '#e53935' : '#37474f';
+        const emoji      = isRed ? '🃏' : '🃟';
+        cardEl.innerHTML = `
+            <div class="card-face ${colorClass}">
+                <div class="card-corner top-left">
+                    <span class="corner-rank" style="font-size:0.9rem">Jo</span>
+                    <span class="corner-suit">🃏</span>
+                </div>
+                <div class="card-center">
+                    <span style="font-size:3.5rem">${emoji}</span>
+                    <span style="font-size:1rem;font-weight:900;letter-spacing:1px">JOKER</span>
+                </div>
+                <div class="card-corner bot-right">
+                    <span class="corner-rank" style="font-size:0.9rem">Jo</span>
+                    <span class="corner-suit">🃏</span>
+                </div>
+                <div class="card-suit-bar" style="background:${barColor}"></div>
+            </div>`;
+    } else {
+        const { suit, rank } = cardData;
+        const colorClass = suit.color === 'red' ? 'card-color-red' : 'card-color-black';
+        cardEl.innerHTML = `
+            <div class="card-face ${colorClass}">
+                <div class="card-corner top-left">
+                    <span class="corner-rank">${rank.short}</span>
+                    <span class="corner-suit">${suit.sym}</span>
+                </div>
+                <div class="card-center">
+                    <span class="card-center-suit">${suit.sym}</span>
+                    <span class="card-center-rank">${rank.short}</span>
+                </div>
+                <div class="card-corner bot-right">
+                    <span class="corner-rank">${rank.short}</span>
+                    <span class="corner-suit">${suit.sym}</span>
+                </div>
+                <div class="card-suit-bar" style="background:${suit.bar}"></div>
+            </div>`;
+    }
+}
+
+function drawCard() {
+    if (isAnimating) return;
+    if (deck.length === 0) {
+        document.getElementById('cardNameLabel').textContent = '🚫 Колода закончилась!';
+        return;
+    }
+    isAnimating = true;
+    const cardEl = document.getElementById('playingCard');
+    cardEl.classList.remove('flipping');
+    void cardEl.offsetWidth;
+    cardEl.classList.add('flipping');
+
+    setTimeout(() => {
+        const drawn = deck.pop();
+        renderCard(drawn);
+        updateCardLabel(drawn);
+        addCardHistory(drawn);
+        updateCounter();
+    }, 220);
+
+    setTimeout(() => {
+        cardEl.classList.remove('flipping');
+        isAnimating = false;
+    }, 500);
+}
+
+function updateCardLabel(cardData) {
+    const label = document.getElementById('cardNameLabel');
+    if (cardData.type === 'joker') {
+        label.textContent = cardData.name;
+        label.style.color = cardData.color === 'red' ? '#ff8888' : '#cccccc';
+    } else {
+        label.textContent = `${cardData.rank.name} ${cardData.suit.name}`;
+        label.style.color = cardData.suit.color === 'red' ? '#ff9999' : '#e0c8ff';
+    }
+}
+
+function updateCounter() {
+    const left = deck.length;
+    const words = ['карта','карты','карт'];
+    let w;
+    if (left % 100 >= 11 && left % 100 <= 19) w = words[2];
+    else if (left % 10 === 1) w = words[0];
+    else if (left % 10 >= 2 && left % 10 <= 4) w = words[1];
+    else w = words[2];
+    document.getElementById('deckCounter').textContent =
+        left > 0 ? `Колода: ${left} ${w}` : '🃏 Колода пуста';
+}
+
+function addCardHistory(cardData) {
+    history.unshift(cardData);
+    if (history.length > 20) history.pop();
+    const container = document.getElementById('cardHistory');
+    container.innerHTML = '';
+    for (const c of history) {
+        const chip = document.createElement('div');
+        chip.className = 'history-chip';
+        if (c.type === 'joker') {
+            chip.classList.add('joker');
+            chip.textContent = c.color === 'red' ? '🃏 Jkr' : '🃟 Jkr';
+        } else {
+            chip.classList.add(c.suit.color);
+            chip.textContent = `${c.rank.short}${c.suit.sym}`;
+        }
+        container.appendChild(chip);
+    }
+}
+
+function resetDeck() {
+    deck    = shuffle(buildDeck());
+    history = [];
+    renderCard(null);
+    document.getElementById('cardNameLabel').textContent = '— нажмите кнопку —';
+    document.getElementById('cardNameLabel').style.color = '#e0c8ff';
+    document.getElementById('cardHistory').innerHTML = '';
+    updateCounter();
+}
+
+/* =========================================================
+   ПОЛНЫЙ СБРОС
+========================================================= */
+function resetAll() {
+    turn = 1;
+    document.getElementById('turn').textContent = 1;
+
+    characters = CHAR_CONFIGS.map((cfg, i) => ({
+        id: i,
+        name: cfg.defaultName,
+        emoji: cfg.emoji,
+        alive: true,
+        stats: { ...DEFAULT_STATS },
+    }));
+
+    activeChar = 0;
+    renderTabs();
+    renderPanels();
+    renderOverview();
+    resetDeck();
+}
+
+/* =========================================================
+   СТАРТ
+========================================================= */
+renderTabs();
+renderPanels();
+renderOverview();
+updateCounter();
+</script>
+
+</body>
+  </html>
