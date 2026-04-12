@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Характеристики персонажа</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #1a1a2e;
+            color: #eee;
+            font-family: 'Georgia', serif;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #f0c040;
+            text-shadow: 0 0 10px rgba(240,192,64,0.5);
+            letter-spacing: 2px;
+        }
+
+        /* === СЧЁТЧИК ХОДОВ === */
+        .turn-card {
+            width: 100%;
+            max-width: 400px;
+            background: linear-gradient(135deg, #2a2a0a, #4a4a10);
+            border: 1px solid #f0c040;
+            border-radius: 20px;
+            padding: 16px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 20px rgba(240,192,64,0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .turn-title {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: #f0c040;
+        }
+
+        .turn-display {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .turn-value {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #f0c040;
+            text-shadow: 0 0 12px rgba(240,192,64,0.6);
+            min-width: 80px;
+            text-align: center;
+            line-height: 1;
+        }
+
+        .turn-btn {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            border: 2px solid #f0c040;
+            background: rgba(240,192,64,0.15);
+            color: #f0c040;
+            font-size: 1.6rem;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.1s, background 0.2s;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+        }
+
+        .turn-btn:active {
+            transform: scale(0.88);
+            background: rgba(240,192,64,0.35);
+        }
+
+        .turn-next-btn {
+            width: 100%;
+            padding: 11px;
+            border-radius: 30px;
+            border: 2px solid #f0c040;
+            background: rgba(240,192,64,0.2);
+            color: #f0c040;
+            font-size: 0.95rem;
+            font-family: 'Georgia', serif;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .turn-next-btn:active {
+            transform: scale(0.97);
+            background: rgba(240,192,64,0.4);
+        }
+
+        /* === КАРТОЧКИ ХАРАКТЕРИСТИК === */
+        .stats-container {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .stat-card {
+            border-radius: 16px;
+            padding: 14px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            gap: 10px;
+        }
+
+        .stat-card.hearts  { background: linear-gradient(135deg, #3d0a0a, #6b1515); border: 1px solid #c0392b; }
+        .stat-card.clubs   { background: linear-gradient(135deg, #0a2e0a, #1a5c1a); border: 1px solid #27ae60; }
+        .stat-card.diamonds{ background: linear-gradient(135deg, #0a1a3d, #1a3a7a); border: 1px solid #2980b9; }
+        .stat-card.spades  { background: linear-gradient(135deg, #1a0a3d, #3a1a6b); border: 1px solid #8e44ad; }
+
+        .stat-icon-label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 54px;
+        }
+
+        .stat-icon { font-size: 2rem; line-height: 1; }
+        .hearts .stat-icon   { color: #ff4d4d; }
+        .clubs .stat-icon    { color: #4dff88; }
+        .diamonds .stat-icon { color: #4db8ff; }
+        .spades .stat-icon   { color: #cc88ff; }
+
+        .stat-label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: rgba(255,255,255,0.6);
+            margin-top: 3px;
+        }
+
+        .stat-name {
+            flex: 1;
+            font-size: 1rem;
+            font-weight: bold;
+            color: #fff;
+            text-align: center;
+        }
+
+        .stat-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            border: none;
+            font-size: 1.4rem;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.1s, opacity 0.2s;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+            line-height: 1;
+        }
+
+        .btn:active { transform: scale(0.88); opacity: 0.8; }
+        .btn-minus { background: rgba(255,255,255,0.15); color: #fff; border: 1px solid rgba(255,255,255,0.3); }
+        .btn-plus  { background: rgba(255,255,255,0.25); color: #fff; border: 1px solid rgba(255,255,255,0.5); }
+
+        .stat-value {
+            font-size: 1.7rem;
+            font-weight: bold;
+            min-width: 42px;
+            text-align: center;
+            color: #fff;
+            text-shadow: 0 0 8px rgba(255,255,255,0.4);
+        }
+
+        /* === СБРОС === */
+        .reset-btn {
+            margin-top: 22px;
+            margin-bottom: 30px;
+            padding: 13px 38px;
+            background: linear-gradient(135deg, #333, #555);
+            color: #f0c040;
+            border: 1px solid #f0c040;
+            border-radius: 30px;
+            font-size: 0.95rem;
+            letter-spacing: 2px;
+            cursor: pointer;
+            font-family: 'Georgia', serif;
+            transition: background 0.2s, transform 0.1s;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .reset-btn:active {
+            transform: scale(0.95);
+            background: linear-gradient(135deg, #444, #666);
+        }
+    </style>
+</head>
+<body>
+
+    <h1>⚔️ Персонаж</h1>
+
+    <!-- СЧЁТЧИК ХОДОВ -->
+    <div class="turn-card">
+        <div class="turn-title">⏱ Ход</div>
+        <div class="turn-display">
+            <button class="turn-btn" onclick="changeTurn(-1)">−</button>
+            <div class="turn-value" id="turn">1</div>
+            <button class="turn-btn" onclick="changeTurn(1)">+</button>
+        </div>
+        <button class="turn-next-btn" onclick="changeTurn(1)">➤ Следующий ход</button>
+    </div>
+
+    <!-- ХАРАКТЕРИСТИКИ -->
+    <div class="stats-container">
+
+        <div class="stat-card hearts">
+            <div class="stat-icon-label">
+                <span class="stat-icon">♥</span>
+                <span class="stat-label">Червы</span>
+            </div>
+            <div class="stat-name">HP</div>
+            <div class="stat-controls">
+                <button class="btn btn-minus" onclick="change('hp', -1)">−</button>
+                <span class="stat-value" id="hp">10</span>
+                <button class="btn btn-plus" onclick="change('hp', 1)">+</button>
+            </div>
+        </div>
+
+        <div class="stat-card clubs">
+            <div class="stat-icon-label">
+                <span class="stat-icon">♣</span>
+                <span class="stat-label">Трефы</span>
+            </div>
+            <div class="stat-name">Атака</div>
+            <div class="stat-controls">
+                <button class="btn btn-minus" onclick="change('attack', -1)">−</button>
+                <span class="stat-value" id="attack">5</span>
+                <button class="btn btn-plus" onclick="change('attack', 1)">+</button>
+            </div>
+        </div>
+
+        <div class="stat-card diamonds">
+            <div class="stat-icon-label">
+                <span class="stat-icon">♦</span>
+                <span class="stat-label">Бубны</span>
+            </div>
+            <div class="stat-name">Захват</div>
+            <div class="stat-controls">
+                <button class="btn btn-minus" onclick="change('capture', -1)">−</button>
+                <span class="stat-value" id="capture">3</span>
+                <button class="btn btn-plus" onclick="change('capture', 1)">+</button>
+            </div>
+        </div>
+
+        <div class="stat-card spades">
+            <div class="stat-icon-label">
+                <span class="stat-icon">♠</span>
+                <span class="stat-label">Пики</span>
+            </div>
+            <div class="stat-name">Защита</div>
+            <div class="stat-controls">
+                <button class="btn btn-minus" onclick="change('defense', -1)">−</button>
+                <span class="stat-value" id="defense">7</span>
+                <button class="btn btn-plus" onclick="change('defense', 1)">+</button>
+            </div>
+        </div>
+
+    </div>
+
+    <button class="reset-btn" onclick="resetAll()">🔄 Полный сброс</button>
+
+    <script>
+        const stats = {
+            hp:      { value: 10, min: 0 },
+            attack:  { value: 5,  min: 0 },
+            capture: { value: 3,  min: 0 },
+            defense: { value: 7,  min: 0 },
+        };
+
+        let turn = 1;
+
+        function changeTurn(delta) {
+            turn = Math.max(1, turn + delta);
+            document.getElementById('turn').textContent = turn;
+        }
+
+        function change(stat, delta) {
+            const s = stats[stat];
+            s.value = Math.max(s.min, s.value + delta);
+            document.getElementById(stat).textContent = s.value;
+        }
+
+        function resetAll() {
+            turn = 1;
+            document.getElementById('turn').textContent = 1;
+
+            stats.hp.value      = 10;
+            stats.attack.value  = 5;
+            stats.capture.value = 3;
+            stats.defense.value = 7;
+
+            document.getElementById('hp').textContent      = 10;
+            document.getElementById('attack').textContent  = 5;
+            document.getElementById('capture').textContent = 3;
+            document.getElementById('defense').textContent = 7;
+        }
+    </script>
+
+</body>
+</html>
