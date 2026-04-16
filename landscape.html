@@ -474,6 +474,134 @@
       margin: 42px 0 0; letter-spacing: 0.4em; user-select: none;
     }
 
+    /* ═══ STAGE LIST ═══ */
+    .stage-list { display: flex; flex-direction: column; gap: 10px; margin: 14px 0 0; }
+    .stage-item {
+      padding: 14px 18px;
+      background: var(--prop-bg);
+      border-left: 3px solid var(--gold);
+      border-radius: 0 5px 5px 0;
+      transition: background 0.2s;
+    }
+    .stage-item:hover { background: var(--prop-bg-hover); }
+    .stage-title {
+      font-family: 'Cinzel', serif; font-size: 0.92em; font-weight: 700;
+      color: var(--ink); letter-spacing: 0.04em; margin-bottom: 4px;
+    }
+    .stage-desc { font-family: 'Crimson Pro', serif; font-size: 1rem; color: var(--ink-light); line-height: 1.55; }
+    .stage-desc strong { color: var(--ink); }
+
+    /* ═══ TREE TERRITORY DIAGRAM ═══ */
+    .tree-territory {
+      margin: 18px auto 0; max-width: 340px;
+    }
+    .tree-territory-title {
+      text-align: center; font-family: 'Crimson Pro', serif; font-style: italic;
+      font-size: 0.93em; color: var(--ink-light); margin-bottom: 10px; opacity: 0.8;
+    }
+    .tree-grid {
+      display: grid; grid-template-columns: repeat(5, 1fr);
+      gap: 3px; padding: 10px;
+      background: var(--map-grid-bg);
+      border: 1px solid var(--map-grid-border);
+      border-radius: 5px;
+    }
+    .tg-cell {
+      aspect-ratio: 1; border-radius: 2px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.75em;
+    }
+    .tg-empty   { background: #cfc8b0; }
+    .tg-capture { background: rgba(220,80,80,0.45); }
+    .tg-perm    { background: rgba(220,80,80,0.85); }
+    .tg-tree    { background: url('resources/tree_400_400.png') center/cover no-repeat, #cfc8b0; }
+    .tree-territory-legend {
+      display: flex; gap: 14px; justify-content: center; margin-top: 8px;
+      font-size: 0.83em; color: var(--ink-light); font-family: 'Crimson Pro', serif;
+      flex-wrap: wrap;
+    }
+    .tl-item { display: flex; align-items: center; gap: 5px; }
+    .tl-swatch { width: 12px; height: 12px; border-radius: 2px; }
+
+    /* ═══ MONSTER STATS TABLE ═══ */
+    .monster-stages { display: flex; flex-direction: column; gap: 16px; margin-top: 16px; }
+    .monster-stage-block {
+      border: 1px solid var(--card-border);
+      border-radius: 6px; overflow: hidden;
+      background: var(--card-bg);
+      box-shadow: inset 0 1px 0 var(--card-inset);
+      transition: background 0.3s;
+    }
+    .monster-stage-header {
+      font-family: 'Cinzel', serif; font-size: 0.95em; font-weight: 700;
+      color: var(--ink); letter-spacing: 0.06em;
+      padding: 10px 18px;
+      background: rgba(60,110,28,0.12);
+      border-bottom: 1px solid var(--card-border);
+    }
+    .monster-stats {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+    }
+    .monster-stat {
+      padding: 12px 14px; text-align: center;
+      border-right: 1px solid var(--card-border);
+    }
+    .monster-stat:last-child { border-right: none; }
+    .monster-stat-label {
+      font-family: 'Cinzel', serif; font-size: 0.72em; letter-spacing: 0.06em;
+      color: var(--green); text-transform: uppercase; display: block; margin-bottom: 4px;
+    }
+    .monster-stat-val {
+      font-family: 'Crimson Pro', serif; font-size: 1.05em; font-weight: 600; color: var(--ink);
+    }
+    .monster-stage-note {
+      font-family: 'Crimson Pro', serif; font-style: italic;
+      font-size: 0.88em; color: var(--ink-light); padding: 6px 18px 10px;
+      border-top: 1px dashed var(--card-border); opacity: 0.8;
+    }
+
+    /* ═══ DANGER CLASSES ═══ */
+    .danger-classes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 16px; }
+    .danger-stage-col {
+      border: 1px solid var(--card-border); border-radius: 6px;
+      overflow: hidden; background: var(--card-bg);
+      box-shadow: inset 0 1px 0 var(--card-inset);
+      transition: background 0.3s;
+    }
+    .danger-col-header {
+      font-family: 'Cinzel', serif; font-size: 0.85em; font-weight: 700;
+      color: var(--ink); letter-spacing: 0.06em;
+      padding: 9px 14px; text-align: center;
+      background: rgba(60,110,28,0.12);
+      border-bottom: 1px solid var(--card-border);
+    }
+    .danger-class {
+      display: flex; align-items: center; gap: 10px;
+      padding: 9px 14px; border-bottom: 1px dashed var(--card-border);
+      font-family: 'Crimson Pro', serif; font-size: 0.95em; color: var(--ink-light);
+    }
+    .danger-class:last-child { border-bottom: none; }
+    .danger-num {
+      font-family: 'Cinzel', serif; font-size: 0.88em; font-weight: 700;
+      min-width: 20px; text-align: center;
+    }
+    .d1 { color: #6aaa42; }
+    .d2 { color: #c8980e; }
+    .d3 { color: #c84040; }
+    .danger-range { font-size: 0.92em; }
+    .monster-count-note {
+      margin-top: 14px; padding: 12px 18px;
+      background: var(--lore-bg); border: 1px solid var(--lore-border);
+      border-radius: 5px; font-family: 'Crimson Pro', serif; font-style: italic;
+      color: var(--ink-light); font-size: 0.97em; line-height: 1.55;
+    }
+
+    @media (max-width: 760px) {
+      .danger-classes { grid-template-columns: 1fr; }
+      .monster-stats  { grid-template-columns: repeat(3, 1fr); }
+    }
+
     /* ═══ MAP ═══ */
     .map-frame {
       background: radial-gradient(ellipse at 50% 50%, var(--map-bg1) 0%, transparent 70%);
@@ -689,7 +817,7 @@
         <div class="terrain-card">
           <span class="terrain-icon tree-icon"></span>
           <span class="terrain-name">Деревья</span>
-          <div class="terrain-body">Можно срубить, пожертвовав меньшим из двух кубиков — персонаж пропускает ход. Срубленное дерево можно посадить на своей территории.</div>
+          <div class="terrain-body">Можно срубить, находясь вплотную к клетке с деревом, потратив один кубик меньшей стоимости (Пример: кубики «6» и «2» — ходишь за «6», кубик «2» тратится на сруб и вставание на его место). Срубленное дерево можно посадить на своей территории.</div>
         </div>
         <div class="terrain-card">
           <span class="terrain-icon monster-icon"></span>
@@ -699,7 +827,7 @@
         <div class="terrain-card">
           <span class="terrain-icon">🏕️</span>
           <span class="terrain-name">Стартовые клетки</span>
-          <div class="terrain-body">4 стартовые клетки — изначально перманентные. Персонажи начинают на них игру и возвращаются сюда после гибели.</div>
+          <div class="terrain-body">5 стартовых клеток — изначально перманентные (подробнее — раздел «Захваты»). Клетки, где находятся персонажи на старте игры.</div>
         </div>
       </div>
     </div>
@@ -728,15 +856,15 @@
         <div class="prop-item">
           <div class="prop-icon tree-icon"></div>
           <div class="prop-text">
-            <div class="prop-title">Деревья</div>
-            <div class="prop-desc">Срубание дерева стоит кубик меньшего значения — персонаж, срубающий дерево, пропускает этот ход.</div>
+            <div class="prop-title">Деревья — сруб</div>
+            <div class="prop-desc">Находясь вплотную к дереву, потрать кубик меньшей стоимости — персонаж срубает дерево и встаёт на его место. <strong>Пример:</strong> кубики «6» и «2» — идёшь за «6», за «2» рубишь.</div>
           </div>
         </div>
         <div class="prop-item">
           <div class="prop-icon">🌊</div>
           <div class="prop-text">
             <div class="prop-title">Река</div>
-            <div class="prop-desc">Каждая клетка реки стоит <strong>2 очка хода</strong> вместо 1. Нельзя войти, если очков хода не хватает.</div>
+            <div class="prop-desc">Каждая клетка реки стоит <strong>2 очка хода</strong> вместо 1. На речной участок из 2 клеток нужно потратить <strong>4 очка хода</strong>.</div>
           </div>
         </div>
         <div class="prop-item">
@@ -757,69 +885,220 @@
     </div>
 
     <div class="section">
-      <h2>Виды секретов</h2>
-      <div class="prop-list-2col">
-        <div class="prop-item">
-          <div class="prop-icon">⬆️</div>
-          <div class="prop-text">
-            <div class="prop-title">Бафф</div>
-            <div class="prop-desc">Увеличение одной из характеристик персонажа.</div>
-          </div>
+      <h2>Этапы деревьев</h2>
+      <div class="stage-list">
+        <div class="stage-item">
+          <div class="stage-title">Этап 1 — начало игры</div>
+          <div class="stage-desc">Деревья расставлены на карте в исходных позициях. Стандартная награда за сруб.</div>
         </div>
-        <div class="prop-item">
-          <div class="prop-icon">⬇️</div>
-          <div class="prop-text">
-            <div class="prop-title">Дебафф</div>
-            <div class="prop-desc">Уменьшение одной из характеристик персонажа.</div>
-          </div>
+        <div class="stage-item">
+          <div class="stage-title">Этап 2 — после полного сруба всех деревьев</div>
+          <div class="stage-desc">На нейтральных клетках в случайных местах вырастают новые деревья в количестве, определяемом <strong>одним кубиком D20</strong>. Награда за сруб повышается.</div>
         </div>
-        <div class="prop-item">
-          <div class="prop-icon">↕️</div>
-          <div class="prop-text">
-            <div class="prop-title">Бафф + Дебафф</div>
-            <div class="prop-desc">Одна характеристика растёт, другая падает одновременно.</div>
-          </div>
+        <div class="stage-item">
+          <div class="stage-title">Этап 3 и выше — после каждого последующего полного сруба</div>
+          <div class="stage-desc">На нейтральных клетках в случайных местах вырастают новые деревья в количестве, определяемом <strong>одним кубиком D10</strong>. Награда за сруб повышается.</div>
         </div>
-        <div class="prop-item">
-          <div class="prop-icon">🌀</div>
-          <div class="prop-text">
-            <div class="prop-title">Телепорт</div>
-            <div class="prop-desc">Перемещение персонажа на любую клетку карты.</div>
-          </div>
+      </div>
+
+      <div class="tree-territory">
+        <div class="tree-territory-title">Территория вокруг посаженного дерева</div>
+        <div class="tree-grid">
+          <div class="tg-cell tg-empty"></div>
+          <div class="tg-cell tg-capture"></div>
+          <div class="tg-cell tg-empty"></div>
+          <div class="tg-cell tg-capture"></div>
+          <div class="tg-cell tg-empty"></div>
+          <div class="tg-cell tg-capture"></div>
+          <div class="tg-cell tg-tree"></div>
+          <div class="tg-cell tg-perm"></div>
+            <div class="tg-cell tg-tree"></div>
+          <div class="tg-cell tg-capture"></div>
+          <div class="tg-cell tg-empty"></div>
+          <div class="tg-cell tg-capture"></div>
+          <div class="tg-cell tg-empty"></div>
+          <div class="tg-cell tg-capture"></div>
+          <div class="tg-cell tg-empty"></div>
         </div>
-        <div class="prop-item">
-          <div class="prop-icon">❤️</div>
-          <div class="prop-text">
-            <div class="prop-title">Лечение</div>
-            <div class="prop-desc">Персонаж восстанавливает потерянные очки здоровья.</div>
-          </div>
+        <div class="tree-territory-legend">
+          <span class="tl-item"><span class="tl-swatch" style="background:rgba(220,80,80,0.85)"></span> Перманентный захват</span>
+          <span class="tl-item"><span class="tl-swatch" style="background:rgba(220,80,80,0.45)"></span> Обычный захват</span>
         </div>
+      </div>
+
+      <div class="prop-list" style="margin-top:16px;">
         <div class="prop-item">
-          <div class="prop-icon">☠️</div>
+          <div class="prop-icon">🌱</div>
           <div class="prop-text">
-            <div class="prop-title">Яд</div>
-            <div class="prop-desc">Персонаж немедленно получает урон.</div>
-          </div>
-        </div>
-        <div class="prop-item">
-          <div class="prop-icon">🔥</div>
-          <div class="prop-text">
-            <div class="prop-title">Лагерь</div>
-            <div class="prop-desc">Ставится костёр. В радиусе 3 клеток территория приватизируется перманентно. Может лечить союзных персонажей.</div>
+            <div class="prop-title">Посадка срубленного дерева</div>
+            <div class="prop-desc">Клетка, на которую дерево садится, считается <strong>перманентно захваченной</strong>. Клетки, идущие от центра — <strong>обычным захватом</strong>. Если клетка обычного захвата от одного дерева накладывается на такую же от другого — она становится <strong>перманентной</strong>.</div>
           </div>
         </div>
       </div>
     </div>
 
     <div class="section">
-      <h2>Особое правило для джокера</h2>
-      <div class="prop-list">
+      <h2>Виды секретов (подарки / сундучки)</h2>
+      <div class="prop-list-2col">
+        <div class="prop-item">
+          <div class="prop-icon">⬆️</div>
+          <div class="prop-text">
+            <div class="prop-title">1. Бафф</div>
+            <div class="prop-desc">Увеличение одной из характеристик персонажа.</div>
+          </div>
+        </div>
+        <div class="prop-item">
+          <div class="prop-icon">⬇️</div>
+          <div class="prop-text">
+            <div class="prop-title">2. Дебафф</div>
+            <div class="prop-desc">Уменьшение одной из характеристик персонажа.</div>
+          </div>
+        </div>
+        <div class="prop-item">
+          <div class="prop-icon">↕️</div>
+          <div class="prop-text">
+            <div class="prop-title">3. Бафф + Дебафф</div>
+            <div class="prop-desc">Именно в такой последовательности происходит изменение характеристик: сначала бафф, затем дебафф.</div>
+          </div>
+        </div>
+        <div class="prop-item">
+          <div class="prop-icon">🌀</div>
+          <div class="prop-text">
+            <div class="prop-title">4. Телепорт</div>
+            <div class="prop-desc">Добавляет возможность телепортироваться на любую точку карты <strong>до броска кубиков</strong>. Нельзя телепортироваться на клетки вплотную к персонажам, деревьям, секретам — по вертикали/горизонтали расстояние минимум <strong>1 клетка</strong>.</div>
+          </div>
+        </div>
+        <div class="prop-item">
+          <div class="prop-icon">❤️</div>
+          <div class="prop-text">
+            <div class="prop-title">5. Лечение</div>
+            <div class="prop-desc">Персонаж лечится.</div>
+          </div>
+        </div>
+        <div class="prop-item">
+          <div class="prop-icon">☠️</div>
+          <div class="prop-text">
+            <div class="prop-title">6. Яд</div>
+            <div class="prop-desc">Персонаж получает урон. Сначала вычитается показатель <strong>брони</strong>, только потом показатель <strong>ХП</strong>.</div>
+          </div>
+        </div>
+        <div class="prop-item">
+          <div class="prop-icon">🔥</div>
+          <div class="prop-text">
+            <div class="prop-title">7. Лагерь</div>
+            <div class="prop-desc">Ставится костёр. В радиусе <strong>3 клеток</strong> территория приватизируется. Лечит всех персонажей в зоне лагеря <strong>до максимума</strong>.</div>
+          </div>
+        </div>
         <div class="prop-item">
           <div class="prop-icon">🃏</div>
           <div class="prop-text">
-            <div class="prop-title">При получении карты джокер</div>
-            <div class="prop-desc">Джокер не является картой характеристики. Поэтому при его получении нужно достать еще одну карту для характеристики, а джокер добавляется в предметы.</div>
+            <div class="prop-title">Джокер</div>
+            <div class="prop-desc">Если выпадает джокер — достаётся <strong>ещё одна карта</strong>.</div>
           </div>
+        </div>
+      </div>
+
+      <div class="stage-list" style="margin-top:18px;">
+        <div class="stage-item">
+          <div class="stage-title">После первого сбора всех секретов</div>
+          <div class="stage-desc">Секреты появляются в случайных местах в количестве, определяемом <strong>кубиком D20</strong>.</div>
+        </div>
+        <div class="stage-item">
+          <div class="stage-title">После второго сбора всех секретов</div>
+          <div class="stage-desc">Секреты появляются в случайных местах в количестве, определяемом <strong>кубиком D10</strong>.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Монстры</h2>
+      <div class="monster-count-note">
+        Монстры имеют систему этапов. Новый этап наступает только после того, как монстров данного этапа не остаётся на карте. Количество монстров в этапе — от <strong>4 до 6</strong>. Расположение определяется Мастером или игроками по договорённости.
+      </div>
+
+      <div class="monster-stages">
+        <div class="monster-stage-block">
+          <div class="monster-stage-header">⚔ Этап 1</div>
+          <div class="monster-stats">
+            <div class="monster-stat">
+              <span class="monster-stat-label">ХП</span>
+              <span class="monster-stat-val">D100</span>
+            </div>
+            <div class="monster-stat">
+              <span class="monster-stat-label">Атака</span>
+              <span class="monster-stat-val">D20</span>
+            </div>
+            <div class="monster-stat">
+              <span class="monster-stat-label">Защита</span>
+              <span class="monster-stat-val">D10</span>
+            </div>
+          </div>
+          <div class="monster-stage-note">Если на D100 выпало без единиц — ХП: D100 + D10</div>
+        </div>
+
+        <div class="monster-stage-block">
+          <div class="monster-stage-header">⚔⚔ Этап 2</div>
+          <div class="monster-stats">
+            <div class="monster-stat">
+              <span class="monster-stat-label">ХП</span>
+              <span class="monster-stat-val">D100 + D20</span>
+            </div>
+            <div class="monster-stat">
+              <span class="monster-stat-label">Атака</span>
+              <span class="monster-stat-val">D20 + D10</span>
+            </div>
+            <div class="monster-stat">
+              <span class="monster-stat-label">Защита</span>
+              <span class="monster-stat-val">D20 + D10</span>
+            </div>
+          </div>
+          <div class="monster-stage-note">Если на D100 без единиц — ХП: D100 + D10</div>
+        </div>
+
+        <div class="monster-stage-block">
+          <div class="monster-stage-header">⚔⚔⚔ Этап 3</div>
+          <div class="monster-stats">
+            <div class="monster-stat">
+              <span class="monster-stat-label">ХП</span>
+              <span class="monster-stat-val">2×D100 + 2×D10</span>
+            </div>
+            <div class="monster-stat">
+              <span class="monster-stat-label">Атака</span>
+              <span class="monster-stat-val">D20 + D20</span>
+            </div>
+            <div class="monster-stat">
+              <span class="monster-stat-label">Защита</span>
+              <span class="monster-stat-val">D20</span>
+            </div>
+          </div>
+          <div class="monster-stage-note">Если выпадает 100 — D10 не крутится (относится к расчёту ХП всех этапов)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Классы опасности (О)</h2>
+      <div class="monster-count-note">
+        Класс опасности — это <strong>сумма характеристик ХП и Атаки</strong> монстра. Зависит от этапа игры.
+      </div>
+      <div class="danger-classes">
+        <div class="danger-stage-col">
+          <div class="danger-col-header">Этап 1</div>
+          <div class="danger-class"><span class="danger-num d1">1</span><span class="danger-range">(О) от 1 до 40</span></div>
+          <div class="danger-class"><span class="danger-num d2">2</span><span class="danger-range">(О) от 41 до 80</span></div>
+          <div class="danger-class"><span class="danger-num d3">3</span><span class="danger-range">(О) от 81 до 120</span></div>
+        </div>
+        <div class="danger-stage-col">
+          <div class="danger-col-header">Этап 2</div>
+          <div class="danger-class"><span class="danger-num d1">1</span><span class="danger-range">(О) от 1 до 50</span></div>
+          <div class="danger-class"><span class="danger-num d2">2</span><span class="danger-range">(О) от 51 до 100</span></div>
+          <div class="danger-class"><span class="danger-num d3">3</span><span class="danger-range">(О) от 101 до 150</span></div>
+        </div>
+        <div class="danger-stage-col">
+          <div class="danger-col-header">Этап 3</div>
+          <div class="danger-class"><span class="danger-num d1">1</span><span class="danger-range">(О) от 1 до 80</span></div>
+          <div class="danger-class"><span class="danger-num d2">2</span><span class="danger-range">(О) от 81 до 160</span></div>
+          <div class="danger-class"><span class="danger-num d3">3</span><span class="danger-range">(О) от 161 до 240</span></div>
         </div>
       </div>
     </div>
